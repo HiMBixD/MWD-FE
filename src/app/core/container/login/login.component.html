@@ -1,0 +1,67 @@
+<section class="row min-vh-100" style="margin-left: 2px;  margin-right: 2px">
+  <div class="col-lg-4"></div>
+  <div class="col-lg-4 col-sm-12" style="padding-top: 8%;">
+    <main class="form-signin" style="align-content: center;">
+      <form class="mx-auto" [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm)" style="max-width: 450px; align-content: center;">
+        <!-- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
+        <h1 class="h3 mt-4 mb-3 fw-normal">Please sign in</h1>
+        <div class="form-floating mb-3">
+
+          <input id="inputEmail" formControlName="username" class="form-control" placeholder="Username"
+                 required autofocus>
+          <label for="inputEmail" class="text-muted">Username</label>
+        </div>
+        <div class="form-floating mb-3">
+
+          <input type="password" formControlName="password" id="inputPassword" class="form-control" placeholder="Password"
+                 required>
+          <label for="inputPassword" class="text-muted">Password</label>
+        </div>
+        <div class="checkbox mb-3">
+          <label>
+            <a href="javascript:void(0)" data-bs-toggle="modal"  data-bs-target="#exampleModal">Forget password?</a>
+          </label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="isLoading">
+          <span *ngIf="isLoading" style="vertical-align: baseline;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span *ngIf="isLoading"> Signing in</span>
+          <span *ngIf="!isLoading">Sign in</span>
+        </button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2020–2021</p>
+      </form>
+    </main>
+  </div>
+  <div class="col-lg-4"></div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Please enter your account details and associated email address:
+        <form [formGroup]="resetPasswordForm">
+          <div class="form-group my-3">
+            <label for="username" class="form-label">Username:</label>
+            <input class="form-control" id="username" formControlName="username">
+          </div>
+          <div class="form-group">
+            <label for="email" class="form-label">Email:</label>
+            <input class="form-control" id="email" formControlName="email">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #cancelButton>Cancel</button>
+<!--        <button [disabled]="isLoading" type="button" class="btn btn-primary" (click)="requestNewPass(cancelButton)">-->
+<!--          <span *ngIf="isLoading" style="vertical-align: baseline;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>-->
+<!--          {{' Send'}}-->
+<!--        </button>-->
+      </div>
+    </div>
+  </div>
+</div>

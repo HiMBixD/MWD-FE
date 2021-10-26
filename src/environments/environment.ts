@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'https://mwd-be.herokuapp.com/api',
+  url: 'https://mwd-be.herokuapp.com',
+  // apiUrl: 'http://localhost:8080/api',
+  // url: 'http://localhost:8080',
 };
 
 /*
