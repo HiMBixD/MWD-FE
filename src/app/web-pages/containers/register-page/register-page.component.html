@@ -1,10 +1,10 @@
-<div class="row">
+<div class="row mx-0">
   <h4>Register page</h4>
   <div class="col"></div>
   <div class="col-10"><hr></div>
   <div class="col"></div>
 </div>
-<div class="row" style="margin-top: 50px">
+<div class="row mx-0" style="margin-top: 50px">
   <div class="col-2"></div>
   <div class="col-8">
     <form nz-form [formGroup]="registerForm" (ngSubmit)="submitForm()">
@@ -22,7 +22,7 @@
             </div>
             <div nz-col [nzSpan]="8" class="d-flex">
               <button nz-button type="button" (click)="checkDupUsername(registerForm.value.username)"
-                      [disabled]="registerForm.controls.username.invalid || (isUsernameValid$ | async)">Check</button>
+                      [disabled]="registerForm.controls.username.invalid || ((isUsernameValid$ | async) && !isChangeUsername())">Check</button>
             </div>
           </div>
         </nz-form-control>
@@ -116,7 +116,12 @@
       </nz-form-item>
       <nz-form-item nz-row class="register-area">
         <nz-form-control [nzSpan]="14" [nzOffset]="6">
-          <button [disabled]="!registerForm.value.agree || !(isUsernameValid$ | async)" nz-button nzType="primary">Register</button>
+          <button [disabled]="!registerForm.value.agree || !(isUsernameValid$ | async) || isChangeUsername()" nz-button nzType="primary">Register</button>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row class="register-area">
+        <nz-form-control [nzSpan]="14" [nzOffset]="6">
+          <a href="/login">Back to login page</a>
         </nz-form-control>
       </nz-form-item>
     </form>

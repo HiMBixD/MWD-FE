@@ -18,6 +18,7 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   //   type: 'info-circle',
   //   theme: 'twotone'
   // };
+  currentCheckUsername;
   unsub$ = new Subject();
   isUsernameValid$: Observable<boolean>;
   countDown: Subscription;
@@ -80,12 +81,16 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
     return {};
   }
   checkDupUsername(username: any): void {
+    this.currentCheckUsername = username;
     this.store.dispatch(checkDupUsername({body: {
       username
       }}));
     this.store.pipe(select(selectUsernameValid));
   }
 
+  isChangeUsername(): boolean {
+    return this.currentCheckUsername !== this.registerForm.get('username').value;
+  }
   // getOtp() {
   //   console.log('getotp');
   //   this.startCount();
