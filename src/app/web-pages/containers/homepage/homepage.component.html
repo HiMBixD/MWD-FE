@@ -1,0 +1,135 @@
+<nz-layout class="layout">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed">
+    <div class="d-inline-flex py-2 px-3">
+      <a href="/home">
+        <img width="{{isCollapsed ? '50' : '92'}}" height="{{isCollapsed ? '39' : '55'}}" src="assets/Monstercat_logo.png" style="border-radius: 16px"/>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-submenu nzTitle="Admin" nzIcon="appstore" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 0">
+        <ul>
+          <li nz-menu-item>Option 5</li>
+          <li nz-menu-item>Option 6</li>
+          <li nz-submenu nzTitle="Submenu">
+            <ul>
+              <li nz-menu-item>Option 7</li>
+              <li nz-menu-item>Option 8</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-submenu nzTitle="Publisher" nzIcon="audio" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 1">
+        <ul>
+          <li nz-menu-item>Option 5</li>
+          <li nz-menu-item>Option 6</li>
+          <li nz-submenu nzTitle="Submenu">
+            <ul>
+              <li nz-menu-item>Option 7</li>
+              <li nz-menu-item>Option 8</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-submenu nzTitle="User" nzIcon="team" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 2">
+        <ul>
+          <li nz-menu-item>Register to be Singer</li>
+          <li nz-menu-item>Option 6</li>
+          <li nz-submenu nzTitle="Submenu">
+            <ul>
+              <li nz-menu-item>Option 7</li>
+              <li nz-menu-item>Option 8</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li nz-menu-item  *ngIf="(userDetails$ | async)?.isActive === false" [routerLink]="'./profile'">
+        <i nz-icon nzType="unlock" nzTheme="outline"></i>
+        <span class="text-danger">Verify Email at Profile</span>
+      </li>
+      <li nz-menu-item>
+        <i nz-icon nzType="upload" nzTheme="outline"></i>
+        <span>Upload Music</span>
+      </li>
+      <li nz-menu-item>
+        <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <span>Play list</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout class="right-layout {{isCollapsed ? 'close' : ''}}">
+    <nz-header class="sticky-top">
+      <div nz-row class="header-nav">
+        <div nz-col [nzSpan]="14" class="px-3">
+          <nz-input-group [nzSuffix]="suffixIconSearch" style="max-width: 25vw">
+            <input type="text" nz-input placeholder="input search text"/>
+          </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <i nz-icon nzType="search"></i>
+          </ng-template>
+        </div>
+        <div nz-col [nzSpan]="10" class="d-flex flex-row-reverse">
+          <div class="d-flex" nz-popover [nzPopoverContent]="isLogin ? contentLoggedInTemplate : contentNotLoggedInTemplate"
+               [nzPopoverTitle]="isLogin ? contentTitleTemplate : '' ">
+            <nz-avatar [nzSize]="64" nzIcon="user" [nzSrc]="isLogin ? (userDetails$ | async)?.avatar : ''"></nz-avatar>
+            <div class="text-danger mx-1">
+              <i nz-icon nzType="caret-down" nzTheme="fill">{{isLogin ? (userDetails$ | async)?.fullName : '' }}</i>
+            </div>
+          </div>
+          <ng-template #contentTitleTemplate>
+            <div class="d-flex justify-content-center">
+              Money<div class="text-danger">{{': ' + (userDetails$ | async)?.money + ' VND'}}</div>
+            </div>
+          </ng-template>
+          <ng-template #contentLoggedInTemplate>
+            <ul nz-menu nzTheme="light" nzSelectable>
+              <li nz-menu-item [routerLink]="'./profile'">
+                <i nz-icon nzType="profile" nzTheme="outline"></i>
+                <span>Profiles</span>
+              </li>
+              <li nz-menu-item>
+                <i nz-icon nzType="dollar" nzTheme="outline"></i>
+                <span>Recharge $</span>
+              </li>
+              <li nz-menu-item>
+                <i nz-icon nzType="history" nzTheme="outline"></i>
+                <span>History</span>
+              </li>
+              <li nz-menu-item nzDanger (click)="onLogOut()">
+                <i nz-icon nzType="logout" nzTheme="outline"></i>
+                <span>Logout</span>
+              </li>
+            </ul>
+          </ng-template>
+          <ng-template #contentNotLoggedInTemplate>
+            <ul nz-menu nzTheme="light" nzSelectable>
+              <li nz-menu-item (click)="navigateLogin()">
+                <i nz-icon nzType="login" nzTheme="outline"></i>
+                <span>Login</span>
+              </li>
+              <li nz-menu-item [routerLink]="'./register'">
+                <i nz-icon nzType="user-add" nzTheme="outline"></i>
+                <span>Register</span>
+              </li>
+            </ul>
+          </ng-template>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content"><router-outlet></router-outlet></div>
+      <nz-spin nzSimple [nzIndicator]="indicatorTemplate" [nzSpinning]="(isLoading$ | async)" class="isLoading">
+      </nz-spin>
+      <ng-template #indicatorTemplate>
+        <div style="font-size: 25px">
+          <i nz-icon nzType="loading"></i>
+          <br>
+          Loading
+        </div>
+      </ng-template>
+
+    </nz-content>
+    <nz-footer>Anhnd Design ©2021 Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>

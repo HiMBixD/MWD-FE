@@ -1,0 +1,55 @@
+.header-nav {
+  background-color: #001529;
+  height: 80px;
+}
+.layout {
+  min-height: 100vh;
+}
+
+nz-sider {
+  //overflow: auto;
+  height: 100%;
+  position: fixed;
+  left: 0;
+}
+
+.right-layout {
+  margin-left: 200px;
+  transition: margin 200ms;
+}
+.right-layout.close {
+  margin-left: 80px;
+}
+
+nz-header {
+  background: #fff;
+  padding: 0;
+}
+
+nz-content {
+  margin: 20px 5px 0;
+  overflow: initial;
+}
+
+.inner-content {
+  background: #fff;
+  text-align: center;
+  min-height: 80vh;
+}
+.min-h-vh-80 {
+  min-height: 80vh;
+}
+
+.max-h-vh-100 {
+  min-height: 100vh;
+}
+
+nz-footer {
+  text-align: center;
+}
+
+.isLoading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}

@@ -5,12 +5,16 @@ import {AuthGuardService} from './core/guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./auth-not-required-pages/auth-not-required-pages.module').then(m => m.AuthNotRequiredPagesModule)
+    loadChildren: () => import('./web-pages/web-pages.module').then(m => m.WebPagesModule),
   },
   {
-    path: 'login',
-    loadChildren: () => import('./core/core.module').then(m => m.CoreModule),
+    path: 'home',
+    redirectTo: ''
   }
+  // {
+  //   path: 'login',
+  //   loadChildren: () => import('./core/core.module').then(m => m.CoreModule),
+  // }
 ];
 
 @NgModule({

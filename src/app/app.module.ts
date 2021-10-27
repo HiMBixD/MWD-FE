@@ -8,6 +8,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {TokenInterceptor} from './core/interceptors/token.interceptor';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -17,8 +20,13 @@ import {TokenInterceptor} from './core/interceptors/token.interceptor';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NoopAnimationsModule,
     CommonModule,
-    ToastrModule.forRoot({}),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+    }),
     ReactiveFormsModule,
     FormsModule
   ],

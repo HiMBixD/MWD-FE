@@ -1,0 +1,17 @@
+import {HomepageComponent} from './homepage/homepage.component';
+import {LoginComponent} from './login/login.component';
+import {RegisterPageComponent} from './register-page/register-page.component';
+import {ProfilePageComponent} from './profile-page/profile-page.component';
+
+
+export const containers: any[] = [
+  HomepageComponent,
+  LoginComponent,
+  RegisterPageComponent,
+  ProfilePageComponent
+];
+
+export * from './homepage/homepage.component';
+export * from './profile-page/profile-page.component';
+export * from './register-page/register-page.component';
+export * from './login/login.component';

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import {Subject} from "rxjs";
-import {takeUntil} from "rxjs/operators";
+import {AuthService} from '../../../core/service/auth.service';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -36,9 +35,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onLogin(loginForm: FormGroup) {
+  onLogin(loginForm: FormGroup): void {
     this.isLoading = true;
-    this.authService.login(loginForm.value).pipe().subscribe(value => {
+    this.authService.login(loginForm.value).pipe(take(1)).subscribe(value => {
       if (value) {
         if (value.success) {
           this.isLoading = false;
@@ -47,7 +46,7 @@ export class LoginComponent implements OnInit {
 
         } else {
           this.isLoading = false;
-          const message = 'User ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode
+          const message = 'User ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode;
           this.toastrService.error(message);
         }
       }
