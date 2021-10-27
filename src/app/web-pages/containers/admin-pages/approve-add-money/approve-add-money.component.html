@@ -1,0 +1,12 @@
+<div class="row p-2 mx-0">
+  <h4>List requests add money</h4>
+  <div class="col"></div>
+  <div class="col-10"><hr></div>
+  <div class="col"></div>
+</div>
+
+<app-table-add-money-request
+  [listData]="listData$ | async"
+  (search)="onSearch($event)"
+></app-table-add-money-request>
+

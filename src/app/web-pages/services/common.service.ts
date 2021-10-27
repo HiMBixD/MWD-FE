@@ -23,21 +23,48 @@ export class CommonService {
   }
 
   sendOtpUnau(data): Observable<any> {
-    return this.http.post(`${environment.unauUrl}/register`, data);
+    return this.http.post(`${environment.unauUrl}/sendOtp`, data);
   }
 
   changePassword(data): Observable<any> {
-    return this.http.post(`${environment.unauUrl}/change-password`, data);
+    return this.http.post(`${environment.unauUrl}/changePassword`, data);
   }
 
   /////////////////////////////////////////////// unsecure ///////////////////////////////////////////////////////
 
+  sendOtpAuth(data): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/sendOtp`, data);
+  }
 
   getMyInfo(body): Observable<any> {
     const payload: any = {
       body
     };
     return this.http.post(`${environment.apiUrl}/user/getMyInfo`, payload);
+  }
+
+  activeAccount(data): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/active`, data);
+  }
+
+  updateProfile(data): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/updateProfile`, data);
+  }
+
+  updatePassword(data): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/changePassword`, data);
+  }
+
+  requestAddMoney(data): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/requestAddMoney`, data);
+  }
+
+  searchRequestAddMoney(data): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/user/findRequestAddMoney`, data);
+  }
+
+  handleRequestAddMoney(data): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/admin/approveAddMoney`, data);
   }
 
   // uploadFile(body: { file: File, submissionId: any }): Observable<HttpEvent<any>> {
@@ -52,88 +79,6 @@ export class CommonService {
   // }
   // searchUser(body: {username: string}): Observable<any> {
   // }
-
-  /**
-   * Update user's own account info.
-   * @param info
-   * @returns
-   */
-  updateInfo(info: {
-    username: string,
-    firstName: string,
-    lastName: string,
-    phone: string
-  }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/user/update-my-info`, info);
-  }
-
-  // get other user's info
-  getUserInfo(userInfo: {
-    username: string
-  }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/user/get-user-info`, userInfo);
-  }
-
-  /**
-   * Get user by username.
-   * @param userName user's username, string.
-   */
-  getUser(userName: { username: string }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/admin/search-users`, userName);
-  }
-
-  getFaculties(): Observable<any> {
-    const temp = {};
-    return this.http.post(`${environment.apiUrl}/get-Faculties`, temp);
-  }
-
-  /**
-   * Get Files by Submission Id
-   * @param: body
-   */
-  getFilesBySub(submission: { submissionId: number }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/file/get-files`, submission);
-  }
-
-  /**
-   * Get all user roles
-   * @returns
-   */
-  getAllRoles(): Observable<any> {
-    const temp = {};
-    return this.http.post(`${environment.apiUrl}/get-Roles`, temp);
-  }
-
-  addNewUser(user: {
-    username: string,
-    password?: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    email: string,
-    roleId: number,
-    facultyId?: number
-  }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/admin/create-user`, user);
-  }
-
-  /**
-   * Admin: Update user
-   * @param user
-   * @returns
-   */
-  updateUser(user: {
-    username: string,
-    firstName: string,
-    lastName: string,
-    phone: string,
-    email: string,
-    roleId: number,
-    facultyId: number
-  }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/admin/update-user-info`, user);
-  }
-
 }
 
 

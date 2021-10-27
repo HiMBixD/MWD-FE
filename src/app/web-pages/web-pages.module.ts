@@ -27,6 +27,9 @@ import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzCardModule} from 'ng-zorro-antd/card';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzUploadModule} from 'ng-zorro-antd/upload';
+import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
+import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
+// import {NzTableModule} from 'ng-zorro-antd/table';
 
 
 
@@ -62,6 +65,9 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
     NzCardModule,
     NzModalModule,
     NzUploadModule,
+    NzToolTipModule,
+    NzPopconfirmModule,
+    // NzTableModule,
   ]
 })
 export class WebPagesModule { }

@@ -26,3 +26,22 @@ export const selectMyInfo = createSelector(
   getWebPagesState,
   state => state.userDetail
 );
+
+export const selectActiveResult = createSelector(
+  getWebPagesState,
+  state => state.activeAccount
+);
+
+export const selectResetPassResult = createSelector(
+  getWebPagesState,
+  state => state.resetPass
+);
+
+export const selectRequestAddMoneyResult = createSelector(
+  getWebPagesState,
+  state => state.requestAddMoney
+);
+export const selectRequestAddMoneyList = createSelector(
+  getWebPagesState,
+  state => state.listRequestAddMoney
+);

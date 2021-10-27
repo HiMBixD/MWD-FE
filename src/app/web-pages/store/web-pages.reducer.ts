@@ -11,6 +11,10 @@ export interface WebPagesState {
   isLoading: boolean;
   isLogin: boolean;
   checkUsername: boolean;
+  activeAccount: boolean;
+  resetPass: boolean;
+  requestAddMoney: boolean;
+  listRequestAddMoney: any | null;
 }
 
 export const initialState: WebPagesState = {
@@ -19,6 +23,10 @@ export const initialState: WebPagesState = {
   isLoading: false,
   isLogin: false,
   checkUsername: false,
+  activeAccount: false,
+  resetPass: false,
+  requestAddMoney: false,
+  listRequestAddMoney: null,
 };
 
 export const reducers = createReducer(
@@ -92,6 +100,194 @@ export const reducers = createReducer(
     errors
   })),
   /***************** End: request register ****************/
+
+  /***************** send otp auth ****************/
+  on(webPagesActions.sendOtpAuth, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.sendOtpAuthSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.sendOtpAuthFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: send otp auth ****************/
+
+  /***************** send otp auth ****************/
+  on(webPagesActions.sendOtpUnAuth, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.sendOtpUnAuthSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.sendOtpUnAuthFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: send otp auth ****************/
+
+  /***************** activeAccount ****************/
+  on(webPagesActions.activeAccount, state => ({
+    ...state,
+    isLoading: true,
+    activeAccount: false,
+    errors: null
+  })),
+
+  on(webPagesActions.activeAccountSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    activeAccount: true,
+    isLoading: false
+  })),
+
+  on(webPagesActions.activeAccountFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: activeAccount ****************/
+
+  /***************** updateProfile ****************/
+  on(webPagesActions.updateProfile, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.updateProfileSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.updateProfileFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: updateProfile ****************/
+
+  /***************** updatePassword ****************/
+  on(webPagesActions.updatePassword, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.updatePasswordSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.updatePasswordFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: updatePassword ****************/
+
+  /***************** resetForgetPassword ****************/
+  on(webPagesActions.resetForgetPassword, state => ({
+    ...state,
+    isLoading: true,
+    resetPass: false,
+    errors: null
+  })),
+
+  on(webPagesActions.resetForgetPasswordSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    resetPass: true,
+    isLoading: false
+  })),
+
+  on(webPagesActions.resetForgetPasswordFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: resetForgetPassword ****************/
+
+  /***************** requestAddMoney ****************/
+  on(webPagesActions.requestAddMoney, state => ({
+    ...state,
+    isLoading: true,
+    requestAddMoney: false,
+    errors: null
+  })),
+
+  on(webPagesActions.requestAddMoneySuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    requestAddMoney: true,
+    isLoading: false
+  })),
+
+  on(webPagesActions.requestAddMoneyFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: requestAddMoney ****************/
+
+  /***************** searchRequestAddMoney ****************/
+  on(webPagesActions.searchRequestAddMoney, state => ({
+    ...state,
+    isLoading: true,
+    listRequestAddMoney: null,
+    errors: null
+  })),
+
+  on(webPagesActions.searchRequestAddMoneySuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    listRequestAddMoney: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.searchRequestAddMoneyFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: searchRequestAddMoney ****************/
+
+  /***************** handleRequestAddMoney ****************/
+  on(webPagesActions.handleRequestAddMoney, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.handleRequestAddMoneySuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.handleRequestAddMoneyFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: handleRequestAddMoney ****************/
 );
 
 function getIsLogin(): any {

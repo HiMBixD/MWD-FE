@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AuthGuardService} from '../core/guards/auth.guard';
-import {HomepageComponent, LoginComponent, ProfilePageComponent, RegisterPageComponent} from './containers';
+import {ApproveAddMoneyComponent, HomepageComponent, LoginComponent, ProfilePageComponent, RegisterPageComponent} from './containers';
 
 const routes: Routes = [
   {
@@ -19,11 +19,11 @@ const routes: Routes = [
         canActivate: [AuthGuardService],
         canLoad: [AuthGuardService]
       },
-      // {
-      //   path: 'sec', component: Error404Component,
-      //   canActivate: [AuthGuardService],
-      //   canLoad: [AuthGuardService],
-      // }
+      {
+        path: 'approveAddMoney', component: ApproveAddMoneyComponent,
+        canActivate: [AuthGuardService],
+        canLoad: [AuthGuardService]
+      },
     ],
   },
 ];

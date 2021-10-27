@@ -8,12 +8,11 @@
     <ul nz-menu nzTheme="dark" nzMode="inline">
       <li nz-submenu nzTitle="Admin" nzIcon="appstore" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 0">
         <ul>
-          <li nz-menu-item>Option 5</li>
           <li nz-menu-item>Option 6</li>
-          <li nz-submenu nzTitle="Submenu">
+          <li nz-submenu nzTitle="Handle Request">
             <ul>
-              <li nz-menu-item>Option 7</li>
-              <li nz-menu-item>Option 8</li>
+              <li nz-menu-item [routerLink]="'./approveAddMoney'">Add money</li>
+              <li nz-menu-item>Singer register</li>
             </ul>
           </li>
         </ul>
@@ -44,7 +43,7 @@
           </li>
         </ul>
       </li>
-      <li nz-menu-item  *ngIf="(userDetails$ | async)?.isActive === false" [routerLink]="'./profile'">
+      <li nz-menu-item *ngIf="(userDetails$ | async)?.isActive === false" [routerLink]="'./profile'">
         <i nz-icon nzType="unlock" nzTheme="outline"></i>
         <span class="text-danger">Verify Email at Profile</span>
       </li>
@@ -55,6 +54,10 @@
       <li nz-menu-item>
         <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <span>Play list</span>
+      </li>
+      <li nz-menu-item *ngIf="(userDetails$ | async)?.isActive">
+        <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <span>Request Change Email</span>
       </li>
     </ul>
   </nz-sider>
@@ -69,10 +72,10 @@
             <i nz-icon nzType="search"></i>
           </ng-template>
         </div>
-        <div nz-col [nzSpan]="10" class="d-flex flex-row-reverse">
+        <div nz-col [nzSpan]="10" class="d-flex flex-row-reverse align-content-center">
           <div class="d-flex" nz-popover [nzPopoverContent]="isLogin ? contentLoggedInTemplate : contentNotLoggedInTemplate"
                [nzPopoverTitle]="isLogin ? contentTitleTemplate : '' ">
-            <nz-avatar [nzSize]="64" nzIcon="user" [nzSrc]="isLogin ? (userDetails$ | async)?.avatar : ''"></nz-avatar>
+            <nz-avatar class="my-auto" [nzSize]="64" nzIcon="user" [nzSrc]="isLogin ? (userDetails$ | async)?.avatar : ''"></nz-avatar>
             <div class="text-danger mx-1">
               <i nz-icon nzType="caret-down" nzTheme="fill">{{isLogin ? (userDetails$ | async)?.fullName : '' }}</i>
             </div>
@@ -88,7 +91,7 @@
                 <i nz-icon nzType="profile" nzTheme="outline"></i>
                 <span>Profiles</span>
               </li>
-              <li nz-menu-item>
+              <li nz-menu-item (click)="rechargeMoneyModal = true">
                 <i nz-icon nzType="dollar" nzTheme="outline"></i>
                 <span>Recharge $</span>
               </li>
@@ -133,3 +136,39 @@
     <nz-footer>Anhnd Design ©2021 Implement By Duc Anh</nz-footer>
   </nz-layout>
 </nz-layout>
+
+
+<nz-modal [(nzVisible)]="rechargeMoneyModal" nzWidth="70vh" nzTitle="Recharge money form" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <div class="mb-3">
+      <h5 class="d-flex justify-content-center text-center">Please send money to our bank account then type information below and wait for admin approve</h5>
+      <span class="d-flex justify-content-center"><strong>Bank</strong>: Vietcom Bank</span>
+      <span class="d-flex justify-content-center"><strong>Owner</strong>: Nguyen Duc Anh</span>
+      <span class="d-flex justify-content-center"><strong>Code</strong>: 1234675246457654</span>
+    </div>
+    <hr>
+    <form nz-form [formGroup]="rechargeForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>Information</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input the information of that trading session!">
+          <textarea
+            nz-input id="information" formControlName="information"
+            placeholder="Information of that trading session"
+            [nzAutosize]="{ minRows: 4, maxRows: 8 }"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>Money amount</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your amount you sent to bank!">
+          <input nz-input id="amount" type="number" formControlName="amount" />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="primary" [disabled]="rechargeForm.invalid || (isLoading$ | async)" (click)="handleOk()">Submit</button>
+  </div>
+
+</nz-modal>

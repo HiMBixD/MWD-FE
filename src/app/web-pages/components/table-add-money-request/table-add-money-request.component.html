@@ -1,0 +1,57 @@
+<div class="row mx-0">
+  <div class="col d-flex justify-content-start">
+    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select status" class="mx-3" [(ngModel)]="statusSelected">
+      <nz-option nzLabel="New" nzValue="0"></nz-option>
+      <nz-option nzLabel="Approved" nzValue="1"></nz-option>
+      <nz-option nzLabel="Denied" nzValue="2"></nz-option>
+    </nz-select>
+    <nz-input-group [nzSuffix]="suffixIconSearch" style="max-width: 25vw">
+      <input type="text" nz-input placeholder="username" [(ngModel)]="usernameSearch"/>
+      <ng-template #suffixIconSearch>
+        <i nz-icon nzType="search" (click)="onSearch()"></i>
+      </ng-template>
+    </nz-input-group>
+  </div>
+</div>
+
+<div class="row d-flex justify-content-center my-3 mx-0">
+  <div class="col">
+    <table class="table table-striped">
+      <thead class="table-dark">
+      <tr>
+        <th scope="col" style="max-width: 1%">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Information</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Status</th>
+        <th scope="col">Submit Time</th>
+        <th scope="col">Approved Time</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody *ngIf="listData?.length > 0">
+      <tr *ngFor="let item of listData; let i = index;">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{item.username}}</td>
+        <td>{{item.information}}</td>
+        <td>{{item.amount}}</td>
+        <td>{{getStatusName(item.status.toString())}}</td>
+        <td>{{item.create_time | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+        <td>{{item.approve_time | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+        <td>
+          <i nz-tooltip nzTooltipTitle="Approve this request" nz-popconfirm
+             nzPopconfirmTitle="Are you sure Approve this request?"
+             nzPopconfirmPlacement="bottom" nzOkText="Ok" nzCancelText="Cancel"
+             (nzOnConfirm)="actionRequest(1, item)"
+             nz-icon nzType="check-circle" nzTheme="fill" class="mx-1" *ngIf="item.status === 0"></i>
+          <i nz-tooltip nzTooltipTitle="Deny this request" nz-popconfirm
+             nzPopconfirmTitle="Are you sure Deny this request?"
+             nzPopconfirmPlacement="bottom" nzOkText="Ok" nzCancelText="Cancel"
+             (nzOnConfirm)="actionRequest(2, item)"
+             nz-icon nzType="close-circle" nzTheme="fill" class="mx-1" *ngIf="item.status === 0"></i>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

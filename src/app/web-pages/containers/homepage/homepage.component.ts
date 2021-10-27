@@ -6,8 +6,17 @@ import {UserDetailsModel} from '../../models/user-details.model';
 import {take, takeUntil} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {WebPagesManagementState} from '../../web-pages.reducer';
-import {loadMyInfo, selectMyInfoLoadingState, selectMyInfo, selectIsLoggedInState, loadIsLogin} from '../../store';
-import {Observable} from 'rxjs';
+import {
+  loadMyInfo,
+  selectMyInfoLoadingState,
+  selectMyInfo,
+  selectIsLoggedInState,
+  loadIsLogin,
+  requestAddMoney,
+  selectRequestAddMoneyResult
+} from '../../store';
+import {Observable, Subject} from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 
 
@@ -21,9 +30,15 @@ export class HomepageComponent implements OnInit {
   isLoading$: Observable<boolean>;
   userDetails$: Observable<UserDetailsModel>;
   isLogin;
+  rechargeMoneyModal = false;
+  rechargeForm: FormGroup = this.fb.group({
+    information: [null, [Validators.required]],
+    amount: [null, [Validators.required, Validators.maxLength(20)]]
+  });
   constructor(private authServices: AuthService,
               private commonService: CommonService,
               private toastrService: ToastrService,
+              private fb: FormBuilder,
               private store: Store<WebPagesManagementState>
   ) { }
   isCollapsed = false;
@@ -61,5 +76,24 @@ export class HomepageComponent implements OnInit {
 
   navigateLogin(): void {
     this.authServices.navigateLogin();
+  }
+
+  handleCancel(): void {
+    this.rechargeMoneyModal = false;
+  }
+
+  handleOk(): void {
+    const unsub2$ = new Subject();
+    this.store.dispatch(requestAddMoney({body: this.rechargeForm.value}));
+    this.store.pipe(select(selectRequestAddMoneyResult)).pipe(takeUntil(unsub2$)).subscribe(val => {
+      if (val) {
+        if (val === true) {
+          this.rechargeMoneyModal = false;
+          this.rechargeForm.reset();
+        }
+        unsub2$.next();
+        unsub2$.complete();
+      }
+    });
   }
 }

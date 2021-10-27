@@ -17,18 +17,18 @@
         <button nz-button nzType="primary" [nzSize]="''" nzShape="round" (click)="showModal(1)">Upload</button>
       </div>
       <div class="col">
-        <button nz-button nzType="primary" [nzSize]="''" nzShape="round" (click)="showModal(2)">Change</button>
+        <button nz-button nzType="primary" [nzSize]="''" nzShape="round" (click)="showModal(3)">Change</button>
       </div>
     </div>
   </div>
-  <div class="col-6 " style="border-style: double">
+  <div class="col-6 pb-2" style="border-style: double">
     <nz-descriptions nzTitle="User Info">
       <nz-descriptions-item nzTitle="Name">{{(userDetails$ | async)?.fullName}}</nz-descriptions-item>
       <nz-descriptions-item nzTitle="Telephone">{{(userDetails$ | async)?.phone}}</nz-descriptions-item>
       <nz-descriptions-item nzTitle="Email">{{(userDetails$ | async)?.email}}</nz-descriptions-item>
       <nz-descriptions-item nzTitle="Active">
         <nz-switch nzSize="small" disabled [ngModel]="(userDetails$ | async)?.isActive"></nz-switch>
-        <a href="javascript:void(0)" *ngIf="(userDetails$ | async)?.isActive === false" class="text-danger mx-2"> Active email now</a>
+        <a href="javascript:void(0)" *ngIf="(userDetails$ | async)?.isActive === false" class="text-danger mx-2" (click)="showModal(2)"> Active email now</a>
       </nz-descriptions-item>
       <nz-descriptions-item nzTitle="Role">
         {{(userDetails$ | async)?.roleId === 0 ? 'Admin' :
@@ -39,11 +39,85 @@
         {{(userDetails$ | async)?.money + ' VND'}}
       </nz-descriptions-item>
     </nz-descriptions>
+    <hr>
+    <div *ngIf="showUpdateProfile" class="w-100">
+      <form nz-form [formGroup]="updateProfileForm">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="fullName" nzRequired nzTooltipTitle="What do you want other to call you">
+            <span>Full Name</span>
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your FullName!">
+            <input nz-input id="fullName" formControlName="fullName" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>Phone Number</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your Phone Number!">
+            <input nz-input id="phone" formControlName="phone" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email" nzTooltipTitle="Request at navbar if wish to change">E-mail</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+            <input nz-input formControlName="email" id="email" *ngIf="(userDetails$ | async)?.isActive === false"/>
+            <div class="disabled form-control text-start" *ngIf="(userDetails$ | async)?.isActive">{{(userDetails$ | async)?.email}}</div>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+      <div class="d-flex justify-content-center">
+        <button class="mx-2" nz-button nzType="primary" [nzSize]="''" nzShape="round" (click)="updateProfile()" [disabled]="isLoading$ | async">Submit</button>
+        <button class="mx-2" nz-button nzType="dashed" [nzSize]="''" nzShape="round" (click)="showUpdateProfile = false" [disabled]="isLoading$ | async">Back</button>
+      </div>
+      <hr>
+    </div>
+    <div *ngIf="showUpdatePass" class="w-100">
+      <form nz-form [formGroup]="changePassForm">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="oldPassword" nzRequired>Old Password</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password">
+            <input nz-input type="password" id="oldPassword" formControlName="oldPassword" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>New Password</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
+            <input
+              nz-input
+              type="password"
+              id="password"
+              formControlName="password"
+              (ngModelChange)="updateConfirmValidator()"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
+            <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
+            <ng-template #errorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
+              <ng-container *ngIf="control.hasError('confirm')">
+                Two passwords that you enter is inconsistent!
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+      <div class="d-flex justify-content-center">
+        <button class="mx-2" nz-button nzType="primary" [nzSize]="''" nzShape="round" (click)="updatePassword()" [disabled]="isLoading$ | async">Submit</button>
+        <button class="mx-2" nz-button nzType="dashed" [nzSize]="''" nzShape="round" (click)="showUpdatePass = false" [disabled]="isLoading$ | async">Back</button>
+      </div>
+      <hr>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button class="mx-2" nz-button nzType="primary" [disabled]="isLoading$ | async" [nzSize]="''" nzShape="round" (click)="openUpdateProfile(currentUserDetail)" *ngIf="!showUpdateProfile">Update Profile</button>
+      <button class="mx-2" nz-button nzType="primary" [disabled]="isLoading$ | async" [nzSize]="''" nzShape="round" (click)="showUpdatePass = true; showUpdateProfile = false" *ngIf="!showUpdatePass">Update Password</button>
+    </div>
   </div>
 </div>
 
 
-<nz-modal [(nzVisible)]="isVisible" nzWidth="35vh" nzTitle="Upload avatar" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" nzWidth="35vh" nzTitle="Upload avatar" (nzOnCancel)="handleCancel(1)">
   <div *nzModalContent>
     <nz-upload style="height: 30vh" class="d-flex align-content-center"
       nzListType="picture-card"
@@ -58,8 +132,8 @@
     </nz-upload>
   </div>
   <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Submit</button>
+    <button nz-button nzType="default" (click)="handleCancel(1)">Cancel</button>
+    <button nz-button nzType="primary" (click)="handleOk('upload')" [nzLoading]="isConfirmLoading">Submit</button>
   </div>
   <nz-modal
     [nzVisible]="previewVisible"
@@ -73,3 +147,38 @@
   </nz-modal>
 </nz-modal>
 
+
+<nz-modal [(nzVisible)]="isVisible2" nzWidth="40vh" nzTitle="Active email" (nzOnCancel)="handleCancel(2)">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="otpForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="otp" nzRequired [nzTooltipIcon]="captchaTooltipIcon"
+                       nzTooltipTitle="Please click 'Get otp'! Otp will expire in 5 min!">
+          Otp
+        </nz-form-label>
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Please input the otp you got!"
+        >
+          <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="12">
+              <input nz-input formControlName="otp" id="otp" maxlength="6"/>
+            </div>
+            <div nz-col [nzSpan]="12" class="d-flex">
+              <button nz-button type="button" (click)="getOtp()" [disabled]="counter < 1 || (isLoading$ | async)">
+                Get otp
+              </button>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+      <span class="d-flex justify-content-center" *ngIf="countDown">{{'Please wait ' + counter + ' s to send again'}}</span>
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel(2)">Cancel</button>
+    <button nz-button nzType="primary" [disabled]="otpForm.invalid || (isLoading$ | async)" (click)="handleOk('active')">Submit</button>
+  </div>
+
+</nz-modal>
