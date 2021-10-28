@@ -29,9 +29,9 @@
         <th scope="col">Actions</th>
       </tr>
       </thead>
-      <tbody *ngIf="listData?.length > 0">
-      <tr *ngFor="let item of listData; let i = index;">
-        <th scope="row">{{i + 1}}</th>
+      <tbody *ngIf="dataResponse?.content.length > 0">
+      <tr *ngFor="let item of dataResponse.content; let i = index;">
+        <th scope="row">{{pagination.pageSize*pagination.pageNumber + i + 1}}</th>
         <td>{{item.username}}</td>
         <td>{{item.information}}</td>
         <td>{{item.amount}}</td>
@@ -53,5 +53,12 @@
       </tr>
       </tbody>
     </table>
+    <nz-pagination [nzPageIndex]="dataResponse.pageable.pageNumber + 1"
+                   [nzSize]="dataResponse.totalPages"
+                   [nzPageSize]="dataResponse.pageable.pageSize"
+                   [nzTotal]="dataResponse.totalElements"
+                   *ngIf="dataResponse?.totalElements"
+                   (nzPageIndexChange)="onSearch($event)"
+    ></nz-pagination>
   </div>
 </div>

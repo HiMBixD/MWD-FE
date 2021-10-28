@@ -8,39 +8,29 @@
     <ul nz-menu nzTheme="dark" nzMode="inline">
       <li nz-submenu nzTitle="Admin" nzIcon="appstore" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 0">
         <ul>
-          <li nz-menu-item>Option 6</li>
-          <li nz-submenu nzTitle="Handle Request">
+          <li nz-menu-item>User management</li>
+          <li nz-submenu nzTitle="Handle Request" nzIcon="appstore">
             <ul>
               <li nz-menu-item [routerLink]="'./approveAddMoney'">Add money</li>
               <li nz-menu-item>Singer register</li>
+              <li nz-menu-item>Change email</li>
+              <li nz-menu-item>Publish songs</li>
+              <li nz-menu-item>Report Violation</li>
             </ul>
           </li>
         </ul>
       </li>
 
-      <li nz-submenu nzTitle="Publisher" nzIcon="audio" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 1">
+      <li nz-submenu nzTitle="Singer" nzIcon="audio" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 1">
         <ul>
-          <li nz-menu-item>Option 5</li>
-          <li nz-menu-item>Option 6</li>
-          <li nz-submenu nzTitle="Submenu">
-            <ul>
-              <li nz-menu-item>Option 7</li>
-              <li nz-menu-item>Option 8</li>
-            </ul>
-          </li>
+          <li nz-menu-item>Request publish</li>
+          <li nz-menu-item>Request get money back (not designed)</li>
         </ul>
       </li>
 
       <li nz-submenu nzTitle="User" nzIcon="team" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 2">
         <ul>
-          <li nz-menu-item>Register to be Singer</li>
-          <li nz-menu-item>Option 6</li>
-          <li nz-submenu nzTitle="Submenu">
-            <ul>
-              <li nz-menu-item>Option 7</li>
-              <li nz-menu-item>Option 8</li>
-            </ul>
-          </li>
+          <li nz-menu-item>Upgrade role Singer</li>
         </ul>
       </li>
       <li nz-menu-item *ngIf="(userDetails$ | async)?.isActive === false" [routerLink]="'./profile'">
@@ -55,7 +45,7 @@
         <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <span>Play list</span>
       </li>
-      <li nz-menu-item *ngIf="(userDetails$ | async)?.isActive">
+      <li nz-menu-item *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId !== 0">
         <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <span>Request Change Email</span>
       </li>
@@ -91,11 +81,11 @@
                 <i nz-icon nzType="profile" nzTheme="outline"></i>
                 <span>Profiles</span>
               </li>
-              <li nz-menu-item (click)="rechargeMoneyModal = true">
+              <li nz-menu-item (click)="rechargeMoneyModal = true" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId !== 0">
                 <i nz-icon nzType="dollar" nzTheme="outline"></i>
                 <span>Recharge $</span>
               </li>
-              <li nz-menu-item>
+              <li nz-menu-item *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId !== 0">
                 <i nz-icon nzType="history" nzTheme="outline"></i>
                 <span>History</span>
               </li>

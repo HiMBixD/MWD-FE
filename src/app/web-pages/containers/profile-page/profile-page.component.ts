@@ -8,22 +8,17 @@ import {
   selectActiveResult,
   selectMyInfo,
   selectMyInfoLoadingState,
-  sendOtpAuth,
+  sendOtpAuth, setUserAvatar,
   updatePassword,
   updateProfile
 } from '../../store';
-import {NzUploadChangeParam, NzUploadFile} from 'ng-zorro-antd/upload';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NzFormTooltipIcon} from 'ng-zorro-antd/form';
 import {takeUntil} from 'rxjs/operators';
+import {CommonService} from '../../services/common.service';
+import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
 
-const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
 
 @Component({
   selector: 'app-profile-page',
@@ -33,13 +28,14 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
 export class ProfilePageComponent implements OnInit, OnDestroy {
   constructor(private store: Store<WebPagesManagementState>,
               private fb: FormBuilder,
+              private commonService: CommonService
               ) { }
   userDetails$: Observable<UserDetailsModel>;
   isLoading$: Observable<boolean>;
   isVisible = false;
   isVisible2 = false;
   isConfirmLoading;
-  fileList: NzUploadFile[] = [];
+  fileList: File[] = [];
   previewImage: string | undefined = '';
   previewVisible = false;
   otpForm: FormGroup = this.fb.group({
@@ -51,6 +47,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     fullName: [null, [Validators.required]],
     phone: [null, [Validators.required]],
   });
+  fileProgress = 0;
 
   changePassForm: FormGroup;
   captchaTooltipIcon: NzFormTooltipIcon = {
@@ -77,6 +74,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   showModal(num): void {
     if (num === 1) {
       this.isVisible = true;
+      this.fileList.pop();
     } else if (num === 2) {
       this.isVisible2 = true;
     } else {
@@ -114,8 +112,43 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           unsub2$.complete();
         }
       });
-    } else {
-      this.isVisible = false;
+    } else  if (val === 'upload'){
+      this.fileProgress = 0;
+      this.commonService.uploadFile({
+        file: this.fileList[0],
+        description: 'avatar user',
+        fileType: this.fileList[0].type,
+        fileName: this.fileList[0].name,
+        typeUpload: 'uploadImg'
+      })
+        .subscribe(
+          event => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.fileProgress = Math.round(100 * event.loaded / event.total);
+            } else if (event instanceof HttpResponse) {
+              if (!event?.body?.success) {
+                this.fileProgress = -2;
+              } else {
+                const mess = 'Do you want to replace avatar with this one? You still can change later by using change avatar functions nearby';
+                if (confirm(mess)) {
+                  const avatarUrl = `${environment.unauUrl}/imgs/` + event.body.data;
+                  this.store.dispatch(setUserAvatar({body: {
+                      string: avatarUrl
+                    }}));
+                }
+                this.fileProgress = -1;
+                this.isVisible = false;
+                this.fileList.pop();
+              }
+            }
+          },
+          err => {
+            this.fileProgress = -2;
+          }
+        );
+      // this.isVisible = false;
+      // this.fileList.pop();
+      // this.fileProgress = 0;
     }
   }
 
@@ -124,34 +157,24 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       this.isVisible2 = false;
     } else if (num === 1) {
       this.isVisible = false;
+      this.fileList.pop();
+      this.fileProgress = -1;
     } else {
 
     }
   }
 
-  handleChange({ file, fileList }: NzUploadChangeParam): void {
-    const status = file.status;
-    if (status !== 'uploading') {
-      console.log(file, fileList);
-    }
-    if (status === 'done') {
-      console.log(`${file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      console.log(`${file.name} file upload failed.`);
-    }
+
+  onSelect(event): void {
+    console.log(event);
+    this.fileProgress = -1;
+    this.fileList.pop();
+    this.fileList.push(...event.addedFiles);
   }
 
-  beforeUpload = (file: NzUploadFile): boolean => {
-    this.fileList = this.fileList.concat(file);
-    return false;
-  }
-
-  handlePreview = async (file: NzUploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj!);
-    }
-    this.previewImage = file.url || file.preview;
-    this.previewVisible = true;
+  onRemove(event): void  {
+    console.log(event);
+    this.fileList.splice(this.fileList.indexOf(event), 1);
   }
 
   getOtp(): void {
@@ -191,5 +214,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         oldPass: this.changePassForm.value.oldPassword,
         newPass: this.changePassForm.value.password
       }}));
+  }
+
+  getStatusProgressBar(): any {
+    return this.fileProgress === -2 ? 'exception' :
+      this.fileProgress > -1 ? 'active' :
+        this.fileProgress >= 100 ? null : 'exception';
   }
 }

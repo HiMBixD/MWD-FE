@@ -288,6 +288,26 @@ export const reducers = createReducer(
     errors
   })),
   /***************** End: handleRequestAddMoney ****************/
+
+  /***************** setUserAvatar ****************/
+  on(webPagesActions.setUserAvatar, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.setUserAvatarSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.setUserAvatarFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: setUserAvatar ****************/
 );
 
 function getIsLogin(): any {

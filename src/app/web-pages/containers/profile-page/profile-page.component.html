@@ -117,19 +117,24 @@
 </div>
 
 
-<nz-modal [(nzVisible)]="isVisible" nzWidth="35vh" nzTitle="Upload avatar" (nzOnCancel)="handleCancel(1)">
+<nz-modal [(nzVisible)]="isVisible" nzWidth="40vw" nzTitle="Upload avatar" (nzOnCancel)="handleCancel(1)">
   <div *nzModalContent>
-    <nz-upload style="height: 30vh" class="d-flex align-content-center"
-      nzListType="picture-card"
-      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-      [(nzFileList)]="fileList"
-      [nzShowButton]="fileList.length < 1"
-      [nzPreview]="handlePreview">
-      <div>
-        <i nz-icon nzType="plus"></i>
-        <div style="margin-top: 8px">Upload</div>
+    <div ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)" [multiple]="false" [expandable]="true">
+      <ngx-dropzone-label>
+        <div>
+          <h4>Accept image file only</h4>
+        </div>
+      </ngx-dropzone-label>
+
+      <div *ngFor="let f of fileList" class="d-flex justify-content-center mx-auto my-2 card p-1">
+        <div>
+          <ngx-dropzone-image-preview [removable]="true" (removed)="onRemove(f)" [file]="f">
+          </ngx-dropzone-image-preview>
+          <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        </div>
+        <nz-progress [nzPercent]="fileProgress" [attr.nzType]="getStatusProgressBar()" *ngIf="fileProgress > -1"></nz-progress>
       </div>
-    </nz-upload>
+    </div>
   </div>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="handleCancel(1)">Cancel</button>

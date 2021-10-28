@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpEvent, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
-import {retry} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {catchError, retry} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,70 +15,126 @@ export class CommonService {
   /////////////////////////////////////////////// unsecure ///////////////////////////////////////////////////////
 
   checkDuplicateUsername(data): Observable<any> {
-    return this.http.post(`${environment.unauUrl}/checkDupUsername`, data);
+    return this.http
+      .post(`${environment.unauUrl}/checkDupUsername`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   register(data): Observable<any> {
-    return this.http.post(`${environment.unauUrl}/register`, data);
+    return this.http
+      .post(`${environment.unauUrl}/register`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   sendOtpUnau(data): Observable<any> {
-    return this.http.post(`${environment.unauUrl}/sendOtp`, data);
+    return this.http
+      .post(`${environment.unauUrl}/sendOtp`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   changePassword(data): Observable<any> {
-    return this.http.post(`${environment.unauUrl}/changePassword`, data);
+    return this.http
+      .post(`${environment.unauUrl}/changePassword`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   /////////////////////////////////////////////// unsecure ///////////////////////////////////////////////////////
 
   sendOtpAuth(data): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/user/sendOtp`, data);
+    return this.http
+      .post(`${environment.apiUrl}/user/sendOtp`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   getMyInfo(body): Observable<any> {
     const payload: any = {
       body
     };
-    return this.http.post(`${environment.apiUrl}/user/getMyInfo`, payload);
+    return this.http
+      .post(`${environment.apiUrl}/user/getMyInfo`, payload)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   activeAccount(data): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/user/active`, data);
+    return this.http
+      .post(`${environment.apiUrl}/user/active`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   updateProfile(data): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/user/updateProfile`, data);
+    return this.http
+      .post(`${environment.apiUrl}/user/updateProfile`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   updatePassword(data): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/user/changePassword`, data);
+    return this.http
+      .post(`${environment.apiUrl}/user/changePassword`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   requestAddMoney(data): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/user/requestAddMoney`, data);
+    return this.http
+      .post(`${environment.apiUrl}/user/requestAddMoney`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   searchRequestAddMoney(data): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/user/findRequestAddMoney`, data);
+    return this.http
+      .post(`${environment.apiUrl}/user/findRequestAddMoney`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  setUserAvatar(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/setUserAvatar`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   handleRequestAddMoney(data): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/admin/approveAddMoney`, data);
+    return this.http
+      .post(`${environment.apiUrl}/admin/approveAddMoney`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
-  // uploadFile(body: { file: File, submissionId: any }): Observable<HttpEvent<any>> {
-  //   const formData: FormData = new FormData();
-  //   formData.append('file', body.file);
-  //   formData.append('submissionId', body.submissionId);
-  //   return this.http
-  //     .post(`${environment.apiUrl}/file/upload`, formData, {
-  //       reportProgress: true,
-  //       observe: 'events',
-  //     });
-  // }
-  // searchUser(body: {username: string}): Observable<any> {
-  // }
+  uploadFile(body: { file: File, description: any, fileType: any, fileName: any, typeUpload: string}): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', body.file);
+    formData.append('description', body.description);
+    formData.append('fileName', body.fileName);
+    formData.append('fileType', body.fileType);
+    return this.http
+      .post(`${environment.apiUrl}/` + body.typeUpload, formData, {
+        reportProgress: true,
+        observe: 'events',
+      });
+  }
 }
 
 

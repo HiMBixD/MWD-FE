@@ -249,6 +249,26 @@ export class WebPagesEffect {
     )
   );
 
+  setUserAvatar = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.setUserAvatar),
+      exhaustMap((action: any) =>
+        this.commonService.setUserAvatar(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Set Avatar Success');
+              this.reloadUser();
+              return webPagesActions.setUserAvatarSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.setUserAvatarFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
   reloadUser(): void {
     this.store.dispatch(loadMyInfo());
   }

@@ -11,6 +11,8 @@ import {TokenInterceptor} from './core/interceptors/token.interceptor';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
+import {NgxDropzoneModule} from 'ngx-dropzone';
+import {VimeModule} from '@vime/angular';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import {EffectsModule} from '@ngrx/effects';
     HttpClientModule,
     NoopAnimationsModule,
     CommonModule,
+    NgxDropzoneModule,
+    VimeModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
     ToastrModule.forRoot({

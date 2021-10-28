@@ -15,7 +15,7 @@ import {Observable} from 'rxjs';
 export class ApproveAddMoneyComponent implements OnInit {
   statusSelected = null;
   usernameSearch = '';
-  listData$: Observable<any>;
+  dataResponse$: Observable<any>;
   constructor(
     private store: Store<WebPagesManagementState>
   ) { }
@@ -25,6 +25,6 @@ export class ApproveAddMoneyComponent implements OnInit {
 
   onSearch(data): void {
     this.store.dispatch(searchRequestAddMoney({body: data}));
-    this.listData$ = this.store.pipe(select(selectRequestAddMoneyList));
+    this.dataResponse$ = this.store.pipe(select(selectRequestAddMoneyList));
   }
 }

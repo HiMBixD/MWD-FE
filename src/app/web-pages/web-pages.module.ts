@@ -26,9 +26,12 @@ import {NzDescriptionsModule} from 'ng-zorro-antd/descriptions';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzCardModule} from 'ng-zorro-antd/card';
 import {NzModalModule} from 'ng-zorro-antd/modal';
-import {NzUploadModule} from 'ng-zorro-antd/upload';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
+import {NzPaginationModule} from 'ng-zorro-antd/pagination';
+import {NgxDropzoneModule} from 'ngx-dropzone';
+import {NzProgressModule} from 'ng-zorro-antd/progress';
+import {VimeModule} from '@vime/angular';
 // import {NzTableModule} from 'ng-zorro-antd/table';
 
 
@@ -64,9 +67,12 @@ import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
     NzSwitchModule,
     NzCardModule,
     NzModalModule,
-    NzUploadModule,
     NzToolTipModule,
     NzPopconfirmModule,
+    NzPaginationModule,
+    NgxDropzoneModule,
+    NzProgressModule,
+    VimeModule,
     // NzTableModule,
   ]
 })

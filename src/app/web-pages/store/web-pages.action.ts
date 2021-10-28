@@ -211,6 +211,24 @@ export const handleRequestAddMoneyFailed = createAction(
 );
 /**************  End: handleRequestAddMoney ***************/
 
+
+/************** setUserAvatar ***************/
+export const setUserAvatar = createAction(
+  '[Home Page] setUserAvatar',
+  props<{ body: any; }>()
+);
+
+export const setUserAvatarSuccess = createAction(
+  '[Home API] setUserAvatar Success',
+  props<{ response: any }>()
+);
+
+export const setUserAvatarFailed = createAction(
+  '[Home API] setUserAvatar Failed',
+  props<{ errors: any }>()
+);
+/**************  End: setUserAvatar ***************/
+
 // export const loadMyInfo = createAction(
 //   '[Home Page] Load MyInfo',
 //   props<{ body: any }>()
