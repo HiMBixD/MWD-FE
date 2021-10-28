@@ -1,24 +1,53 @@
-<vm-player>
-  <vm-video cross-origin="true" poster="">
-    <source data-src="http://localhost:8080/unau/stream/617a808dbbad8404140adc01" type="audio/mpeg" />
-<!--    <source data-src="http://localhost:8080/unau/getFile/617a808dbbad8404140adc01" type="video/mp4" />-->
+<div class="" style="width: 30vw" *ngIf="productId.toString() === '1'">
+  <vm-player style="max-width: 30vw">
+    <vm-video cross-origin="true" poster="">
+      <source data-src="{{url+id}}" type="audio/mpeg" />
+      <!--    <source data-src="http://localhost:8080/unau/getFile/617a808dbbad8404140adc01" type="video/mp4" />-->
 
-    <!--    <track-->
-<!--      default-->
-<!--      kind="subtitles"-->
-<!--      src="https://media.vimejs.com/subs/english.vtt"-->
-<!--      srclang="en"-->
-<!--      label="English"-->
-<!--    />-->
-<!--    <track-->
-<!--      kind="subtitles"-->
-<!--      src="https://media.vimejs.com/subs/spanish.vtt"-->
-<!--      srclang="es"-->
-<!--      label="Spanish"-->
-<!--    />-->
-  </vm-video>
+      <!--    <track-->
+      <!--      default-->
+      <!--      kind="subtitles"-->
+      <!--      src="https://media.vimejs.com/subs/english.vtt"-->
+      <!--      srclang="en"-->
+      <!--      label="English"-->
+      <!--    />-->
+      <!--    <track-->
+      <!--      kind="subtitles"-->
+      <!--      src="https://media.vimejs.com/subs/spanish.vtt"-->
+      <!--      srclang="es"-->
+      <!--      label="Spanish"-->
+      <!--    />-->
+    </vm-video>
 
-  <vm-default-ui>
-    <!-- Custom UI component. -->
-  </vm-default-ui>
-</vm-player>
+    <vm-default-ui>
+      <!-- Custom UI component. -->
+    </vm-default-ui>
+  </vm-player>
+</div>
+
+<div class="" style="width: 30vw" *ngIf="productId.toString() === '2'">
+  <vm-player style="max-width: 30vw">
+    <vm-video cross-origin="false" poster="">
+      <source data-src="https://media.vimejs.com/720p.mp4" type="video/mp4" />
+      <!--    <source data-src="http://localhost:8080/unau/getFile/617a808dbbad8404140adc01" type="video/mp4" />-->
+
+      <!--    <track-->
+      <!--      default-->
+      <!--      kind="subtitles"-->
+      <!--      src="https://media.vimejs.com/subs/english.vtt"-->
+      <!--      srclang="en"-->
+      <!--      label="English"-->
+      <!--    />-->
+      <!--    <track-->
+      <!--      kind="subtitles"-->
+      <!--      src="https://media.vimejs.com/subs/spanish.vtt"-->
+      <!--      srclang="es"-->
+      <!--      label="Spanish"-->
+      <!--    />-->
+    </vm-video>
+
+    <vm-default-ui>
+      <!-- Custom UI component. -->
+    </vm-default-ui>
+  </vm-player>
+</div>
