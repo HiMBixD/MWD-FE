@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {ToastrModule} from 'ngx-toastr';
 
@@ -39,6 +39,10 @@ import {VimeModule} from '@vime/angular';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
+    },
+    {
+      provide: LOCALE_ID,
+      useValue: 'fr'
     }
   ],
   bootstrap: [AppComponent]

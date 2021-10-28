@@ -72,7 +72,7 @@
           </div>
           <ng-template #contentTitleTemplate>
             <div class="d-flex justify-content-center">
-              Money<div class="text-danger">{{': ' + (userDetails$ | async)?.money + ' VND'}}</div>
+              Money<div class="text-danger">{{': ' + ((userDetails$ | async)?.money | currency:'VND':true:'4.2-2')}}</div>
             </div>
           </ng-template>
           <ng-template #contentLoggedInTemplate>

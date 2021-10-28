@@ -31,13 +31,13 @@
       </thead>
       <tbody *ngIf="dataResponse?.content.length > 0">
       <tr *ngFor="let item of dataResponse.content; let i = index;">
-        <th scope="row">{{pagination.pageSize*pagination.pageNumber + i + 1}}</th>
-        <td>{{item.username}}</td>
-        <td>{{item.information}}</td>
-        <td>{{item.amount}}</td>
-        <td>{{getStatusName(item.status.toString())}}</td>
-        <td>{{item.create_time | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
-        <td>{{item.approve_time | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+        <th  class="text-end" scope="row">{{pagination.pageSize*pagination.pageNumber + i + 1}}</th>
+        <td class="text-start">{{item.username}}</td>
+        <td class="text-start">{{item.information}}</td>
+        <td class="text-end" >{{item.amount}}</td>
+        <td class="text-start">{{getStatusName(item.status.toString())}}</td>
+        <td class="text-end" >{{item.create_time | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+        <td class="text-end" >{{item.approve_time | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
         <td>
           <i nz-tooltip nzTooltipTitle="Approve this request" nz-popconfirm
              nzPopconfirmTitle="Are you sure Approve this request?"
