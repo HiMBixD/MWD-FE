@@ -39,10 +39,6 @@ import {VimeModule} from '@vime/angular';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    },
-    {
-      provide: LOCALE_ID,
-      useValue: 'fr'
     }
   ],
   bootstrap: [AppComponent]

@@ -36,7 +36,7 @@
           (userDetails$ | async)?.roleId === 2 ? 'User' : ''}}
       </nz-descriptions-item>
       <nz-descriptions-item nzTitle="Money">
-        {{(userDetails$ | async)?.money + ' VND'}}
+        {{((userDetails$ | async)?.money | number:'0.0-3') + ' VND'}}
       </nz-descriptions-item>
     </nz-descriptions>
     <hr>
