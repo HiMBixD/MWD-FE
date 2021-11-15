@@ -45,3 +45,18 @@ export const selectRequestAddMoneyList = createSelector(
   getWebPagesState,
   state => state.listRequestAddMoney
 );
+
+export const selectUserImageList = createSelector(
+  getWebPagesState,
+  state => state.listImages
+);
+
+export const selectUserMusicList = createSelector(
+  getWebPagesState,
+  state => state.listMusics
+);
+
+export const selectProductList = createSelector(
+  getWebPagesState,
+  state => state.listProduct
+);

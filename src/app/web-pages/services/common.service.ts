@@ -115,6 +115,54 @@ export class CommonService {
       }));
   }
 
+  searchUserImage(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/getImagesByUser`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  deleteFileImage(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/removeFileImg`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  searchUserMusic(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/getListMusicByUser`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  deleteFileMusic(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/removeFileMusic`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  addProduct(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/addProduct`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  searchProduct(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/searchProduct`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
   handleRequestAddMoney(data): Observable<any> {
     return this.http
       .post(`${environment.apiUrl}/admin/approveAddMoney`, data)
@@ -130,7 +178,7 @@ export class CommonService {
     formData.append('fileName', body.fileName);
     formData.append('fileType', body.fileType);
     return this.http
-      .post(`${environment.apiUrl}/` + body.typeUpload, formData, {
+      .post(`${environment.apiUrl}/user/` + body.typeUpload, formData, {
         reportProgress: true,
         observe: 'events',
       });

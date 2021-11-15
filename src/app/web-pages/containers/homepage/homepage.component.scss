@@ -32,9 +32,13 @@ nz-content {
 }
 
 .inner-content {
-  background: #fff;
   text-align: center;
   min-height: 80vh;
+  background-color: #fff;
+}
+.content-background {
+  //background-image: url("~src/assets/png.png");
+  //z-index: 100000;
 }
 .min-h-vh-80 {
   min-height: 80vh;
@@ -49,7 +53,7 @@ nz-footer {
 }
 
 .isLoading {
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  position: absolute;
+  top: 15%;
+  z-index: 9999;
 }

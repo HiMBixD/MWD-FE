@@ -7,7 +7,7 @@ import {
   LoginComponent, ProductSearchComponent,
   ProductViewComponent,
   ProfilePageComponent,
-  RegisterPageComponent
+  RegisterPageComponent, RequestPublishSongComponent, UploadMusicPageComponent
 } from './containers';
 
 const routes: Routes = [
@@ -17,6 +17,9 @@ const routes: Routes = [
     children: [
       {
         path: '', component: ProductSearchComponent
+      },
+      {
+        path: 'search/:productName', component: ProductSearchComponent
       },
       {
         path: 'login', component: LoginComponent
@@ -35,9 +38,17 @@ const routes: Routes = [
         canLoad: [AuthGuardService]
       },
       {
-        path: 'product/:productId', component: ProductViewComponent,
+        path: 'uploadMusic', component: UploadMusicPageComponent,
         canActivate: [AuthGuardService],
         canLoad: [AuthGuardService]
+      },
+      {
+        path: 'requestPublish', component: RequestPublishSongComponent,
+        canActivate: [AuthGuardService],
+        canLoad: [AuthGuardService]
+      },
+      {
+        path: 'product/:productId/:poster', component: ProductViewComponent,
       },
     ],
   },

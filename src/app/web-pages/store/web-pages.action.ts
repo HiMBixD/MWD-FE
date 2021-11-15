@@ -229,6 +229,55 @@ export const setUserAvatarFailed = createAction(
 );
 /**************  End: setUserAvatar ***************/
 
+/************** searchUserImage ***************/
+export const searchUserImage = createAction('[Home Page] searchUserImage', props<{ body: any; }>());
+
+export const searchUserImageSuccess = createAction('[Home API] searchUserImage Success', props<{ response: any }>());
+
+export const searchUserImageFailed = createAction('[Home API] searchUserImage Failed', props<{ errors: any }>());
+/**************  End: searchUserImage ***************/
+
+
+/************** deleteFileImage ***************/
+export const deleteFileImage = createAction('[Home Page] deleteFileImage', props<{ body: any; searchBody: any; }>());
+
+export const deleteFileImageSuccess = createAction('[Home API] deleteFileImage Success', props<{ response: any }>());
+
+export const deleteFileImageFailed = createAction('[Home API] deleteFileImage Failed', props<{ errors: any }>());
+/**************  End: deleteFileImage ***************/
+
+/************** searchUserMusic ***************/
+export const searchUserMusic = createAction('[Home Page] searchUserMusic', props<{ body: any; }>());
+
+export const searchUserMusicSuccess = createAction('[Home API] searchUserMusic Success', props<{ response: any }>());
+
+export const searchUserMusicFailed = createAction('[Home API] searchUserMusic Failed', props<{ errors: any }>());
+/**************  End: searchUserMusic ***************/
+
+
+/************** deleteFileMusic ***************/
+export const deleteFileMusic = createAction('[Home Page] deleteFileMusic', props<{ body: any; searchBody: any; }>());
+
+export const deleteFileMusicSuccess = createAction('[Home API] deleteFileMusic Success', props<{ response: any }>());
+
+export const deleteFileMusicFailed = createAction('[Home API] deleteFileMusic Failed', props<{ errors: any }>());
+/**************  End: deleteFileMusic ***************/
+
+/************** addProduct ***************/
+export const addProduct = createAction('[Home Page] addProduct', props<{ body: any; }>());
+
+export const addProductSuccess = createAction('[Home API] addProduct Success', props<{ response: any }>());
+
+export const addProductFailed = createAction('[Home API] addProduct Failed', props<{ errors: any }>());
+/**************  End: addProduct ***************/
+
+/************** searchProduct ***************/
+export const searchProduct = createAction('[Home Page] searchProduct', props<{ body: any; }>());
+
+export const searchProductSuccess = createAction('[Home API] searchProduct Success', props<{ response: any }>());
+
+export const searchProductFailed = createAction('[Home API] searchProduct Failed', props<{ errors: any }>());
+/**************  End: searchProduct ***************/
 // export const loadMyInfo = createAction(
 //   '[Home Page] Load MyInfo',
 //   props<{ body: any }>()

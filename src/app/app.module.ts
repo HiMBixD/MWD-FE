@@ -13,6 +13,7 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {VimeModule} from '@vime/angular';
+import {en_US, NZ_I18N} from 'ng-zorro-antd/i18n';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {VimeModule} from '@vime/angular';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    { provide: NZ_I18N, useValue: en_US }
   ],
   bootstrap: [AppComponent]
 })

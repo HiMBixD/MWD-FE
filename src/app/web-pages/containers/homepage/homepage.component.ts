@@ -13,10 +13,12 @@ import {
   selectIsLoggedInState,
   loadIsLogin,
   requestAddMoney,
-  selectRequestAddMoneyResult
+  selectRequestAddMoneyResult, searchProduct
 } from '../../store';
 import {Observable, Subject} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Pagination} from '../../models/pagination.model';
+import {AppConstants} from '../../../app.constant';
 
 
 
@@ -42,6 +44,7 @@ export class HomepageComponent implements OnInit {
               private store: Store<WebPagesManagementState>
   ) { }
   isCollapsed = false;
+  searchProductName: any;
   ngOnInit(): void {
     this.isLoading$ = this.store.pipe(select(selectMyInfoLoadingState));
     this.store.dispatch(loadIsLogin());
@@ -53,7 +56,6 @@ export class HomepageComponent implements OnInit {
         this.userDetails$ = this.store.pipe(select(selectMyInfo));
       }
     });
-
     //
     // this.commonService.getFaculties().subscribe(
     //   f => {

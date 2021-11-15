@@ -23,7 +23,7 @@
 
       <li nz-submenu nzTitle="Singer" nzIcon="audio" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 1">
         <ul>
-          <li nz-menu-item>Request publish</li>
+          <li nz-menu-item [routerLink]="'./requestPublish'">Request publish</li>
           <li nz-menu-item>Request get money back (not designed)</li>
         </ul>
       </li>
@@ -37,7 +37,7 @@
         <i nz-icon nzType="unlock" nzTheme="outline"></i>
         <span class="text-danger">Verify Email at Profile</span>
       </li>
-      <li nz-menu-item>
+      <li nz-menu-item *ngIf="(userDetails$ | async)?.isActive" [routerLink]="'./uploadMusic'">
         <i nz-icon nzType="upload" nzTheme="outline"></i>
         <span>Upload Music</span>
       </li>
@@ -56,10 +56,10 @@
       <div nz-row class="header-nav">
         <div nz-col [nzSpan]="14" class="px-3">
           <nz-input-group [nzSuffix]="suffixIconSearch" style="max-width: 25vw">
-            <input type="text" nz-input placeholder="input search text"/>
+            <input type="text" nz-input placeholder="input search text" [(ngModel)]="searchProductName"/>
           </nz-input-group>
           <ng-template #suffixIconSearch>
-            <i nz-icon nzType="search"></i>
+            <i nz-icon nzType="search" [routerLink]="['/search/' + searchProductName]"></i>
           </ng-template>
         </div>
         <div nz-col [nzSpan]="10" class="d-flex flex-row-reverse align-content-center">
@@ -110,17 +110,25 @@
         </div>
       </div>
     </nz-header>
-    <nz-content>
-      <div class="inner-content"><router-outlet></router-outlet></div>
-      <nz-spin nzSimple [nzIndicator]="indicatorTemplate" [nzSpinning]="(isLoading$ | async)" class="isLoading">
-      </nz-spin>
-      <ng-template #indicatorTemplate>
-        <div style="font-size: 25px">
-          <i nz-icon nzType="loading"></i>
-          <br>
-          Loading
+    <nz-content class="content-background">
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+        <div class="d-flex justify-content-center" *ngIf="(isLoading$ | async)">
+          <div class="spinner-border  text-success isLoading" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
-      </ng-template>
+      </div>
+
+<!--      <nz-spin nzSimple [nzIndicator]="indicatorTemplate" [nzSpinning]="(isLoading$ | async)" class="isLoading">-->
+<!--      </nz-spin>-->
+<!--      <ng-template #indicatorTemplate>-->
+<!--        <div style="font-size: 25px" >-->
+<!--          <i nz-icon nzType="loading"></i>-->
+<!--          <br>-->
+<!--          Loading-->
+<!--        </div>-->
+<!--      </ng-template>-->
 
     </nz-content>
     <nz-footer>Anhnd Design ©2021 Implement By Duc Anh</nz-footer>

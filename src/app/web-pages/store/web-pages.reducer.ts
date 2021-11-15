@@ -15,6 +15,9 @@ export interface WebPagesState {
   resetPass: boolean;
   requestAddMoney: boolean;
   listRequestAddMoney: any | null;
+  listImages: any | null;
+  listMusics: any | null;
+  listProduct: any | null;
 }
 
 export const initialState: WebPagesState = {
@@ -27,6 +30,9 @@ export const initialState: WebPagesState = {
   resetPass: false,
   requestAddMoney: false,
   listRequestAddMoney: null,
+  listImages: null,
+  listMusics: null,
+  listProduct: null,
 };
 
 export const reducers = createReducer(
@@ -269,6 +275,28 @@ export const reducers = createReducer(
   })),
   /***************** End: searchRequestAddMoney ****************/
 
+  /***************** searchProduct ****************/
+  on(webPagesActions.searchProduct, state => ({
+    ...state,
+    isLoading: true,
+    listProduct: null,
+    errors: null
+  })),
+
+  on(webPagesActions.searchProductSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    listProduct: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.searchProductFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: searchProduct ****************/
+
   /***************** handleRequestAddMoney ****************/
   on(webPagesActions.handleRequestAddMoney, state => ({
     ...state,
@@ -308,6 +336,70 @@ export const reducers = createReducer(
     errors
   })),
   /***************** End: setUserAvatar ****************/
+
+  /***************** addProduct ****************/
+  on(webPagesActions.addProduct, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.addProductSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.addProductFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: addProduct ****************/
+
+  /***************** searchUserImage ****************/
+  on(webPagesActions.searchUserImage, state => ({
+    ...state,
+    isLoading: true,
+    listImages: null,
+    errors: null
+  })),
+
+  on(webPagesActions.searchUserImageSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    listImages: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.searchUserImageFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: searchUserImage ****************/
+
+  /***************** searchUserMusic ****************/
+  on(webPagesActions.searchUserMusic, state => ({
+    ...state,
+    isLoading: true,
+    listMusics: null,
+    errors: null
+  })),
+
+  on(webPagesActions.searchUserMusicSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    listMusics: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.searchUserMusicFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: searchUserMusic ****************/
 );
 
 function getIsLogin(): any {

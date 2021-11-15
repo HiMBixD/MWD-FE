@@ -4,10 +4,10 @@ import {WebPagesManagementState} from '../../web-pages.reducer';
 import {Observable, Subject, Subscription, timer} from 'rxjs';
 import {UserDetailsModel} from '../../models/user-details.model';
 import {
-  activeAccount,
+  activeAccount, deleteFileImage, searchUserImage,
   selectActiveResult,
   selectMyInfo,
-  selectMyInfoLoadingState,
+  selectMyInfoLoadingState, selectUserImageList,
   sendOtpAuth, setUserAvatar,
   updatePassword,
   updateProfile
@@ -18,6 +18,8 @@ import {takeUntil} from 'rxjs/operators';
 import {CommonService} from '../../services/common.service';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
+import {AppConstants} from '../../../app.constant';
+import {Pagination} from '../../models/pagination.model';
 
 
 @Component({
@@ -31,9 +33,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
               private commonService: CommonService
               ) { }
   userDetails$: Observable<UserDetailsModel>;
+  listAvatar$: Observable<any>;
   isLoading$: Observable<boolean>;
   isVisible = false;
   isVisible2 = false;
+  isVisibleChangeAvatar = false;
   isConfirmLoading;
   fileList: File[] = [];
   previewImage: string | undefined = '';
@@ -41,7 +45,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   otpForm: FormGroup = this.fb.group({
     otp: [null, [Validators.required, Validators.maxLength(6)]],
   });
-
+  pagination: Pagination;
   updateProfileForm: FormGroup = this.fb.group({
     email: [null, [Validators.email, Validators.required]],
     fullName: [null, [Validators.required]],
@@ -61,7 +65,13 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   showUpdateProfile = false;
   showUpdatePass = false;
   currentUserDetail: UserDetailsModel;
+  urlImg = AppConstants.urlImg;
+  imgChecked;
   ngOnInit(): void {
+    this.pagination = {
+      pageNumber: 0,
+      pageSize: 4
+    };
     this.userDetails$ = this.store.pipe(select(selectMyInfo));
     this.userDetails$.pipe(takeUntil(this.unsub$)).subscribe(val => this.currentUserDetail = val);
     this.isLoading$ = this.store.pipe(select(selectMyInfoLoadingState));
@@ -77,8 +87,14 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       this.fileList.pop();
     } else if (num === 2) {
       this.isVisible2 = true;
-    } else {
-
+    } else if (num === 3) {
+      this.isVisibleChangeAvatar = true;
+      this.pagination = {
+        pageNumber: 0,
+        pageSize: 4
+      };
+      this.store.dispatch(searchUserImage({body: {fileType: AppConstants.AVATAR_USER, pagination: this.pagination}}));
+      this.listAvatar$ = this.store.pipe(select(selectUserImageList));
     }
   }
   updateConfirmValidator(): void {
@@ -112,14 +128,18 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           unsub2$.complete();
         }
       });
-    } else  if (val === 'upload'){
+    } else if (val === 'pickAvatar') {
+      this.store.dispatch(setUserAvatar({body: {
+          string: this.urlImg + this.imgChecked
+        }}));
+    } else if (val === 'upload'){
       this.fileProgress = 0;
       this.commonService.uploadFile({
         file: this.fileList[0],
         description: 'avatar user',
-        fileType: this.fileList[0].type,
+        fileType: AppConstants.AVATAR_USER,
         fileName: this.fileList[0].name,
-        typeUpload: 'uploadImg'
+        typeUpload: AppConstants.TYPE_UPLOAD.IMAGE
       })
         .subscribe(
           event => {
@@ -131,7 +151,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
               } else {
                 const mess = 'Do you want to replace avatar with this one? You still can change later by using change avatar functions nearby';
                 if (confirm(mess)) {
-                  const avatarUrl = `${environment.unauUrl}/imgs/` + event.body.data;
+                  const avatarUrl = this.urlImg + event.body.data;
                   this.store.dispatch(setUserAvatar({body: {
                       string: avatarUrl
                     }}));
@@ -159,21 +179,19 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       this.isVisible = false;
       this.fileList.pop();
       this.fileProgress = -1;
-    } else {
-
+    } else if (num === 3) {
+      this.isVisibleChangeAvatar = false;
     }
   }
 
 
   onSelect(event): void {
-    console.log(event);
     this.fileProgress = -1;
     this.fileList.pop();
     this.fileList.push(...event.addedFiles);
   }
 
   onRemove(event): void  {
-    console.log(event);
     this.fileList.splice(this.fileList.indexOf(event), 1);
   }
 
@@ -220,5 +238,32 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     return this.fileProgress === -2 ? 'exception' :
       this.fileProgress > -1 ? 'active' :
         this.fileProgress >= 100 ? null : 'exception';
+  }
+
+  checkedItem($event: any): void {
+    if (this.imgChecked === $event) {
+      this.imgChecked = null;
+    } else {
+      this.imgChecked = $event;
+    }
+  }
+
+  deleteImg(item): void {
+    this.store.dispatch(deleteFileImage({
+      body: {
+        id: item.id
+      },
+      searchBody: {fileType: AppConstants.AVATAR_USER, pagination: this.pagination}
+    }));
+  }
+
+  onSearch(page?): void {
+    if (page) {
+      this.pagination = {
+        pageSize: this.pagination.pageSize,
+        pageNumber: page - 1
+      };
+    }
+    this.store.dispatch(searchUserImage({body: {fileType: AppConstants.AVATAR_USER, pagination: this.pagination}}));
   }
 }

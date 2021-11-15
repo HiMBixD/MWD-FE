@@ -187,3 +187,51 @@
   </div>
 
 </nz-modal>
+
+
+<nz-modal [(nzVisible)]="isVisibleChangeAvatar" nzWidth="55vw" nzTitle="Pick File Modal" (nzOnCancel)="handleCancel(3)">
+  <div *nzModalContent>
+    <div class="" *ngIf="(listAvatar$ | async)?.totalElements">
+      <nz-list nzGrid>
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXXl]="6" [nzSpan]="6" [nzXl]="4" [nzLg]="6" [nzMd]="6" [nzSm]="12" [nzXs]="24" *ngFor="let item of (listAvatar$ | async).content; let i = index">
+            <nz-list-item>
+              <nz-card nzHoverable [nzCover]="coverTemplate" nz-tooltip nzTooltipTitle="{{item.fileName}}" (click)="checkedItem(item.id)">
+                <nz-card-meta class="d-flex justify-content-center" nzDescription="{{item.fileName}}"></nz-card-meta>
+                <div class="w-100 d-flex justify-content-center">
+                  <div nz-checkbox [nzChecked]="imgChecked === item.id" class="mt-1" (nzCheckedChange)="checkedItem(item.id)"></div>
+                </div>
+              </nz-card>
+              <div class="w-100 d-flex justify-content-center mt-1">
+                <button nz-button type="button"
+                        nz-popconfirm
+                        nzPopconfirmTitle="Are you sure Delete this Image?"
+                        nzPopconfirmPlacement="bottom" nzOkText="Ok" nzCancelText="Cancel"
+                        (nzOnConfirm)="deleteImg(item)"
+                        nzType="primary" nzDanger class="p-0" style="font-size: 10px"><i nz-icon nzType="delete" class="my-0 align-content-center"></i></button>
+              </div>
+              <ng-template #coverTemplate>
+                <img alt="example" src="{{urlImg + item.id}}" />
+              </ng-template>
+            </nz-list-item>
+          </div>
+        </div>
+      </nz-list>
+    </div>
+    <nz-empty *ngIf="(listAvatar$ | async)?.totalElements < 1"></nz-empty>
+    <div class="w-100 d-flex justify-content-center">
+      <nz-pagination [nzPageIndex]="(listAvatar$ | async).pageable.pageNumber + 1"
+                     [nzSize]="(listAvatar$ | async).totalPages"
+                     [nzPageSize]="(listAvatar$ | async).pageable.pageSize"
+                     [nzTotal]="(listAvatar$ | async).totalElements"
+                     *ngIf="(listAvatar$ | async)?.totalElements"
+                     (nzPageIndexChange)="onSearch($event)"
+      ></nz-pagination>
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel(3)">Cancel</button>
+    <button nz-button nzType="primary" [disabled]="(isLoading$ | async)" (click)="handleOk('pickAvatar')">Submit</button>
+  </div>
+
+</nz-modal>

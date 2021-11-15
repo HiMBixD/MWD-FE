@@ -1,1 +1,118 @@
-<p>upload-music-page works!</p>
+<div class="row mx-0 d-flex justify-content-center">
+  <div class="col-10 text-start">
+    <h4>Step 1: Upload file or pick file Uploaded</h4>
+    <hr>
+  </div>
+</div>
+<div class="row mx-0 d-flex justify-content-center">
+  <div class="col-9">
+    <div class="justify-content-start d-flex mb-3">
+      <nz-switch [(ngModel)]="isChooseUpload"></nz-switch>
+      <span class="mx-2"><strong>{{isChooseUpload ? 'Upload new file' : 'Pick file uploaded'}}</strong></span>
+    </div>
+    <div class="w-100" *ngIf="isChooseUpload">
+      <div ngx-dropzone [accept]="'audio/*, video/*'" (change)="onSelect($event)" [multiple]="false" [expandable]="true">
+        <ngx-dropzone-label>
+          <div>
+            <h4>Accept audio or video file</h4>
+          </div>
+        </ngx-dropzone-label>
+
+        <div *ngFor="let f of fileList" class="d-flex justify-content-center mx-auto my-2 card p-1">
+          <div>
+            <ngx-dropzone-video-preview [removable]="true" (removed)="onRemove(f)" [file]="f">
+            </ngx-dropzone-video-preview>
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+
+          </div>
+          <nz-progress [nzPercent]="fileProgress" [attr.nzType]="getStatusProgressBar()" *ngIf="fileProgress > -1"></nz-progress>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-auto text-start">Description:</div>
+        <div class="col"><input type="text" [(ngModel)]="uploadMusicDescription" class="form-control"></div>
+      </div>
+      <div class="">
+        <button nz-button [nzSize]="'large'" nzType="primary" class="mt-2" style="font-size: 10px" (click)="onUpload()"><i nz-icon nzType="upload" nzTheme="outline"></i></button>
+      </div>
+    </div>
+
+    <div class="w-100" *ngIf="!isChooseUpload">
+      <div class=" d-flex justify-content-center" *ngIf="songChecked.name && !isVisiblePickFile">
+        <nz-card nzTitle="File picked" style="width: 30vw">
+          <p>{{songChecked.name}}</p>
+        </nz-card>
+      </div>
+      <div class="">
+        <button nz-button [nzSize]="'large'" nzType="primary" class="mt-2" style="font-size: 10px" (click)="openModalPickFile()" type="button"><i nz-icon nzType="plus-square" nzTheme="outline"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mx-0 d-flex justify-content-center">
+  <div class="col-10 text-start">
+    <hr>
+    <h4>Step 2: Add to platform</h4>
+    <hr>
+  </div>
+</div>
+<div class="row mx-0 d-flex justify-content-center" *ngIf="fileUploadedId">
+  <div class="col-9 text-start">
+    <app-add-song
+      [fileUploadedId]="fileUploadedId"
+      [userData]="userDetails$ | async"
+      [listAvatar]="listAvatar$ | async"
+      [isLoading]="isLoading$ | async"
+    ></app-add-song>
+  </div>
+</div>
+
+<div class="row mx-0 d-flex justify-content-center" *ngIf="(userDetails$ | async)?.roleId === 1">
+  <div class="col-9 text-center">
+    <a href="/requestPublish">Go to request publish song page</a>
+  </div>
+</div>
+
+
+<nz-modal [(nzVisible)]="isVisiblePickFile" nzWidth="55vw" nzTitle="Pick File" (nzOnCancel)="handleCancel(1)">
+  <div *nzModalContent>
+    <div class="" *ngIf="(listFileMusic$ | async)?.totalElements">
+      <nz-list>
+        <nz-list-item *ngFor="let item of (listFileMusic$ | async).content; let i = index">
+          <div class="w-100 d-flex justify-content-between align-items-center mx-3" style="height: 40px"
+               [ngClass]="songChecked.id === item.id ? 'rounded border border-success' : ''" (click)="checkedItem(item)">
+            <div class="mx-1">
+              {{item.metadata.fileName}}
+            </div>
+            <div nz-checkbox [nzChecked]="songChecked.id === item.id" (nzCheckedChange)="checkedItem(item)" class="mx-2"></div>
+          </div>
+          <div nz-list-item-actions>
+            <button nz-button type="button"
+                    nz-popconfirm
+                    nzPopconfirmTitle="Are you sure Delete this File?"
+                    nzPopconfirmPlacement="bottom" nzOkText="Ok" nzCancelText="Cancel"
+                    (nzOnConfirm)="deleteSong(item)"
+                    nzType="primary" nzDanger class="p-0" style="font-size: 10px">
+              <i nz-icon nzType="delete" class="my-0 align-content-center"></i>
+            </button>
+          </div>
+        </nz-list-item>
+      </nz-list>
+    </div>
+    <nz-empty *ngIf="(listFileMusic$ | async)?.totalElements < 1"></nz-empty>
+    <div class="w-100 d-flex justify-content-center" *ngIf="(listFileMusic$ | async)?.totalElements">
+      <nz-pagination [nzPageIndex]="(listFileMusic$ | async).pageable.pageNumber + 1"
+                     [nzSize]="(listFileMusic$ | async).totalPages"
+                     [nzPageSize]="(listFileMusic$ | async).pageable.pageSize"
+                     [nzTotal]="(listFileMusic$ | async).totalElements"
+                     *ngIf="(listFileMusic$ | async)?.totalElements"
+                     (nzPageIndexChange)="onSearch($event)"
+      ></nz-pagination>
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel(1)">Cancel</button>
+    <button nz-button nzType="primary" [disabled]="(isLoading$ | async)" (click)="handleOk('pickSong')">Submit</button>
+  </div>
+
+</nz-modal>

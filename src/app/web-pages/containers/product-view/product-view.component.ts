@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../../../../environments/environment';
-
+import {AppConstants} from '../../../app.constant';
 @Component({
   selector: 'app-product-view',
   templateUrl: './product-view.component.html',
@@ -9,22 +9,21 @@ import {environment} from '../../../../environments/environment';
 })
 export class ProductViewComponent implements OnInit {
   productId;
-
+  poster;
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router) { }
 
-  url = `${environment.unauUrl}/stream/`;
-  id = '617a808dbbad8404140adc01';
+  url = AppConstants.urlMusic;
+  urlImg = AppConstants.urlImg;
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       if (params.productId) {
         this.productId = params.productId;
       }
+      if (params.poster) {
+        this.poster = params.poster;
+      }
     });
-    // this.productId = this.route.snapshot.data.productId;
-    // this.router
-    console.log(this.productId);
-
   }
 
 }

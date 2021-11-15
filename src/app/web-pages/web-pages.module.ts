@@ -32,6 +32,8 @@ import {NzPaginationModule} from 'ng-zorro-antd/pagination';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
 import {VimeModule} from '@vime/angular';
+import {NzListModule} from 'ng-zorro-antd/list';
+import {NzEmptyModule} from 'ng-zorro-antd/empty';
 // import {NzTableModule} from 'ng-zorro-antd/table';
 
 
@@ -42,38 +44,40 @@ import {VimeModule} from '@vime/angular';
     ...fromComponents.components,
     ...fromContainers.containers,
   ],
-  imports: [
-    StoreModule.forFeature('webPagesManage', webPagesManagementReducers),
-    EffectsModule.forFeature(webPagesManagementEffect),
-    CommonModule,
-    WebPagesRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NzLayoutModule,
-    NzMenuModule,
-    NzBreadCrumbModule,
-    NzIconModule,
-    NzGridModule,
-    NzInputModule,
-    NzButtonModule,
-    NzAvatarModule,
-    NzDropDownModule,
-    NzPopoverModule,
-    NzFormModule,
-    NzSelectModule,
-    NzCheckboxModule,
-    NzSpinModule,
-    NzDescriptionsModule,
-    NzSwitchModule,
-    NzCardModule,
-    NzModalModule,
-    NzToolTipModule,
-    NzPopconfirmModule,
-    NzPaginationModule,
-    NgxDropzoneModule,
-    NzProgressModule,
-    VimeModule,
-    // NzTableModule,
-  ]
+    imports: [
+        StoreModule.forFeature('webPagesManage', webPagesManagementReducers),
+        EffectsModule.forFeature(webPagesManagementEffect),
+        CommonModule,
+        WebPagesRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NzLayoutModule,
+        NzMenuModule,
+        NzBreadCrumbModule,
+        NzIconModule,
+        NzGridModule,
+        NzInputModule,
+        NzButtonModule,
+        NzAvatarModule,
+        NzDropDownModule,
+        NzPopoverModule,
+        NzFormModule,
+        NzSelectModule,
+        NzCheckboxModule,
+        NzSpinModule,
+        NzDescriptionsModule,
+        NzSwitchModule,
+        NzCardModule,
+        NzModalModule,
+        NzToolTipModule,
+        NzPopconfirmModule,
+        NzPaginationModule,
+        NgxDropzoneModule,
+        NzProgressModule,
+        VimeModule,
+        NzListModule,
+        NzEmptyModule,
+        // NzTableModule,
+    ]
 })
 export class WebPagesModule { }
