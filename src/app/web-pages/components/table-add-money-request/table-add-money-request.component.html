@@ -53,6 +53,7 @@
       </tr>
       </tbody>
     </table>
+    <nz-empty *ngIf="dataResponse?.totalElements < 1"></nz-empty>
     <nz-pagination [nzPageIndex]="dataResponse.pageable.pageNumber + 1"
                    [nzSize]="dataResponse.totalPages"
                    [nzPageSize]="dataResponse.pageable.pageSize"

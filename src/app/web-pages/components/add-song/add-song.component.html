@@ -1,0 +1,126 @@
+<!--<div class="row mx-0 d-flex justify-content-center">-->
+<!--  <div class="col-3 text-start">-->
+<!--    <button nz-button [nzSize]="'large'" nzType="primary" class="mt-2" style="font-size: 10px"><i nz-icon nzType="upload" nzTheme="outline"></i></button>-->
+<!--    <button nz-button [nzSize]="'large'" nzType="primary" class="mt-2" style="font-size: 10px"><i nz-icon nzType="download" nzTheme="outline"></i></button>-->
+
+<!--  </div>-->
+<!--  <div class="col-9">-->
+
+<!--  </div>-->
+<!--</div>-->
+<form nz-form [formGroup]="addSongForm">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="thumbnail" nzRequired>Song Thumbnail</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please pick or upload your image!">
+      <input nz-input id="thumbnail" formControlName="thumbnail" style="display: none"/>
+      <div class="">
+        <nz-switch [(ngModel)]="isUsedUpload" (ngModelChange)="changeTypeFileUsed()" [ngModelOptions]="{standalone: true}"></nz-switch>
+        <span class="mx-2"><strong>{{isUsedUpload === false ? 'Picked' : 'Uploaded'}}</strong></span>
+        <button nz-button (click)="showModal('upload')" [nzSize]="'large'" nzType="primary" class="my-1 mx-2" style="font-size: 10px"><i nz-icon nzType="upload" nzTheme="outline"></i></button>
+        <button nz-button (click)="showModal('pick')" [nzSize]="'large'" nzType="primary" class="my-1 mx-2" style="font-size: 10px"><i nz-icon nzType="plus-square" nzTheme="outline"></i></button>
+      </div>
+      <nz-card nzHoverable style="width: 30vw; height: 40vh; margin-top: 5px" *ngIf="addSongForm.get('thumbnail').value">
+        <img alt="example" [src]="urlImg + addSongForm.get('thumbnail').value" class="w-100 h-100"/>
+      </nz-card>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="productName" nzRequired>Song Name</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Song name!">
+      <input nz-input id="productName" formControlName="productName"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row class="register-area">
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+      <button [disabled]="isLoading" nz-button nzType="primary" type="button" (click)="submitForm()">Submit</button>
+    </nz-form-control>
+  </nz-form-item>
+<!--  <nz-form-item nz-row class="register-area">-->
+<!--    <nz-form-control [nzSpan]="14" [nzOffset]="6">-->
+<!--      <a href="/login">Back to login page</a>-->
+<!--    </nz-form-control>-->
+<!--  </nz-form-item>-->
+</form>
+
+<nz-modal [(nzVisible)]="isVisibleUploadAvatar" nzWidth="40vw" nzTitle="Upload avatar" (nzOnCancel)="handleCancel('upload')">
+  <div *nzModalContent>
+    <div ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)" [multiple]="false" [expandable]="true">
+      <ngx-dropzone-label>
+        <div>
+          <h4>Accept image file only</h4>
+        </div>
+      </ngx-dropzone-label>
+
+      <div *ngFor="let f of fileList" class="d-flex justify-content-center mx-auto my-2 card p-1">
+        <div>
+          <ngx-dropzone-image-preview [removable]="true" (removed)="onRemove(f)" [file]="f">
+          </ngx-dropzone-image-preview>
+          <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        </div>
+        <nz-progress [nzPercent]="fileProgress" [attr.nzType]="getStatusProgressBar()" *ngIf="fileProgress > -1"></nz-progress>
+      </div>
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel('upload')">Cancel</button>
+    <button nz-button nzType="primary" (click)="handleOk('upload')" [disabled]="isLoading">Submit</button>
+  </div>
+  <nz-modal
+    [nzVisible]="previewVisible"
+    [nzContent]="modalContent"
+    [nzFooter]="null"
+    (nzOnCancel)="previewVisible = false"
+  >
+    <ng-template #modalContent>
+      <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+    </ng-template>
+  </nz-modal>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isVisiblePickAvatar" nzWidth="55vw" nzTitle="Pick File Modal" (nzOnCancel)="handleCancel('pick')">
+  <div *nzModalContent>
+    <div class="" *ngIf="listAvatar?.totalElements">
+      <nz-list nzGrid>
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXXl]="6" [nzSpan]="6" [nzXl]="4" [nzLg]="6" [nzMd]="6" [nzSm]="12" [nzXs]="24" *ngFor="let item of listAvatar.content; let i = index">
+            <nz-list-item>
+              <nz-card nzHoverable [nzCover]="coverTemplate" nz-tooltip nzTooltipTitle="{{item.fileName}}" (click)="checkedItem(item.id)">
+                <nz-card-meta class="d-flex justify-content-center" nzDescription="{{item.fileName}}"></nz-card-meta>
+                <div class="w-100 d-flex justify-content-center">
+                  <div nz-checkbox [nzChecked]="imgChecked === item.id" class="mt-1" (nzCheckedChange)="checkedItem(item.id)"></div>
+                </div>
+              </nz-card>
+              <div class="w-100 d-flex justify-content-center mt-1">
+                <button nz-button type="button"
+                        nz-popconfirm
+                        nzPopconfirmTitle="Are you sure Delete this Image?"
+                        nzPopconfirmPlacement="bottom" nzOkText="Ok" nzCancelText="Cancel"
+                        (nzOnConfirm)="deleteImg(item)"
+                        nzType="primary" nzDanger class="p-0" style="font-size: 10px"><i nz-icon nzType="delete" class="my-0 align-content-center"></i></button>
+              </div>
+              <ng-template #coverTemplate>
+                <img alt="example" src="{{urlImg + item.id}}" />
+              </ng-template>
+            </nz-list-item>
+          </div>
+        </div>
+      </nz-list>
+    </div>
+    <nz-empty *ngIf="listAvatar?.totalElements < 1"></nz-empty>
+    <div class="w-100 d-flex justify-content-center">
+      <nz-pagination [nzPageIndex]="listAvatar.pageable.pageNumber + 1"
+                     [nzSize]="listAvatar.totalPages"
+                     [nzPageSize]="listAvatar.pageable.pageSize"
+                     [nzTotal]="listAvatar.totalElements"
+                     *ngIf="listAvatar?.totalElements"
+                     (nzPageIndexChange)="onSearch($event)"
+      ></nz-pagination>
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel('pick')">Cancel</button>
+    <button nz-button nzType="primary" [disabled]="isLoading" (click)="handleOk('pick')">Submit</button>
+  </div>
+
+</nz-modal>

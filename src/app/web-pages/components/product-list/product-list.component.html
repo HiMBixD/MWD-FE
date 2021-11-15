@@ -1,0 +1,5 @@
+<div *ngFor="let item of listProduct?.content; let i = index" [routerLink]="'/product/'+item.fileId+'/'+item.productAvatar">
+  <img src="{{imgUrl+item.productAvatar}}" alt="">
+  <div>{{item.productName}}</div>
+  <div>Singer:{{item.username}}</div>
+</div>
