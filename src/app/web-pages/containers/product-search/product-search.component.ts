@@ -40,7 +40,7 @@ export class ProductSearchComponent implements OnInit {
         productName: searchProductName,
         productType: '',
         username: '',
-        isPublish: false,
+        isPublish: true,
         pagination: this.pagination
       }}));
   }

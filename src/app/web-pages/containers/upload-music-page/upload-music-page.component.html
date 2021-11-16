@@ -38,9 +38,19 @@
     </div>
 
     <div class="w-100" *ngIf="!isChooseUpload">
-      <div class=" d-flex justify-content-center" *ngIf="songChecked.name && !isVisiblePickFile">
+      <div class=" d-flex justify-content-center" *ngIf="songChecked?.name && !isVisiblePickFile">
         <nz-card nzTitle="File picked" style="width: 30vw">
           <p>{{songChecked.name}}</p>
+          <vm-player controls style="max-width: 30vw" [ready]="songChecked.id !== null" autoplay="true">
+            <vm-audio preload="auto">
+              <source data-src="{{urlMusic + songChecked.id}}" type="audio/mp3" />
+              <!-- <source> and <track> elements are placed here. -->
+            </vm-audio>
+            <vm-default-ui>
+              <!-- ... -->
+            </vm-default-ui>
+            <!-- ... -->
+          </vm-player>
         </nz-card>
       </div>
       <div class="">

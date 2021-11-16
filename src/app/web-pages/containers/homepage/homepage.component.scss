@@ -1,6 +1,9 @@
 .header-nav {
-  background-color: #001529;
   height: 80px;
+}
+
+.music-background {
+  background-image: url("~src/assets/header3.jpg");
 }
 .layout {
   min-height: 100vh;
@@ -39,6 +42,8 @@ nz-content {
 .content-background {
   //background-image: url("~src/assets/png.png");
   //z-index: 100000;
+  margin-left: 0 !important;
+  margin-top: 16px !important;
 }
 .min-h-vh-80 {
   min-height: 80vh;

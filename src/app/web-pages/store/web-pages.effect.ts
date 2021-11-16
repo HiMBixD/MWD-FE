@@ -7,7 +7,15 @@ import * as webPagesActions from './web-pages.action';
 import {exhaustMap, map} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {WebPagesManagementState} from '../web-pages.reducer';
-import {loadMyInfo, searchRequestAddMoney, searchUserImage, searchUserMusic} from './web-pages.action';
+import {
+  getPlayListByUsername,
+  loadMyInfo,
+  searchRequestAddMoney,
+  searchRequestPublishSong,
+  searchRequestRegisterSinger,
+  searchUserImage,
+  searchUserMusic
+} from './web-pages.action';
 
 @Injectable()
 export class WebPagesEffect {
@@ -210,6 +218,44 @@ export class WebPagesEffect {
     )
   );
 
+  requestBeSingerEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.requestBeSinger),
+      exhaustMap((action: any) =>
+        this.commonService.requestBeSinger(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Request Upgrade Role Singer Sent Success');
+              return webPagesActions.requestBeSingerSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.requestBeSingerFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  requestPublishProductEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.requestPublishProduct),
+      exhaustMap((action: any) =>
+        this.commonService.requestPublishProduct(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Request Publish New Song Sent Success');
+              return webPagesActions.requestPublishProductSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.requestPublishProductFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
   searchRequestAddMoney = createEffect(() =>
     this.actions$.pipe(
       ofType(webPagesActions.searchRequestAddMoney),
@@ -242,6 +288,84 @@ export class WebPagesEffect {
             } else {
               this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
               return webPagesActions.handleRequestAddMoneyFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  searchRequestRegisterSingerEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.searchRequestRegisterSinger),
+      exhaustMap((action: any) =>
+        this.commonService.searchRequestRegisterSinger(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              // this.toastrService.success('Request Add Money Success');
+              return webPagesActions.searchRequestRegisterSingerSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.searchRequestRegisterSingerFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  handleRequestRegisterSingerEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.handleRequestRegisterSinger),
+      exhaustMap((action: any) =>
+        this.commonService.handleRequestRegisterSinger(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Handle Request Success');
+              this.store.dispatch(searchRequestRegisterSinger({body: action.searchBody}));
+              return webPagesActions.handleRequestRegisterSingerSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.handleRequestRegisterSingerFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  searchRequestPublishSongEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.searchRequestPublishSong),
+      exhaustMap((action: any) =>
+        this.commonService.searchRequestPublishProduct(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              // this.toastrService.success('Request Add Money Success');
+              return webPagesActions.searchRequestPublishSongSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.searchRequestPublishSongFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  handleRequestPublishSongEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.handleRequestPublishSong),
+      exhaustMap((action: any) =>
+        this.commonService.handleRequestPublishProduct(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Handle Request Success');
+              this.store.dispatch(searchRequestPublishSong({body: action.searchBody}));
+              return webPagesActions.handleRequestPublishSongSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.handleRequestPublishSongFailed({ errors: response });
             }
           })
         )
@@ -330,6 +454,26 @@ export class WebPagesEffect {
     )
   );
 
+  // searchProductEff = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(webPagesActions.searchProduct),
+  //     exhaustMap((action: any) =>
+  //       this.commonService.searchProduct(action.body).pipe(
+  //         map(response => {
+  //           if (response?.success) {
+  //             // this.toastrService.success('Set Avatar Success');
+  //             // this.reloadUser();
+  //             return webPagesActions.searchProductSuccess({ response });
+  //           } else {
+  //             this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+  //             return webPagesActions.searchProductFailed({ errors: response });
+  //           }
+  //         })
+  //       )
+  //     )
+  //   )
+  // );
+
   searchProductEffect = createEffect(() =>
     this.actions$.pipe(
       ofType(webPagesActions.searchProduct),
@@ -386,6 +530,49 @@ export class WebPagesEffect {
             } else {
               this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
               return webPagesActions.addProductFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  getPlayListByUsernameEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.getPlayListByUsername),
+      exhaustMap((action: any) =>
+        this.commonService.getPlayListByUsername(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              // this.toastrService.success('Add Music Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              return webPagesActions.getPlayListByUsernameSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.getPlayListByUsernameFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  createPlayListEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.createPlayList),
+      exhaustMap((action: any) =>
+        this.commonService.createPlayList(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Create New List Success');
+              // this.reloadUser();
+              action.callback();
+              this.store.dispatch(getPlayListByUsername({body: action.searchBody}));
+              return webPagesActions.createPlayListSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.createPlayListFailed({ errors: response });
             }
           })
         )

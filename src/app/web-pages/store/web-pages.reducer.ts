@@ -15,9 +15,15 @@ export interface WebPagesState {
   resetPass: boolean;
   requestAddMoney: boolean;
   listRequestAddMoney: any | null;
+  listRequestPublishSong: any | null;
+  listRequestRegisterSinger: any | null;
   listImages: any | null;
   listMusics: any | null;
   listProduct: any | null;
+  playListByUsername: any | null;
+  handleRequestPublishSongResult: any | null;
+  handleRequestRegisterSingerResult: any | null;
+  handleRequestAddMoneyResult: any | null;
 }
 
 export const initialState: WebPagesState = {
@@ -30,9 +36,15 @@ export const initialState: WebPagesState = {
   resetPass: false,
   requestAddMoney: false,
   listRequestAddMoney: null,
+  listRequestPublishSong: null,
+  listRequestRegisterSinger: null,
   listImages: null,
   listMusics: null,
   listProduct: null,
+  playListByUsername: null,
+  handleRequestPublishSongResult: null,
+  handleRequestRegisterSingerResult: null,
+  handleRequestAddMoneyResult: null,
 };
 
 export const reducers = createReducer(
@@ -253,6 +265,46 @@ export const reducers = createReducer(
   })),
   /***************** End: requestAddMoney ****************/
 
+  /***************** requestBeSinger ****************/
+  on(webPagesActions.requestBeSinger, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.requestBeSingerSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.requestBeSingerFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: requestBeSinger ****************/
+
+  /***************** requestPublishProduct ****************/
+  on(webPagesActions.requestPublishProduct, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.requestPublishProductSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.requestPublishProductFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: requestPublishProduct ****************/
+
   /***************** searchRequestAddMoney ****************/
   on(webPagesActions.searchRequestAddMoney, state => ({
     ...state,
@@ -274,6 +326,50 @@ export const reducers = createReducer(
     errors
   })),
   /***************** End: searchRequestAddMoney ****************/
+
+  /***************** searchRequestRegisterSinger ****************/
+  on(webPagesActions.searchRequestRegisterSinger, state => ({
+    ...state,
+    isLoading: true,
+    listRequestRegisterSinger: null,
+    errors: null
+  })),
+
+  on(webPagesActions.searchRequestRegisterSingerSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    listRequestRegisterSinger: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.searchRequestRegisterSingerFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: searchRequestRegisterSinger ****************/
+
+  /***************** searchRequestPublishSong ****************/
+  on(webPagesActions.searchRequestPublishSong, state => ({
+    ...state,
+    isLoading: true,
+    listRequestPublishSong: null,
+    errors: null
+  })),
+
+  on(webPagesActions.searchRequestPublishSongSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    listRequestPublishSong: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.searchRequestPublishSongFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: searchRequestPublishSong ****************/
 
   /***************** searchProduct ****************/
   on(webPagesActions.searchProduct, state => ({
@@ -301,12 +397,14 @@ export const reducers = createReducer(
   on(webPagesActions.handleRequestAddMoney, state => ({
     ...state,
     isLoading: true,
+    handleRequestAddMoneyResult: null,
     errors: null
   })),
 
   on(webPagesActions.handleRequestAddMoneySuccess, (state, {response}) => ({
     ...state,
     errors: null,
+    handleRequestAddMoneyResult: response,
     isLoading: false
   })),
 
@@ -316,6 +414,50 @@ export const reducers = createReducer(
     errors
   })),
   /***************** End: handleRequestAddMoney ****************/
+
+  /***************** handleRequestRegisterSinger ****************/
+  on(webPagesActions.handleRequestRegisterSinger, state => ({
+    ...state,
+    isLoading: true,
+    handleRequestRegisterSingerResult: null,
+    errors: null
+  })),
+
+  on(webPagesActions.handleRequestRegisterSingerSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    handleRequestRegisterSingerResult: response,
+    isLoading: false
+  })),
+
+  on(webPagesActions.handleRequestRegisterSingerFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: handleRequestRegisterSinger ****************/
+
+  /***************** handleRequestPublishSong ****************/
+  on(webPagesActions.handleRequestPublishSong, state => ({
+    ...state,
+    isLoading: true,
+    handleRequestPublishSongResult: null,
+    errors: null
+  })),
+
+  on(webPagesActions.handleRequestPublishSongSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    handleRequestPublishSongResult: response,
+    isLoading: false
+  })),
+
+  on(webPagesActions.handleRequestPublishSongFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: handleRequestPublishSong ****************/
 
   /***************** setUserAvatar ****************/
   on(webPagesActions.setUserAvatar, state => ({
@@ -400,6 +542,48 @@ export const reducers = createReducer(
     errors
   })),
   /***************** End: searchUserMusic ****************/
+
+  /***************** getPlayListByUsername ****************/
+  on(webPagesActions.getPlayListByUsername, state => ({
+    ...state,
+    isLoading: true,
+    playListByUsername: null,
+    errors: null
+  })),
+
+  on(webPagesActions.getPlayListByUsernameSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    playListByUsername: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.getPlayListByUsernameFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: getPlayListByUsername ****************/
+
+  /***************** createPlayList ****************/
+  on(webPagesActions.createPlayList, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.createPlayListSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.createPlayListFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: createPlayList ****************/
 );
 
 function getIsLogin(): any {

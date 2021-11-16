@@ -26,6 +26,7 @@
         <th scope="col">Status</th>
         <th scope="col">Submit Time</th>
         <th scope="col">Approved Time</th>
+        <th scope="col">Reason</th>
         <th scope="col">Actions</th>
       </tr>
       </thead>
@@ -38,17 +39,21 @@
         <td class="text-start">{{getStatusName(item.status.toString())}}</td>
         <td class="text-end" >{{item.create_time | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
         <td class="text-end" >{{item.approve_time | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+        <td class="text-start">{{item.approve_details}}</td>
         <td>
           <i nz-tooltip nzTooltipTitle="Approve this request" nz-popconfirm
              nzPopconfirmTitle="Are you sure Approve this request?"
              nzPopconfirmPlacement="bottom" nzOkText="Ok" nzCancelText="Cancel"
              (nzOnConfirm)="actionRequest(1, item)"
              nz-icon nzType="check-circle" nzTheme="fill" class="mx-1" *ngIf="item.status === 0"></i>
-          <i nz-tooltip nzTooltipTitle="Deny this request" nz-popconfirm
-             nzPopconfirmTitle="Are you sure Deny this request?"
-             nzPopconfirmPlacement="bottom" nzOkText="Ok" nzCancelText="Cancel"
-             (nzOnConfirm)="actionRequest(2, item)"
+          <i nz-tooltip nzTooltipTitle="Deny this request"
+             (click)="showModalDelete(item)"
              nz-icon nzType="close-circle" nzTheme="fill" class="mx-1" *ngIf="item.status === 0"></i>
+<!--          <i nz-tooltip nzTooltipTitle="Deny this request" nz-popconfirm-->
+<!--             nzPopconfirmTitle="Are you sure Deny this request?"-->
+<!--             nzPopconfirmPlacement="bottom" nzOkText="Ok" nzCancelText="Cancel"-->
+<!--             (nzOnConfirm)="actionRequest(2, item)"-->
+<!--             nz-icon nzType="close-circle" nzTheme="fill" class="mx-1" *ngIf="item.status === 0"></i>-->
         </td>
       </tr>
       </tbody>

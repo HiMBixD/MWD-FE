@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AuthGuardService} from '../core/guards/auth.guard';
 import {
-  ApproveAddMoneyComponent,
+  ApproveAddMoneyComponent, ApprovePublishSongComponent, ApproveRegisterSingerComponent,
   HomepageComponent,
-  LoginComponent, ProductSearchComponent,
+  LoginComponent, PlayListComponent, ProductSearchComponent,
   ProductViewComponent,
   ProfilePageComponent,
-  RegisterPageComponent, RequestPublishSongComponent, UploadMusicPageComponent
+  RegisterPageComponent, RequestPublishSongComponent, UpgradeSingerRoleComponent, UploadMusicPageComponent
 } from './containers';
 
 const routes: Routes = [
@@ -38,12 +38,32 @@ const routes: Routes = [
         canLoad: [AuthGuardService]
       },
       {
+        path: 'approveRegisterSinger', component: ApproveRegisterSingerComponent,
+        canActivate: [AuthGuardService],
+        canLoad: [AuthGuardService]
+      },
+      {
+        path: 'approvePublishSong', component: ApprovePublishSongComponent,
+        canActivate: [AuthGuardService],
+        canLoad: [AuthGuardService]
+      },
+      {
+        path: 'requestRegisterSinger', component: UpgradeSingerRoleComponent,
+        canActivate: [AuthGuardService],
+        canLoad: [AuthGuardService]
+      },
+      {
         path: 'uploadMusic', component: UploadMusicPageComponent,
         canActivate: [AuthGuardService],
         canLoad: [AuthGuardService]
       },
       {
         path: 'requestPublish', component: RequestPublishSongComponent,
+        canActivate: [AuthGuardService],
+        canLoad: [AuthGuardService]
+      },
+      {
+        path: 'playList', component: PlayListComponent,
         canActivate: [AuthGuardService],
         canLoad: [AuthGuardService]
       },

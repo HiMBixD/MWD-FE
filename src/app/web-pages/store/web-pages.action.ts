@@ -177,6 +177,40 @@ export const requestAddMoneyFailed = createAction(
 );
 /**************  End: requestAddMoney ***************/
 
+/**************  requestBeSinger ***************/
+export const requestBeSinger = createAction(
+  '[Home Page] requestBeSinger',
+  props<{ body: any }>()
+);
+
+export const requestBeSingerSuccess = createAction(
+  '[Home API] requestBeSinger Success',
+  props<{ response: any }>()
+);
+
+export const requestBeSingerFailed = createAction(
+  '[Home API] requestBeSinger Failed',
+  props<{ errors: any }>()
+);
+/**************  End: requestBeSinger ***************/
+
+/**************  requestPublishProduct ***************/
+export const requestPublishProduct = createAction(
+  '[Home Page] requestPublishProduct',
+  props<{ body: any }>()
+);
+
+export const requestPublishProductSuccess = createAction(
+  '[Home API] requestPublishProduct Success',
+  props<{ response: any }>()
+);
+
+export const requestPublishProductFailed = createAction(
+  '[Home API] requestPublishProduct Failed',
+  props<{ errors: any }>()
+);
+/**************  End: requestPublishProduct ***************/
+
 /**************  searchRequestAddMoney ***************/
 export const searchRequestAddMoney = createAction(
   '[Home Page] searchRequestAddMoney',
@@ -193,6 +227,40 @@ export const searchRequestAddMoneyFailed = createAction(
   props<{ errors: any }>()
 );
 /**************  End: searchRequestAddMoney ***************/
+
+/**************  searchRequestRegisterSinger ***************/
+export const searchRequestRegisterSinger = createAction(
+  '[Home Page] searchRequestRegisterSinger',
+  props<{ body: any }>()
+);
+
+export const searchRequestRegisterSingerSuccess = createAction(
+  '[Home API] searchRequestRegisterSinger Success',
+  props<{ response: any }>()
+);
+
+export const searchRequestRegisterSingerFailed = createAction(
+  '[Home API] searchRequestRegisterSinger Failed',
+  props<{ errors: any }>()
+);
+/**************  End: searchRequestRegisterSinger ***************/
+
+/**************  searchRequestPublishSong ***************/
+export const searchRequestPublishSong = createAction(
+  '[Home Page] searchRequestPublishSong',
+  props<{ body: any }>()
+);
+
+export const searchRequestPublishSongSuccess = createAction(
+  '[Home API] searchRequestPublishSong Success',
+  props<{ response: any }>()
+);
+
+export const searchRequestPublishSongFailed = createAction(
+  '[Home API] searchRequestPublishSong Failed',
+  props<{ errors: any }>()
+);
+/**************  End: searchRequestPublishSong ***************/
 
 /************** handleRequestAddMoney ***************/
 export const handleRequestAddMoney = createAction(
@@ -211,6 +279,39 @@ export const handleRequestAddMoneyFailed = createAction(
 );
 /**************  End: handleRequestAddMoney ***************/
 
+/************** handleRequestRegisterSinger ***************/
+export const handleRequestRegisterSinger = createAction(
+  '[Home Page] handleRequestRegisterSinger',
+  props<{ body: any; searchBody: any  }>()
+);
+
+export const handleRequestRegisterSingerSuccess = createAction(
+  '[Home API] handleRequestRegisterSinger Success',
+  props<{ response: any }>()
+);
+
+export const handleRequestRegisterSingerFailed = createAction(
+  '[Home API] handleRequestRegisterSinger Failed',
+  props<{ errors: any }>()
+);
+/**************  End: handleRequestRegisterSinger ***************/
+
+/************** handleRequestPublishSong ***************/
+export const handleRequestPublishSong = createAction(
+  '[Home Page] handleRequestPublishSong',
+  props<{ body: any; searchBody: any  }>()
+);
+
+export const handleRequestPublishSongSuccess = createAction(
+  '[Home API] handleRequestPublishSong Success',
+  props<{ response: any }>()
+);
+
+export const handleRequestPublishSongFailed = createAction(
+  '[Home API] handleRequestPublishSong Failed',
+  props<{ errors: any }>()
+);
+/**************  End: handleRequestPublishSong ***************/
 
 /************** setUserAvatar ***************/
 export const setUserAvatar = createAction(
@@ -254,6 +355,14 @@ export const searchUserMusicSuccess = createAction('[Home API] searchUserMusic S
 export const searchUserMusicFailed = createAction('[Home API] searchUserMusic Failed', props<{ errors: any }>());
 /**************  End: searchUserMusic ***************/
 
+// /************** searchProduct ***************/
+// export const searchProduct = createAction('[Home Page] searchProduct', props<{ body: any; }>());
+//
+// export const searchProductSuccess = createAction('[Home API] searchProduct Success', props<{ response: any }>());
+//
+// export const searchProductFailed = createAction('[Home API] searchProduct Failed', props<{ errors: any }>());
+// /**************  End: searchProduct ***************/
+
 
 /************** deleteFileMusic ***************/
 export const deleteFileMusic = createAction('[Home Page] deleteFileMusic', props<{ body: any; searchBody: any; }>());
@@ -278,6 +387,22 @@ export const searchProductSuccess = createAction('[Home API] searchProduct Succe
 
 export const searchProductFailed = createAction('[Home API] searchProduct Failed', props<{ errors: any }>());
 /**************  End: searchProduct ***************/
+
+/************** createPlayList ***************/
+export const createPlayList = createAction('[Home Page] createPlayList', props<{ body: any; searchBody: any; callback: any }>());
+
+export const createPlayListSuccess = createAction('[Home API] createPlayList Success', props<{ response: any }>());
+
+export const createPlayListFailed = createAction('[Home API] createPlayList Failed', props<{ errors: any }>());
+/**************  End: createPlayList ***************/
+
+/************** getPlayListByUsername ***************/
+export const getPlayListByUsername = createAction('[Home Page] getPlayListByUsername', props<{ body: any; }>());
+
+export const getPlayListByUsernameSuccess = createAction('[Home API] getPlayListByUsername Success', props<{ response: any }>());
+
+export const getPlayListByUsernameFailed = createAction('[Home API] getPlayListByUsername Failed', props<{ errors: any }>());
+/**************  End: getPlayListByUsername ***************/
 // export const loadMyInfo = createAction(
 //   '[Home Page] Load MyInfo',
 //   props<{ body: any }>()

@@ -1,1 +1,96 @@
-<p>request-publish-song works!</p>
+<div class="row p-2 mx-0">
+  <h4>Request Publish New Song Page</h4>
+  <hr>
+</div>
+<div class="row mx-0 mb-3 text-start d-flex justify-content-center">
+  <div class="col-9">
+    <form [formGroup]="requestPublishForm">
+      <div class="form-group row mb-2">
+        <label for="productName" class="col-sm-2 col-form-label">Song Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="productName" formControlName="productName" aria-describedby="productName" placeholder="Enter Song Name">
+          <small id="productNameHelp" class="form-text text-muted">Input your song published name</small>
+        </div>
+      </div>
+      <div class="form-group row mb-4">
+        <label for="productType" class="col-sm-2 col-form-label">Song Type</label>
+        <div class="col-sm-10 text-center">
+          <input type="text" class="form-control" id="productType" formControlName="productType" placeholder="Enter Song Type">
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label for="price" class="col-sm-2 col-form-label">Song Sell price</label>
+        <div class="col-sm-10 text-center">
+          <input type="number" class="form-control" id="price" formControlName="price" placeholder="Enter Song Selling price">
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label for="productId" class="col-sm-2 col-form-label">Song Uploaded</label>
+        <div class="col-sm-10 text-start">
+          <input type="text" class="form-control" id="productId" style="display: none">
+          <button nz-button [nzSize]="'large'" nzType="primary" class="mt-2" style="font-size: 10px" (click)="openModalPickFile()" type="button"><i nz-icon nzType="plus-square" nzTheme="outline"></i></button>
+        </div>
+      </div>
+    </form>
+    <div class="d-flex justify-content-center">
+      <span class="text-danger">{{songChecked.name}}</span>
+    </div>
+    <vm-player controls style="max-width: 30vw" [ready]="songChecked.fileId !== null" autoplay="true" *ngIf="songChecked.fileId && !isVisiblePickFile">
+      <vm-audio preload="auto">
+        <source data-src="{{urlMusic + songChecked.fileId}}" type="audio/mp3" />
+        <!-- <source> and <track> elements are placed here. -->
+      </vm-audio>
+      <vm-default-ui>
+        <!-- ... -->
+      </vm-default-ui>
+      <!-- ... -->
+    </vm-player>
+  </div>
+</div>
+<div class="row mx-0">
+  <div class="col">
+    <button nz-button nzType="primary" [nzSize]="'large'" nzShape="round" (click)="OnRequest()" [disabled]="requestPublishForm.invalid || (isLoading$ | async)">
+      Send Request
+    </button>
+  </div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisiblePickFile" nzWidth="55vw" nzTitle="Pick Uploaded Song Not Published" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <div class="" *ngIf="(listProductNotPublished$ | async)?.totalElements">
+      <nz-list nzGrid>
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXXl]="8" [nzSpan]="8" [nzXl]="8" [nzLg]="8" [nzMd]="8" [nzSm]="12" [nzXs]="24" *ngFor="let item of (listProductNotPublished$ | async).content; let i = index">
+            <nz-list-item >
+              <nz-card nzHoverable [nzCover]="coverTemplate" nz-tooltip nzTooltipTitle="{{item.productName}}" (click)="checkedItem(item)">
+                <nz-card-meta class="d-flex justify-content-center" nzDescription="{{item.productName}}"></nz-card-meta>
+                <div class="w-100 d-flex justify-content-center">
+                  <div nz-checkbox [nzChecked]="songChecked.id === item.productId" class="mt-1" (nzCheckedChange)="checkedItem(item)"></div>
+                </div>
+              </nz-card>
+              <ng-template #coverTemplate>
+                <img alt="example" src="{{urlImg + item.productAvatar}}" />
+              </ng-template>
+            </nz-list-item>
+
+          </div>
+        </div>
+      </nz-list>
+    </div>
+    <nz-empty *ngIf="(listProductNotPublished$ | async)?.totalElements < 1"></nz-empty>
+    <div class="w-100 d-flex justify-content-center" *ngIf="(listProductNotPublished$ | async)?.totalElements">
+      <nz-pagination [nzPageIndex]="(listProductNotPublished$ | async).pageable.pageNumber + 1"
+                     [nzSize]="(listProductNotPublished$ | async).totalPages"
+                     [nzPageSize]="(listProductNotPublished$ | async).pageable.pageSize"
+                     [nzTotal]="(listProductNotPublished$ | async).totalElements"
+                     *ngIf="(listProductNotPublished$ | async)?.totalElements"
+                     (nzPageIndexChange)="onSearch($event)"
+      ></nz-pagination>
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="primary" [disabled]="(isLoading$ | async)" (click)="handleOk()">Submit</button>
+  </div>
+
+</nz-modal>

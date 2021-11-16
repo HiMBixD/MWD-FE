@@ -1,0 +1,13 @@
+<div class="row p-2 mx-0">
+  <h4>List requests Publish new Song</h4>
+  <div class="col"></div>
+  <div class="col-10"><hr></div>
+  <div class="col"></div>
+</div>
+
+<app-table-publish-song
+  [dataResponse]="dataResponse$ | async"
+  [isLoading]=""
+  (search)="onSearch($event)"
+></app-table-publish-song>
+

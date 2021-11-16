@@ -99,9 +99,41 @@ export class CommonService {
       }));
   }
 
+  requestBeSinger(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/requestBeSinger`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  requestPublishProduct(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/requestPublishProduct`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
   searchRequestAddMoney(data): Observable<any> {
     return this.http
       .post(`${environment.apiUrl}/user/findRequestAddMoney`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  searchRequestRegisterSinger(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/findRequestBeSinger`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  searchRequestPublishProduct(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/findRequestPublishProduct`, data)
       .pipe(catchError((httpError: any) => {
         return throwError(httpError);
       }));
@@ -166,6 +198,38 @@ export class CommonService {
   handleRequestAddMoney(data): Observable<any> {
     return this.http
       .post(`${environment.apiUrl}/admin/approveAddMoney`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  handleRequestRegisterSinger(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/admin/approveRegisterSinger`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  handleRequestPublishProduct(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/admin/approvePublishProduct`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  getPlayListByUsername(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/getAllPlayListsByUsername`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  createPlayList(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/createPlayList`, data)
       .pipe(catchError((httpError: any) => {
         return throwError(httpError);
       }));

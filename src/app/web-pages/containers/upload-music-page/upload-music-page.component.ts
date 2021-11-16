@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {WebPagesManagementState} from '../../web-pages.reducer';
 import {Observable} from 'rxjs';
@@ -36,6 +36,7 @@ export class UploadMusicPageComponent implements OnInit {
     id: null,
     name: null
   };
+  urlMusic = AppConstants.urlMusic;
   uploadMusicDescription: any;
   pagination: Pagination;
   constructor(

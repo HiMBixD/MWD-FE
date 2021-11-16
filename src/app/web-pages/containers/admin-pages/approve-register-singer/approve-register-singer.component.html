@@ -1,0 +1,13 @@
+<div class="row p-2 mx-0">
+  <h4>List requests Register be Singer</h4>
+  <div class="col"></div>
+  <div class="col-10"><hr></div>
+  <div class="col"></div>
+</div>
+
+<app-table-register-singer
+  [dataResponse]="dataResponse$ | async"
+  [isLoading]=""
+  (search)="onSearch($event)"
+></app-table-register-singer>
+

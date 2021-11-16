@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
+import * as fromComponentsShared from './services/component';
 import { WebPagesRoutingModule } from './web-pages-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
@@ -34,6 +35,8 @@ import {NzProgressModule} from 'ng-zorro-antd/progress';
 import {VimeModule} from '@vime/angular';
 import {NzListModule} from 'ng-zorro-antd/list';
 import {NzEmptyModule} from 'ng-zorro-antd/empty';
+import {ModalConfirmDeleteRequestComponent} from './services/component/modal-confirm-delete-request/modal-confirm-delete-request.component';
+import {QuillModule} from 'ngx-quill';
 // import {NzTableModule} from 'ng-zorro-antd/table';
 
 
@@ -43,41 +46,43 @@ import {NzEmptyModule} from 'ng-zorro-antd/empty';
   declarations: [
     ...fromComponents.components,
     ...fromContainers.containers,
+    ...fromComponentsShared.componentsShared
   ],
-    imports: [
-        StoreModule.forFeature('webPagesManage', webPagesManagementReducers),
-        EffectsModule.forFeature(webPagesManagementEffect),
-        CommonModule,
-        WebPagesRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        NzLayoutModule,
-        NzMenuModule,
-        NzBreadCrumbModule,
-        NzIconModule,
-        NzGridModule,
-        NzInputModule,
-        NzButtonModule,
-        NzAvatarModule,
-        NzDropDownModule,
-        NzPopoverModule,
-        NzFormModule,
-        NzSelectModule,
-        NzCheckboxModule,
-        NzSpinModule,
-        NzDescriptionsModule,
-        NzSwitchModule,
-        NzCardModule,
-        NzModalModule,
-        NzToolTipModule,
-        NzPopconfirmModule,
-        NzPaginationModule,
-        NgxDropzoneModule,
-        NzProgressModule,
-        VimeModule,
-        NzListModule,
-        NzEmptyModule,
-        // NzTableModule,
-    ]
+  imports: [
+    StoreModule.forFeature('webPagesManage', webPagesManagementReducers),
+    EffectsModule.forFeature(webPagesManagementEffect),
+    CommonModule,
+    WebPagesRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NzLayoutModule,
+    NzMenuModule,
+    NzBreadCrumbModule,
+    NzIconModule,
+    NzGridModule,
+    NzInputModule,
+    NzButtonModule,
+    NzAvatarModule,
+    NzDropDownModule,
+    NzPopoverModule,
+    NzFormModule,
+    NzSelectModule,
+    NzCheckboxModule,
+    NzSpinModule,
+    NzDescriptionsModule,
+    NzSwitchModule,
+    NzCardModule,
+    NzModalModule,
+    NzToolTipModule,
+    NzPopconfirmModule,
+    NzPaginationModule,
+    NgxDropzoneModule,
+    NzProgressModule,
+    VimeModule,
+    NzListModule,
+    NzEmptyModule,
+    QuillModule,
+    // NzTableModule,
+  ]
 })
 export class WebPagesModule { }

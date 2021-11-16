@@ -46,6 +46,31 @@ export const selectRequestAddMoneyList = createSelector(
   state => state.listRequestAddMoney
 );
 
+export const selectRequestPublishSongList = createSelector(
+  getWebPagesState,
+  state => state.listRequestPublishSong
+);
+
+export const selectRequestRegisterSingerList = createSelector(
+  getWebPagesState,
+  state => state.listRequestRegisterSinger
+);
+
+export const selectHandleAddMoneyRequestResult = createSelector(
+  getWebPagesState,
+  state => state.handleRequestAddMoneyResult
+);
+
+export const selectHandleRegisterSingerRequestResult = createSelector(
+  getWebPagesState,
+  state => state.handleRequestRegisterSingerResult
+);
+
+export const selectHandlePublishSongRequestResult = createSelector(
+  getWebPagesState,
+  state => state.handleRequestPublishSongResult
+);
+
 export const selectUserImageList = createSelector(
   getWebPagesState,
   state => state.listImages
@@ -59,4 +84,9 @@ export const selectUserMusicList = createSelector(
 export const selectProductList = createSelector(
   getWebPagesState,
   state => state.listProduct
+);
+
+export const selectPlayListByUsername = createSelector(
+  getWebPagesState,
+  state => state.playListByUsername
 );

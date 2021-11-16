@@ -1,0 +1,29 @@
+<div class="row p-2 mx-0">
+  <h4>Register Singer Page</h4>
+  <hr>
+</div>
+<div class="row mx-0 mb-3">
+  <div class="col">
+    <div class="form-group text-start">
+      <label for="information" class="mb-2"><Strong>Register Singer Role Information:</Strong></label>
+      <quill-editor [(ngModel)]="information" placeholder="Input form to register" id="information"></quill-editor>
+    </div>
+  </div>
+</div>
+<div class="row mx-0">
+  <div class="col">
+    <button nz-button nzType="primary" [nzSize]="'large'" nzShape="round" (click)="OnRegister()" [disabled]="information?.length < 1 || (isLoading$ | async)">
+      <i nz-icon nzType="user-add"></i>
+      Send Register Request
+    </button>
+  </div>
+</div>
+
+<hr>
+<div class="row mx-0">
+  <div class="col">
+    <span>Remember to Include all picture of Your identity and Provident:</span>
+    <span class="text-danger"><br>Identity Card both side, picture of yourself, other Documents ...</span>
+  </div>
+</div>
+

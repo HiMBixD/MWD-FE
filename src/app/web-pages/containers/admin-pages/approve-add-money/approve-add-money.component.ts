@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {WebPagesManagementState} from '../../../web-pages.reducer';
-import {searchRequestAddMoney, selectRequestAddMoneyList} from '../../../store';
+import {searchRequestAddMoney, selectMyInfoLoadingState, selectRequestAddMoneyList} from '../../../store';
 import {Observable} from 'rxjs';
 
 
@@ -13,9 +13,8 @@ import {Observable} from 'rxjs';
   styleUrls: ['./approve-add-money.component.scss']
 })
 export class ApproveAddMoneyComponent implements OnInit {
-  statusSelected = null;
-  usernameSearch = '';
   dataResponse$: Observable<any>;
+  isLoading$: Observable<boolean>;
   constructor(
     private store: Store<WebPagesManagementState>
   ) { }
@@ -26,5 +25,6 @@ export class ApproveAddMoneyComponent implements OnInit {
   onSearch(data): void {
     this.store.dispatch(searchRequestAddMoney({body: data}));
     this.dataResponse$ = this.store.pipe(select(selectRequestAddMoneyList));
+    this.isLoading$ = this.store.pipe(select(selectMyInfoLoadingState));
   }
 }
