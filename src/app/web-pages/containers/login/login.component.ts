@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {AuthService} from '../../../core/service/auth.service';
 import {take, takeUntil} from 'rxjs/operators';
-import {resetForgetPassword, selectMyInfoLoadingState, selectResetPassResult, sendOtpAuth, sendOtpUnAuth} from '../../store';
+import {loadIsLogin, resetForgetPassword, selectMyInfoLoadingState, selectResetPassResult, sendOtpAuth, sendOtpUnAuth} from '../../store';
 import {Observable, Subject, Subscription, timer} from 'rxjs';
 import {NzFormTooltipIcon} from 'ng-zorro-antd/form';
 import {select, Store} from '@ngrx/store';
@@ -16,6 +16,7 @@ import {WebPagesManagementState} from '../../web-pages.reducer';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  private readonly JWT_TOKEN = 'JWT_TOKEN';
   loginForm = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required]
@@ -70,9 +71,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (value) {
         if (value.success) {
           this.isLoading = false;
+          localStorage.setItem(this.JWT_TOKEN, value.data);
+          this.store.dispatch(loadIsLogin());
           this.toastrService.success('Login success');
           this.router.navigate(['/']);
-
         } else {
           this.isLoading = false;
           const message = 'User ' + value.responseMessage.message + ' ' + value.responseMessage.errorCode;

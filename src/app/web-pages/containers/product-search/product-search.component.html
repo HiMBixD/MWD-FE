@@ -1,5 +1,50 @@
 <div class="">
   <app-product-list
     [listProduct]="listSong$ | async"
+    [listRecommend]="listRecommend$ | async"
+    (search)="onSearchProduct($event)"
   ></app-product-list>
 </div>
+<!--<button nz-button nzType="primary" (click)="open()" class="fixed-widgets">-->
+<!--  <i nz-icon nzType="search" nzTheme="outline">Advance Search</i>-->
+<!--</button>-->
+
+<div class="wrapper fixed-widgets" (click)="open()">
+  <div class="icon github">
+    <div class="tooltip text-center">Advance Search</div>
+    <span><i class="fas fa-search"></i></span>
+  </div>
+</div>
+<nz-drawer
+  [nzClosable]="false"
+  [nzVisible]="visibleDrawer"
+  [nzFooter]="footerTpl"
+  nzPlacement="bottom"
+  nzTitle="Advance Search Options"
+  (nzOnClose)="close()"
+>
+  <ng-container *nzDrawerContent>
+    <form [formGroup]="formAdvance">
+      <div class="form-group row">
+        <div class="col-sm-4">
+          <label for="username">Author Name:</label>
+          <input type="text" class="form-control" id="username" formControlName="username">
+        </div>
+        <div class="col-sm-4">
+          <label for="productName">Song Name:</label>
+          <input type="text" class="form-control" id="productName" formControlName="productName">
+        </div>
+        <div class="col-sm-4">
+          <label for="productType">Product Type:</label>
+          <input type="text" class="form-control" id="productType" formControlName="productType">
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-template #footerTpl>
+    <div style="float: right">
+      <button nz-button style="margin-right: 8px;" (click)="close()">Cancel</button>
+      <button nz-button nzType="primary" (click)="onAdvanceSearch(); close()">Submit</button>
+    </div>
+  </ng-template>
+</nz-drawer>

@@ -8,16 +8,20 @@
     <ul nz-menu nzTheme="dark" nzMode="inline">
       <li nz-submenu nzTitle="Admin" nzIcon="appstore" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 0">
         <ul>
-          <li nz-menu-item>User management</li>
-          <li nz-submenu nzTitle="Handle Request" nzIcon="appstore">
-            <ul>
-              <li nz-menu-item [routerLink]="'./approveAddMoney'">Add money</li>
-              <li nz-menu-item [routerLink]="'./approveRegisterSinger'">Singer register</li>
+<!--          <li nz-menu-item>User management</li>-->
+          <li nz-menu-item [routerLink]="'./approveAddMoney'">Request Add money</li>
+          <li nz-menu-item [routerLink]="'./approveRegisterSinger'">Request Singer register</li>
+          <li nz-menu-item [routerLink]="'./approvePublishSong'">Request Publish songs</li>
+
+<!--          <li nz-submenu nzTitle="Handle Request" nzIcon="appstore">-->
+<!--            <ul>-->
+<!--              <li nz-menu-item [routerLink]="'./approveAddMoney'">Add money</li>-->
+<!--              <li nz-menu-item [routerLink]="'./approveRegisterSinger'">Singer register</li>-->
 <!--              <li nz-menu-item>Change email</li>-->
-              <li nz-menu-item [routerLink]="'./approvePublishSong'">Publish songs</li>
-              <li nz-menu-item>Report Violation</li>
-            </ul>
-          </li>
+<!--              <li nz-menu-item [routerLink]="'./approvePublishSong'">Publish songs</li>-->
+<!--              <li nz-menu-item>Report Violation</li>-->
+<!--            </ul>-->
+<!--          </li>-->
         </ul>
       </li>
 
@@ -56,11 +60,12 @@
       <div nz-row class="header-nav music-background">
         <div nz-col [nzSpan]="14" class="px-3">
           <nz-input-group [nzSuffix]="suffixIconSearch" style="max-width: 25vw">
-            <input type="text" nz-input placeholder="input search text" [(ngModel)]="searchProductName"/>
+            <input type="text" nz-input placeholder="input search text" [(ngModel)]="searchProductName" (keyup.enter)="iconSearch.click()"/>
+            <div #iconSearch  [routerLink]="['/search/' + searchProductName]" style="display: none"></div>
+            <ng-template #suffixIconSearch>
+              <i nz-icon nzType="search" [routerLink]="['/search/' + searchProductName]"></i>
+            </ng-template>
           </nz-input-group>
-          <ng-template #suffixIconSearch>
-            <i nz-icon nzType="search" [routerLink]="['/search/' + searchProductName]"></i>
-          </ng-template>
         </div>
         <div nz-col [nzSpan]="10" class="d-flex flex-row-reverse align-content-center">
           <div class="d-flex" nz-popover [nzPopoverContent]="isLogin ? contentLoggedInTemplate : contentNotLoggedInTemplate"

@@ -1,0 +1,42 @@
+.list-icons {
+  vertical-align: text-top;
+  font-size: 20px;
+  margin-right: 8px;
+}
+.hover-able { cursor: pointer; }
+
+[nz-carousel-content] {
+  text-align: center;
+  height: 20vh;
+  line-height: 160px;
+  background: #364d79;
+  color: #fff;
+  overflow: hidden;
+}
+
+h3 {
+  color: #fff;
+  margin-bottom: 0;
+  user-select: none;
+}
+.rainbow-text {
+  background-image: linear-gradient(to left, violet, indigo, blue, green, orange, red);   -webkit-background-clip: text;
+  color: transparent;
+}
+
+.top-1 {
+  font-size: 30px; color: red;
+}
+
+.top-2 {
+  font-size: 25px; color: green
+}
+
+.top-3 {
+  font-size: 20px; color: blue;
+}
+
+.top-other {
+  font-size: 15px;
+}
+

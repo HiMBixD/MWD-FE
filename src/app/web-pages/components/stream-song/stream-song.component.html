@@ -1,0 +1,142 @@
+<!--{-->
+<!--"productId":2,-->
+<!--"username":"ducanh",-->
+<!--"fileId":"6193b28c20b47276251a02a7",-->
+<!--"productName":"Nhung Nam Thang Ay",-->
+<!--"price":100.0,-->
+<!--"productAvatar":"6193b2a720b47276251a02bb",-->
+<!--"productType":"Trung",-->
+<!--"isPublished":true,-->
+<!--"mark":null,-->
+<!--"totalMark":0,-->
+<!--"totalView":0,-->
+<!--"totalBuy":0,-->
+<!--"totalComment":0,-->
+<!--"}-->
+
+<nav class="navbar navbar-light bg-light">
+  <div class="text-start">
+    <h3>{{productInfo?.productName}}</h3>
+    <div>{{'Author: ' + productInfo?.username}}</div>
+  </div>
+  <span class="text-end list-icons">
+    <i nz-icon nzType="eye" nzTheme="outline" class="list-icons"></i>
+    {{productInfo?.totalView}}
+  </span>
+</nav>
+<div *ngIf="productId">
+  <vm-player
+    autoplay #player
+    (vmCurrentTimeChange)="onTimeUpdate($event)"
+    (vmPlaybackStarted)="onPlayBackStart()"
+    (vmPlaybackEnded)="isAddedViewed = !isAddedViewed"
+    [currentTime]="currentTime">
+    <vm-video crossOrigin="false" poster="{{urlImg+poster}}" id="video">
+      <source data-src="{{urlMusic+productId}}" type="video/mp4"/>
+    </vm-video>
+    <vm-default-ui>
+      <!-- Custom UI component. -->
+    </vm-default-ui>
+  </vm-player>
+</div>
+<div class="row mx-0 my-2" *ngIf="productInfo">
+  <div class="d-flex justify-content-between">
+    <div>
+      <nz-rate [ngModel]="productInfo.mark" nzAllowHalf></nz-rate>
+      <span>{{' ' + productInfo.totalMark}}</span>
+    </div>
+    <div class="bigger-icon">
+      <i nz-icon nzType="shopping-cart" nzTheme="outline" class="list-icons"></i>
+      <span>{{productInfo.totalBuy}}</span>
+    </div>
+    <div *ngIf="isLogin">
+      <span class="bigger-icon hover-able" nz-dropdown [nzDropdownMenu]="menu" *ngIf="isOwnSong && playList">
+        <i class="fas fa-heart"></i>
+        Add to List
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item *ngFor="let item of playList"
+                nz-popconfirm nzPopconfirmTitle="Are you sure to add this Song to this Play list?"
+                nzPopconfirmPlacement="bottom" (nzOnConfirm)="addToList(item.listId)"
+            >{{item.title}}</li>
+          </ul>
+        </nz-dropdown-menu>
+      </span>
+      <span class="bigger-icon hover-able" *ngIf="!isOwnSong"
+            nz-popconfirm nzPopconfirmTitle="Are you sure to buy this Song?"
+            nzPopconfirmPlacement="bottom" (nzOnConfirm)="buyProduct()">
+        <i class="fas fa-shopping-cart"></i>
+        Buy
+      </span>
+    </div>
+  </div>
+</div>
+<div *ngIf="comments?.totalElements > 0" class="my-3">
+  <div class="card text-start">
+    <div class="card-header d-flex justify-content-between">
+      <span>Comments for this Song:</span>
+      <span class="text-end align-content-end">
+        <i nz-icon nzType="comment" nzTheme="outline" class="list-icons"></i>
+        {{productInfo?.totalComment}}
+      </span>
+    </div>
+    <nz-list *ngIf="comments.content.length" [nzDataSource]="comments.content" [nzRenderItem]="itemTem"
+             [nzItemLayout]="'horizontal'" class="px-5">
+      <ng-template #itemTem let-item>
+        <ng-container [ngTemplateOutlet]="commentTemplateRef"
+                      [ngTemplateOutletContext]="{ commentItem: item }">
+          <ng-template #commentTemplateRef let-comment="commentItem">
+            <nz-comment [nzAuthor]="comment.username" [nzDatetime]="formatDate(comment.createTime)">
+              <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]=""></nz-avatar>
+              <nz-comment-content>
+                <div class="d-flex justify-content-between">
+                  <nz-tag *ngIf="!comment.commentData" nzColor="error" class="rounded">Comment is Deleted</nz-tag>
+                  <p *ngIf="comment?.commentData?.length > 0">{{ comment.commentData }}</p>
+                  <i class="fas fa-trash hover-able" nz-popconfirm nzPopconfirmTitle="Are you sure delete this Comment?"
+                     *ngIf="comment?.username?.toString() === userDetails?.userName?.toString()"
+                     nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteComment(comment.commentId)"></i>
+                </div>
+              </nz-comment-content>
+              <nz-comment-action>
+                <div (click)="replyMessage = comment.username; replyToId = comment.commentId">Reply to</div>
+              </nz-comment-action>
+              <ng-container *ngIf="comment.children && comment.children.length">
+                <ng-template ngFor let-child [ngForOf]="comment.children">
+                  <ng-template
+                    [ngTemplateOutlet]="commentTemplateRef"
+                    [ngTemplateOutletContext]="{ commentItem: child }"
+                  ></ng-template>
+                </ng-template>
+              </ng-container>
+            </nz-comment>
+          </ng-template>
+        </ng-container>
+      </ng-template>
+      <nz-comment *ngIf="isLogin">
+        <div *ngIf="replyMessage && replyToId"><span>Replying To </span>{{replyMessage + ' - '}}<i
+          class="fas fa-trash hover-able" (click)="replyMessage = ''; replyToId = null"></i></div>
+        <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]=""></nz-avatar>
+        <nz-comment-content>
+          <nz-form-item>
+            <textarea [(ngModel)]="commentToAdd" nz-input rows="4"></textarea>
+          </nz-form-item>
+          <nz-form-item>
+            <button nz-button nzType="primary" [disabled]="!commentToAdd || isLoading" (click)="handleAddComment()">
+              Add Comment
+            </button>
+          </nz-form-item>
+        </nz-comment-content>
+      </nz-comment>
+    </nz-list>
+  </div>
+
+  <nz-empty *ngIf="comments?.totalElements < 1"></nz-empty>
+  <nz-pagination [nzPageIndex]="comments.pageable.pageNumber + 1"
+                 [nzSize]="comments.totalPages"
+                 [nzPageSize]="comments.pageable.pageSize"
+                 [nzTotal]="comments.totalElements"
+                 *ngIf="comments?.totalElements"
+                 (nzPageIndexChange)="onSearch($event)"
+  ></nz-pagination>
+</div>
+

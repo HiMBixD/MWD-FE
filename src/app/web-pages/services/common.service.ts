@@ -189,7 +189,7 @@ export class CommonService {
 
   searchProduct(data): Observable<any> {
     return this.http
-      .post(`${environment.apiUrl}/user/searchProduct`, data)
+      .post(`${environment.unauUrl}/searchProduct`, data)
       .pipe(catchError((httpError: any) => {
         return throwError(httpError);
       }));
@@ -227,9 +227,97 @@ export class CommonService {
       }));
   }
 
+  getPlayListItem(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/getPlayListItem`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  getIsOwnProduct(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/isOwnProduct`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  getProductInfo(data): Observable<any> {
+    return this.http
+      .post(`${environment.unauUrl}/getProductInfo`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  addViewed(data): Observable<any> {
+    return this.http
+      .post(`${environment.unauUrl}/addViewed`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  loadAllComments(data): Observable<any> {
+    return this.http
+      .post(`${environment.unauUrl}/loadAllComments`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  addComment(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/addComment`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  deleteComment(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/deleteComment`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
   createPlayList(data): Observable<any> {
     return this.http
       .post(`${environment.apiUrl}/user/createPlayList`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  addToPlayList(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/addToPlayList`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  removeFromPlayList(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/removeFromPlayList`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  buyProduct(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/buyProduct`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  getRecommendSongs(data): Observable<any> {
+    return this.http
+      .post(`${environment.unauUrl}/getRecommendSongs`, data)
       .pipe(catchError((httpError: any) => {
         return throwError(httpError);
       }));

@@ -558,6 +558,230 @@ export class WebPagesEffect {
     )
   );
 
+  getPlayListItemEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.getPlayListItem),
+      exhaustMap((action: any) =>
+        this.commonService.getPlayListItem(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              // this.toastrService.success('Add Music Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              return webPagesActions.getPlayListItemSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.getPlayListItemFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  getRecommendSongsEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.getRecommendSongs),
+      exhaustMap((action: any) =>
+        this.commonService.getRecommendSongs(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              return webPagesActions.getRecommendSongsSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.getRecommendSongsFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  getProductInfoEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.getProductInfo),
+      exhaustMap((action: any) =>
+        this.commonService.getProductInfo(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              // this.toastrService.success('Add Music Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              return webPagesActions.getProductInfoSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.getProductInfoFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  buyProductEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.buyProduct),
+      exhaustMap((action: any) =>
+        this.commonService.buyProduct(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Buy Music Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              action.callback();
+              return webPagesActions.buyProductSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.buyProductFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  addToPlayListEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.addToPlayList),
+      exhaustMap((action: any) =>
+        this.commonService.addToPlayList(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Add Music To List Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              // action.callback();
+              return webPagesActions.addToPlayListSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.addToPlayListFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  removeFromPlayListEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.removeFromPlayList),
+      exhaustMap((action: any) =>
+        this.commonService.removeFromPlayList(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Remove Music from list Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              // action.callback();
+              return webPagesActions.removeFromPlayListSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.removeFromPlayListFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  getIsOwnProductEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.getIsOwnProduct),
+      exhaustMap((action: any) =>
+        this.commonService.getIsOwnProduct(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              return webPagesActions.getIsOwnProductSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.getIsOwnProductFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  loadAllCommentsEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.loadAllComments),
+      exhaustMap((action: any) =>
+        this.commonService.loadAllComments(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              // this.toastrService.success('Add Music Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              return webPagesActions.loadAllCommentsSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.loadAllCommentsFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  addViewedEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.addViewed),
+      exhaustMap((action: any) =>
+        this.commonService.addViewed(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              // this.toastrService.success('Add Music Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              return webPagesActions.addViewedSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.addViewedFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  addCommentEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.addComment),
+      exhaustMap((action: any) =>
+        this.commonService.addComment(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              action.callback();
+              return webPagesActions.addCommentSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.addCommentFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  deleteCommentEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.deleteComment),
+      exhaustMap((action: any) =>
+        this.commonService.deleteComment(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              action.callback();
+              return webPagesActions.deleteCommentSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.deleteCommentFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
   createPlayListEffect = createEffect(() =>
     this.actions$.pipe(
       ofType(webPagesActions.createPlayList),

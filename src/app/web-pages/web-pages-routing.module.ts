@@ -4,7 +4,7 @@ import {AuthGuardService} from '../core/guards/auth.guard';
 import {
   ApproveAddMoneyComponent, ApprovePublishSongComponent, ApproveRegisterSingerComponent,
   HomepageComponent,
-  LoginComponent, PlayListComponent, ProductSearchComponent,
+  LoginComponent, PageNoPermissionComponent, PlayListComponent, ProductSearchComponent,
   ProductViewComponent,
   ProfilePageComponent,
   RegisterPageComponent, RequestPublishSongComponent, UpgradeSingerRoleComponent, UploadMusicPageComponent
@@ -17,6 +17,9 @@ const routes: Routes = [
     children: [
       {
         path: '', component: ProductSearchComponent
+      },
+      {
+        path: '403', component: PageNoPermissionComponent
       },
       {
         path: 'search/:productName', component: ProductSearchComponent

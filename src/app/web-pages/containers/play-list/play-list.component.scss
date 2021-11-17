@@ -123,18 +123,15 @@ a {
 .prog-bar {
   width: 100%;
   height: 10px;
-  padding: 1px;
   border-radius: 25px;
 
   background: linear-gradient(145deg, #fbfbfb, #d4d4d4);
-  box-shadow:  5px 5px 10px #a5a5a5,
-  -5px -5px 10px #ffffff;
+  box-shadow:  5px 5px 10px #a5a5a5, -5px -5px 10px #ffffff;
 
 }
 
 .prog-bar-inner {
   height: 8px;
-  background: var(--prog);
   border-radius: 25px;
 }
 
@@ -194,9 +191,6 @@ a {
 
 .art {
   animation: rolling-disk 7.5s 0.25s linear infinite;
-}
-.prog-bar-inner {
-  animation: timer 30s linear 0.1s;
 }
 
 /*      keyframes   */

@@ -403,6 +403,94 @@ export const getPlayListByUsernameSuccess = createAction('[Home API] getPlayList
 
 export const getPlayListByUsernameFailed = createAction('[Home API] getPlayListByUsername Failed', props<{ errors: any }>());
 /**************  End: getPlayListByUsername ***************/
+
+/************** getPlayListItem ***************/
+export const getPlayListItem = createAction('[Home Page] getPlayListItem', props<{ body: any; }>());
+
+export const getPlayListItemSuccess = createAction('[Home API] getPlayListItem Success', props<{ response: any }>());
+
+export const getPlayListItemFailed = createAction('[Home API] getPlayListItem Failed', props<{ errors: any }>());
+/**************  End: getPlayListItem ***************/
+
+/************** addToPlayList ***************/
+export const addToPlayList = createAction('[Home Page] addToPlayList', props<{ body: any; }>());
+
+export const addToPlayListSuccess = createAction('[Home API] addToPlayList Success', props<{ response: any }>());
+
+export const addToPlayListFailed = createAction('[Home API] addToPlayList Failed', props<{ errors: any }>());
+/**************  End: addToPlayList ***************/
+
+/************** removeFromPlayList ***************/
+export const removeFromPlayList = createAction('[Home Page] removeFromPlayList', props<{ body: any; }>());
+
+export const removeFromPlayListSuccess = createAction('[Home API] removeFromPlayList Success', props<{ response: any }>());
+
+export const removeFromPlayListFailed = createAction('[Home API] removeFromPlayList Failed', props<{ errors: any }>());
+/**************  End: removeFromPlayList ***************/
+
+/************** getRecommendSongs ***************/
+export const getRecommendSongs = createAction('[Home Page] getRecommendSongs');
+
+export const getRecommendSongsSuccess = createAction('[Home API] getRecommendSongs Success', props<{ response: any }>());
+
+export const getRecommendSongsFailed = createAction('[Home API] getRecommendSongs Failed', props<{ errors: any }>());
+/**************  End: getRecommendSongs ***************/
+
+/************** getProductInfo ***************/
+export const getProductInfo = createAction('[Home Page] getProductInfo', props<{ body: any; }>());
+
+export const getProductInfoSuccess = createAction('[Home API] getProductInfo Success', props<{ response: any }>());
+
+export const getProductInfoFailed = createAction('[Home API] getProductInfo Failed', props<{ errors: any }>());
+/**************  End: getProductInfo ***************/
+
+/************** buyProduct ***************/
+export const buyProduct = createAction('[Home Page] buyProduct', props<{ body: any; callback }>());
+
+export const buyProductSuccess = createAction('[Home API] buyProduct Success', props<{ response: any }>());
+
+export const buyProductFailed = createAction('[Home API] buyProduct Failed', props<{ errors: any }>());
+/**************  End: buyProduct ***************/
+
+/************** getIsOwnProduct ***************/
+export const getIsOwnProduct = createAction('[Home Page] getIsOwnProduct', props<{ body: any; }>());
+
+export const getIsOwnProductSuccess = createAction('[Home API] getIsOwnProduct Success', props<{ response: any }>());
+
+export const getIsOwnProductFailed = createAction('[Home API] getIsOwnProduct Failed', props<{ errors: any }>());
+/**************  End: getIsOwnProduct ***************/
+
+/************** loadAllComments ***************/
+export const loadAllComments = createAction('[Home Page] loadAllComments', props<{ body: any; }>());
+
+export const loadAllCommentsSuccess = createAction('[Home API] loadAllComments Success', props<{ response: any }>());
+
+export const loadAllCommentsFailed = createAction('[Home API] loadAllComments Failed', props<{ errors: any }>());
+/**************  End: loadAllComments ***************/
+
+/************** addViewed ***************/
+export const addViewed = createAction('[Home Page] addViewed', props<{ body: any; }>());
+
+export const addViewedSuccess = createAction('[Home API] addViewed Success', props<{ response: any }>());
+
+export const addViewedFailed = createAction('[Home API] addViewed Failed', props<{ errors: any }>());
+/**************  End: addViewed ***************/
+
+/************** addComment ***************/
+export const addComment = createAction('[Home Page] addComment', props<{ body: any; callback; }>());
+
+export const addCommentSuccess = createAction('[Home API] addComment Success', props<{ response: any }>());
+
+export const addCommentFailed = createAction('[Home API] addComment Failed', props<{ errors: any }>());
+/**************  End: addComment ***************/
+
+/************** deleteComment ***************/
+export const deleteComment = createAction('[Home Page] deleteComment', props<{ body: any; callback; }>());
+
+export const deleteCommentSuccess = createAction('[Home API] deleteComment Success', props<{ response: any }>());
+
+export const deleteCommentFailed = createAction('[Home API] deleteComment Failed', props<{ errors: any }>());
+/**************  End: deleteComment ***************/
 // export const loadMyInfo = createAction(
 //   '[Home Page] Load MyInfo',
 //   props<{ body: any }>()

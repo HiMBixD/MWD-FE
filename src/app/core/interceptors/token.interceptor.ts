@@ -40,7 +40,10 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private handle401Error(error) {
     this.authService.clearJwtToken();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'])
+      .then(() => {
+        // window.location.reload();
+      });
     return throwError(error);
   }
 

@@ -1,63 +1,49 @@
-<!--<div class="" style="width: 30vw" *ngIf="productId.toString()">-->
-<!--&lt;!&ndash;  <vm-player style="max-width: 30vw">&ndash;&gt;-->
-<!--&lt;!&ndash;    <vm-video cross-origin="true" poster="">&ndash;&gt;-->
-<!--&lt;!&ndash;      <source data-src="{{url+id}}" type="audio/mpeg" />&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;    <source data-src="http://localhost:8080/unau/getFile/617a808dbbad8404140adc01" type="video/mp4" />&ndash;&gt;&ndash;&gt;-->
-
-<!--&lt;!&ndash;      &lt;!&ndash;    <track&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;      default&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;      kind="subtitles"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;      src="https://media.vimejs.com/subs/english.vtt"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;      srclang="en"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;      label="English"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;    />&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;    <track&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;      kind="subtitles"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;      src="https://media.vimejs.com/subs/spanish.vtt"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;      srclang="es"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;      label="Spanish"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash;    />&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;    </vm-video>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <vm-default-ui>&ndash;&gt;-->
-<!--&lt;!&ndash;      &lt;!&ndash; Custom UI component. &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;    </vm-default-ui>&ndash;&gt;-->
-<!--&lt;!&ndash;  </vm-player>&ndash;&gt;-->
-<!--  <vm-player style="max-width: 30vw;" >-->
-<!--    <vm-audio cross-origin="true" poster="">-->
-<!--      <source data-src="{{url+id}}" type="audio/mpeg" />-->
-<!--    </vm-audio>-->
-
-<!--    <vm-default-ui>-->
-<!--      &lt;!&ndash; Custom UI component. &ndash;&gt;-->
-
-<!--    </vm-default-ui>-->
-<!--  </vm-player>-->
-<!--</div>-->
-
-<div class="" style="width: 30vw" *ngIf="productId">
-  <vm-player style="max-width: 30vw">
-    <vm-video crossOrigin="false" poster="{{urlImg+poster}}">
-      <source data-src="{{url+productId}}" type="video/mp4" />
-      <!--    <source data-src="http://localhost:8080/unau/getFile/617a808dbbad8404140adc01" type="video/mp4" />-->
-
-      <!--    <track-->
-      <!--      default-->
-      <!--      kind="subtitles"-->
-      <!--      src="https://media.vimejs.com/subs/english.vtt"-->
-      <!--      srclang="en"-->
-      <!--      label="English"-->
-      <!--    />-->
-      <!--    <track-->
-      <!--      kind="subtitles"-->
-      <!--      src="https://media.vimejs.com/subs/spanish.vtt"-->
-      <!--      srclang="es"-->
-      <!--      label="Spanish"-->
-      <!--    />-->
-    </vm-video>
-
-    <vm-default-ui>
-      <!-- Custom UI component. -->
-    </vm-default-ui>
-  </vm-player>
+<div class="row mx-0 pt-2">
+  <div class="col-9">
+    <app-stream-song
+      [poster]="poster"
+      [productId]="fileId"
+      [productInfo]="productInfo$ | async"
+      [comments]="comments$ | async"
+      [isLogin]="isLogin$ | async"
+      [playList]="playLists$ | async"
+      [userDetails]="userDetails$ | async"
+      [isLoading]="isLoading$ | async"
+      [isOwnSong]="isOwnSong$ | async"
+      (searchComment)="searchComment($event)"
+      (addView)="onAddView($event)"
+    ></app-stream-song>
+  </div>
+  <div class="col-3">
+    <nav class="navbar navbar-light bg-light">
+      <br>
+    </nav>
+    <div class="card bg-light mb-3" style="max-width: 18rem;">
+      <div class="card-header"><Strong>From same Author</Strong></div>
+      <div class="card-body">
+        <nz-list class="bg-white px-2 rounded-lg">
+          <nz-list-item class="hover-able">
+            <ng-container>
+              <span class="mx-2">1</span>
+              <nz-list-item-meta nzDescription="Author">
+                <nz-list-item-meta-title>
+                   1 song name
+                </nz-list-item-meta-title>
+              </nz-list-item-meta>
+            </ng-container>
+          </nz-list-item>
+          <nz-list-item>
+            <ng-container>
+              <span class="mx-2">4</span>
+              <nz-list-item-meta nzDescription="Author">
+                <nz-list-item-meta-title>
+                   2 song name
+                </nz-list-item-meta-title>
+              </nz-list-item-meta>
+            </ng-container>
+          </nz-list-item>
+        </nz-list>
+      </div>
+    </div>
+  </div>
 </div>

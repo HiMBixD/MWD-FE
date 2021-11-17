@@ -11,6 +11,7 @@ import {ApproveRegisterSingerComponent} from './admin-pages/approve-register-sin
 import {ApprovePublishSongComponent} from './admin-pages/approve-publish-song/approve-publish-song.component';
 import {UpgradeSingerRoleComponent} from './upgrade-singer-role/upgrade-singer-role.component';
 import {PlayListComponent} from './play-list/play-list.component';
+import {PageNoPermissionComponent} from './page-no-permission/page-no-permission.component';
 
 
 export const containers: any[] = [
@@ -26,9 +27,11 @@ export const containers: any[] = [
   UpgradeSingerRoleComponent,
   PlayListComponent,
   RequestPublishSongComponent,
-  UploadMusicPageComponent
+  UploadMusicPageComponent,
+  PageNoPermissionComponent
 ];
 
+export * from './page-no-permission/page-no-permission.component';
 export * from './play-list/play-list.component';
 export * from './upgrade-singer-role/upgrade-singer-role.component';
 export * from './admin-pages/approve-register-singer/approve-register-singer.component';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
@@ -20,17 +20,25 @@ export class AuthService {
               private store: Store<WebPagesManagementState>,
               private router: Router) {}
 
+  // login(user: { username: string, password: string }): Observable<any> {
+  //   return this.http.post<any>(`${environment.unauUrl}/auth`, user)
+  //     .pipe(
+  //       tap(token => {
+  //         localStorage.setItem(this.JWT_TOKEN, token.data);
+  //         this.store.dispatch(loadIsLogin());
+  //       }),
+  //       catchError(error => {
+  //         alert(error.error);
+  //         return of(false);
+  //       }));
+  // }
+
   login(user: { username: string, password: string }): Observable<any> {
-    return this.http.post<any>(`${environment.unauUrl}/auth`, user)
-      .pipe(
-        tap(token => {
-          localStorage.setItem(this.JWT_TOKEN, token.data);
-          this.store.dispatch(loadIsLogin());
-        }),
-        catchError(error => {
-          alert(error.error);
-          return of(false);
-        }));
+    return this.http
+      .post<any>(`${environment.unauUrl}/auth`, user)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
   }
 
   // resetPass(payload): Observable<any> {

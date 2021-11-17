@@ -37,6 +37,13 @@ import {NzListModule} from 'ng-zorro-antd/list';
 import {NzEmptyModule} from 'ng-zorro-antd/empty';
 import {ModalConfirmDeleteRequestComponent} from './services/component/modal-confirm-delete-request/modal-confirm-delete-request.component';
 import {QuillModule} from 'ngx-quill';
+import {NzDrawerModule} from 'ng-zorro-antd/drawer';
+import {NzResultModule} from 'ng-zorro-antd/result';
+import {NzRateModule} from 'ng-zorro-antd/rate';
+import {NzCarouselModule} from 'ng-zorro-antd/carousel';
+import {NzCommentModule} from 'ng-zorro-antd/comment';
+import {NzTagModule} from 'ng-zorro-antd/tag';
+import {NzSliderModule} from 'ng-zorro-antd/slider';
 // import {NzTableModule} from 'ng-zorro-antd/table';
 
 
@@ -82,6 +89,13 @@ import {QuillModule} from 'ngx-quill';
     NzListModule,
     NzEmptyModule,
     QuillModule,
+    NzDrawerModule,
+    NzResultModule,
+    NzRateModule,
+    NzCarouselModule,
+    NzCommentModule,
+    NzTagModule,
+    NzSliderModule,
     // NzTableModule,
   ]
 })

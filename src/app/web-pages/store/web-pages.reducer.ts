@@ -14,13 +14,18 @@ export interface WebPagesState {
   activeAccount: boolean;
   resetPass: boolean;
   requestAddMoney: boolean;
+  isOwnProduct: boolean;
   listRequestAddMoney: any | null;
   listRequestPublishSong: any | null;
   listRequestRegisterSinger: any | null;
   listImages: any | null;
   listMusics: any | null;
   listProduct: any | null;
+  recommendSongs: any | null;
+  productInfo: any | null;
+  listComments: any | null;
   playListByUsername: any | null;
+  playListItem: any | null;
   handleRequestPublishSongResult: any | null;
   handleRequestRegisterSingerResult: any | null;
   handleRequestAddMoneyResult: any | null;
@@ -35,13 +40,18 @@ export const initialState: WebPagesState = {
   activeAccount: false,
   resetPass: false,
   requestAddMoney: false,
+  isOwnProduct: false,
   listRequestAddMoney: null,
   listRequestPublishSong: null,
   listRequestRegisterSinger: null,
   listImages: null,
   listMusics: null,
   listProduct: null,
+  recommendSongs: null,
+  productInfo: null,
+  listComments: null,
   playListByUsername: null,
+  playListItem: null,
   handleRequestPublishSongResult: null,
   handleRequestRegisterSingerResult: null,
   handleRequestAddMoneyResult: null,
@@ -564,6 +574,216 @@ export const reducers = createReducer(
     errors
   })),
   /***************** End: getPlayListByUsername ****************/
+
+  /***************** getPlayListItem ****************/
+  on(webPagesActions.getPlayListItem, state => ({
+    ...state,
+    isLoading: true,
+    playListItem: null,
+    errors: null
+  })),
+
+  on(webPagesActions.getPlayListItemSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    playListItem: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.getPlayListItemFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: getPlayListItem ****************/
+
+  /***************** getRecommendSongs ****************/
+  on(webPagesActions.getRecommendSongs, state => ({
+    ...state,
+    isLoading: true,
+    recommendSongs: null,
+    errors: null
+  })),
+
+  on(webPagesActions.getRecommendSongsSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    recommendSongs: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.getRecommendSongsFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: getRecommendSongs ****************/
+
+  /***************** getProductInfo ****************/
+  on(webPagesActions.getProductInfo, state => ({
+    ...state,
+    isLoading: true,
+    productInfo: null,
+    errors: null
+  })),
+
+  on(webPagesActions.getProductInfoSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    productInfo: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.getProductInfoFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: getRecommendSongs ****************/
+
+  /***************** getIsOwnProduct ****************/
+  on(webPagesActions.getIsOwnProduct, state => ({
+    ...state,
+    isLoading: true,
+    isOwnProduct: false,
+    errors: null
+  })),
+
+  on(webPagesActions.getIsOwnProductSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isOwnProduct: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.getIsOwnProductFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: getIsOwnProduct ****************/
+
+  /***************** buyProduct ****************/
+  on(webPagesActions.buyProduct, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.buyProductSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.buyProductFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: buyProduct ****************/
+
+  /***************** addToPlayList ****************/
+  on(webPagesActions.addToPlayList, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.addToPlayListSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.addToPlayListFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: addToPlayList ****************/
+
+  /***************** removeFromPlayList ****************/
+  on(webPagesActions.removeFromPlayList, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.removeFromPlayListSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.removeFromPlayListFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: removeFromPlayList ****************/
+
+  /***************** loadAllComments ****************/
+  on(webPagesActions.loadAllComments, state => ({
+    ...state,
+    isLoading: true,
+    listComments: null,
+    errors: null
+  })),
+
+  on(webPagesActions.loadAllCommentsSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    listComments: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.loadAllCommentsFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: loadAllComments ****************/
+
+  /***************** addComment ****************/
+  on(webPagesActions.addComment, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.addCommentSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.addCommentFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: addComment ****************/
+
+  /***************** deleteComment ****************/
+  on(webPagesActions.deleteComment, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.deleteCommentSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.deleteCommentFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: deleteCommentdeleteComment ****************/
 
   /***************** createPlayList ****************/
   on(webPagesActions.createPlayList, state => ({

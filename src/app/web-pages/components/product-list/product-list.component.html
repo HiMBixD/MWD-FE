@@ -1,5 +1,126 @@
-<div *ngFor="let item of listProduct?.content; let i = index" [routerLink]="'/product/'+item.fileId+'/'+item.productAvatar">
-  <img src="{{imgUrl+item.productAvatar}}" alt="">
-  <div>{{item.productName}}</div>
-  <div>Singer:{{item.username}}</div>
+
+<div class="row mx-0 pt-2">
+  <div class="col-9">
+    <div class="row mx-0 pt-2 rounded mb-2 justify-content-center">
+      <div class="col-10">
+        <nz-carousel nzAutoPlay>
+          <div nz-carousel-content *ngFor="let item of listRecommend" [routerLink]="'/product/'+item.product.fileId+'/'+item.product.productAvatar"
+               style="background-position: center;background-repeat: no-repeat; background-size: cover;"
+               [style]="'background-image: url('+imgUrl + item.product.productAvatar+')'">
+<!--            <img src="{{imgUrl + item.product.productAvatar}}" alt="">-->
+            <h3 class="mb-4 rainbow-text">Daily Music Recommends</h3>
+            <h5 class="rainbow-text">{{item.product.productName}} - Author: {{item.product.username}}</h5>
+          </div>
+        </nz-carousel>
+      </div>
+    </div>
+    <div class="row mx-0">
+      <div class="col">
+        <div class="card bg-secondary p-3">
+          <nz-card [nzTitle]="'Search Results'">
+            <nz-list nzItemLayout="vertical" [nzSize]="'small'">
+              <nz-list-item *ngFor="let item of listProduct?.content" class="hover-able text-start" (click)="element.click()">
+                <nz-list-item-meta>
+                  <nz-list-item-meta-title>
+                    <div class="d-flex justify-content-between">
+                      <a href="{{ '/product/'+item.fileId+'/'+item.productAvatar }}" #element>{{ item.productName }}</a>
+                      <span>Price:{{' '+(item.price | number:'0.0-3')}} VND</span>
+                    </div>
+                  </nz-list-item-meta-title>
+                  <nz-list-item-meta-description>
+                    <div>Author: <strong>{{ item.username }}</strong></div>
+                  </nz-list-item-meta-description>
+                </nz-list-item-meta>
+                <div>Song Type: <strong>{{ item.productType }}</strong></div>
+                <div> Published at: <strong>{{ item.publishTime | date: 'dd/MM/yyyy hh:mm:ss'}}</strong></div>
+                <ul nz-list-item-actions>
+                  <nz-list-item-action>
+                    <i nz-icon nzType="eye" nzTheme="outline" class="list-icons"></i>
+                    {{item.totalView}}
+                  </nz-list-item-action>
+                  <nz-list-item-action>
+                    <i nz-icon nzType="comment" nzTheme="outline" class="list-icons"></i>
+                    {{item.totalComment}}
+                  </nz-list-item-action>
+                  <nz-list-item-action>
+                    <i nz-icon nzType="shopping-cart" nzTheme="outline" class="list-icons"></i>
+                    {{item.totalBuy}}
+                  </nz-list-item-action>
+                  <nz-list-item-action>
+                    <nz-rate [ngModel]="item.mark" nzAllowHalf nzDisabled></nz-rate>
+                    {{item.totalMark}}
+                  </nz-list-item-action>
+                </ul>
+                <nz-list-item-extra>
+                  <img width="272" alt="logo" src="{{imgUrl+item.productAvatar}}" />
+                </nz-list-item-extra>
+              </nz-list-item>
+              <nz-empty *ngIf="listProduct?.totalElements < 1"></nz-empty>
+            </nz-list>
+          </nz-card>
+        </div>
+        <nz-pagination [nzPageIndex]="listProduct.pageable.pageNumber + 1" class="mt-2"
+                       [nzSize]="listProduct.totalPages"
+                       [nzPageSize]="listProduct.pageable.pageSize"
+                       [nzTotal]="listProduct.totalElements"
+                       *ngIf="listProduct?.totalElements"
+                       (nzPageIndexChange)="onSearch($event)"
+        ></nz-pagination>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-3">
+    <div class="card bg-light mb-3" style="max-width: 18rem;">
+      <div class="card-header rainbow-text"><Strong>Recently Buy Ranking</Strong></div>
+      <div class="card-body">
+        <nz-list class="bg-white px-2 rounded-lg">
+          <nz-list-item class="hover-able">
+            <ng-container>
+              <span class="mx-2 top-1">1</span>
+              <nz-list-item-meta nzDescription="Author">
+                <nz-list-item-meta-title>
+                  Top 1 song name
+                </nz-list-item-meta-title>
+              </nz-list-item-meta>
+            </ng-container>
+          </nz-list-item>
+          <nz-list-item>
+            <ng-container>
+              <span class="mx-2 top-2">2</span>
+              <nz-list-item-meta nzDescription="Author">
+                <nz-list-item-meta-title>
+                  Top 2 song name
+                </nz-list-item-meta-title>
+              </nz-list-item-meta>
+            </ng-container>
+          </nz-list-item>
+
+          <nz-list-item>
+            <ng-container>
+              <span class="mx-2 top-3">3</span>
+              <nz-list-item-meta nzDescription="Author">
+                <nz-list-item-meta-title>
+                  Top 3 song name
+                </nz-list-item-meta-title>
+              </nz-list-item-meta>
+            </ng-container>
+          </nz-list-item>
+
+          <nz-list-item>
+            <ng-container>
+              <span class="mx-2 top-other">4</span>
+              <nz-list-item-meta nzDescription="Author">
+                <nz-list-item-meta-title>
+                  Top 4 song name
+                </nz-list-item-meta-title>
+              </nz-list-item-meta>
+            </ng-container>
+          </nz-list-item>
+        </nz-list>
+      </div>
+    </div>
+  </div>
 </div>
+
+

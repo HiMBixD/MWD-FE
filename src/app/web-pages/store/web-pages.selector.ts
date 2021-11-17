@@ -11,7 +11,10 @@ export const selectMyInfoLoadingState = createSelector(
   getWebPagesState,
   state => state.isLoading
 );
-
+export const selectListCommentsProduct = createSelector(
+  getWebPagesState,
+  state => state.listComments
+);
 export const selectIsLoggedInState = createSelector(
   getWebPagesState,
   state => state.isLogin
@@ -81,6 +84,11 @@ export const selectUserMusicList = createSelector(
   state => state.listMusics
 );
 
+export const selectIsOwnProduct = createSelector(
+  getWebPagesState,
+  state => state.isOwnProduct
+);
+
 export const selectProductList = createSelector(
   getWebPagesState,
   state => state.listProduct
@@ -89,4 +97,19 @@ export const selectProductList = createSelector(
 export const selectPlayListByUsername = createSelector(
   getWebPagesState,
   state => state.playListByUsername
+);
+
+export const selectPlayListItem = createSelector(
+  getWebPagesState,
+  state => state.playListItem
+);
+
+export const selectRecommendSongs = createSelector(
+  getWebPagesState,
+  state => state.recommendSongs
+);
+
+export const selectProductInfo = createSelector(
+  getWebPagesState,
+  state => state.productInfo
 );

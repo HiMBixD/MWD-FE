@@ -8,7 +8,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {TokenInterceptor} from './core/interceptors/token.interceptor';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {NgxDropzoneModule} from 'ngx-dropzone';
@@ -24,7 +24,8 @@ import {QuillModule} from 'ngx-quill';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NoopAnimationsModule,
+    // NoopAnimationsModule,
+    BrowserAnimationsModule,
     CommonModule,
     NgxDropzoneModule,
     VimeModule,
