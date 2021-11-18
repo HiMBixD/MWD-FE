@@ -19,6 +19,9 @@ const routes: Routes = [
         path: '', component: ProductSearchComponent
       },
       {
+        path: '/home', component: ProductSearchComponent
+      },
+      {
         path: '403', component: PageNoPermissionComponent
       },
       {

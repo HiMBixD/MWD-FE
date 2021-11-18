@@ -6,10 +6,6 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./web-pages/web-pages.module').then(m => m.WebPagesModule),
-  },
-  {
-    path: 'home',
-    redirectTo: ''
   }
   // {
   //   path: 'login',
