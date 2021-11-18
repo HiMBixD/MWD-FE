@@ -45,7 +45,7 @@ export class AddSongComponent implements OnInit {
     };
     this.addSongForm = this.fb.group({
       thumbnail: [null, [Validators.required]],
-      productName: [null, [Validators.required]]
+      productName: [null, [Validators.required, Validators.maxLength(25)]]
     });
   }
   onSelect(event): void {

@@ -117,7 +117,7 @@ export class CommonService {
 
   searchRequestAddMoney(data): Observable<any> {
     return this.http
-      .post(`${environment.apiUrl}/user/findRequestAddMoney`, data)
+      .post(`${environment.apiUrl}/admin/findRequestAddMoney`, data)
       .pipe(catchError((httpError: any) => {
         return throwError(httpError);
       }));
@@ -125,7 +125,7 @@ export class CommonService {
 
   searchRequestRegisterSinger(data): Observable<any> {
     return this.http
-      .post(`${environment.apiUrl}/user/findRequestBeSinger`, data)
+      .post(`${environment.apiUrl}/admin/findRequestBeSinger`, data)
       .pipe(catchError((httpError: any) => {
         return throwError(httpError);
       }));
@@ -133,7 +133,7 @@ export class CommonService {
 
   searchRequestPublishProduct(data): Observable<any> {
     return this.http
-      .post(`${environment.apiUrl}/user/findRequestPublishProduct`, data)
+      .post(`${environment.apiUrl}/admin/findRequestPublishProduct`, data)
       .pipe(catchError((httpError: any) => {
         return throwError(httpError);
       }));

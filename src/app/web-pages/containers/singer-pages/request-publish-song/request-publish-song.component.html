@@ -9,7 +9,9 @@
         <label for="productName" class="col-sm-2 col-form-label">Song Name</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="productName" formControlName="productName" aria-describedby="productName" placeholder="Enter Song Name">
-          <small id="productNameHelp" class="form-text text-muted">Input your song published name</small>
+          <small id="productNameHelp" class="form-text"
+                 [class]="requestPublishForm.get('productName').invalid ? 'text-danger' : 'text-muted'">
+            Input your song published name less than 25 character</small>
         </div>
       </div>
       <div class="form-group row mb-4">
@@ -36,7 +38,7 @@
       <span class="text-danger">{{songChecked.name}}</span>
     </div>
     <vm-player controls style="max-width: 30vw" [ready]="songChecked.fileId !== null" autoplay="true" *ngIf="songChecked.fileId && !isVisiblePickFile">
-      <vm-audio preload="auto">
+      <vm-audio preload="auto" style="display: none">
         <source data-src="{{urlMusic + songChecked.fileId}}" type="audio/mp3" />
         <!-- <source> and <track> elements are placed here. -->
       </vm-audio>

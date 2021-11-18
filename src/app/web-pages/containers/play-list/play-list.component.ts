@@ -13,6 +13,7 @@ import {
 import {select, Store} from '@ngrx/store';
 import {WebPagesManagementState} from '../../web-pages.reducer';
 import {
+  addViewed,
   createPlayList, getListOwnProduct,
   getPlayListByUsername,
   getPlayListItem,
@@ -55,8 +56,8 @@ export class PlayListComponent implements OnInit, OnDestroy {
     title: string,
   };
   pickedPlayLSong;
-  isAddedViewed = false;
   unsubcribe$ = new Subject();
+  unsubcribeAddView$ = new Subject();
   @ViewChild('player') player: Player;
   currentTime = 0;
   urlMusic = AppConstants.urlMusic;
@@ -66,7 +67,7 @@ export class PlayListComponent implements OnInit, OnDestroy {
   voice = 100;
   isLoop = false;
   isRandom = false;
-  isPlaying = false;
+  isPlaying = true;
   currentUrl = '';
   reRenderValue = true;
   ngOnInit(): void {
@@ -208,16 +209,16 @@ export class PlayListComponent implements OnInit, OnDestroy {
 
   onPlayBackStart(): void {
     // this.currentTime = event.detail;
-    if (!this.isAddedViewed) {
-      timer(this.player.duration * 1000 * 0.8).pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
-        if (val === 0) {
-          // this.addView.emit(this.productInfo.productId);
-          this.isAddedViewed = !this.isAddedViewed;
-        }
-      });
-    }
+    const productId = _.cloneDeep(this.pickedPlayLSong.productId);
+    timer(this.player.duration * 1000 * 0.8).pipe(takeUntil(this.unsubcribeAddView$)).subscribe(val => {
+      if (val === 0) {
+        this.store.dispatch(addViewed({body: {string: productId}}));
+        this.unsubcribeAddView$.next();
+      }
+    });
   }
   playCurrentPath(): void {
+    this.unsubcribeAddView$.next();
     this.getUrlSong();
     this.player.currentTime = 0;
     this.rerender();
@@ -240,10 +241,11 @@ export class PlayListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubcribe$.next();
     this.unsubcribe$.complete();
+    this.unsubcribeAddView$.next();
+    this.unsubcribeAddView$.complete();
   }
 
   onPlayBackEnd(): void {
-    this.isAddedViewed = !this.isAddedViewed;
     if (this.player.loop === false) {
       this.playNext();
     } else if (this.isRandom) {

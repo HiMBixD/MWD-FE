@@ -42,13 +42,15 @@ export class TokenInterceptor implements HttpInterceptor {
     this.authService.clearJwtToken();
     this.router.navigate(['/login'])
       .then(() => {
-        // window.location.reload();
+        window.location.reload();
       });
     return throwError(error);
   }
 
   private handle403Error(error) {
-    this.router.navigate(['/403']);
+    this.router.navigate(['/403']).then(() => {
+      window.location.reload();
+    });
     return throwError(error);
   }
 }

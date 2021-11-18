@@ -41,7 +41,7 @@ export class RequestPublishSongComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.requestPublishForm = this.fb.group({
-      productName: ['', [Validators.required]],
+      productName: ['', [Validators.required, Validators.maxLength(25)]],
       productType: ['', [Validators.required]],
       productId: ['', [Validators.required]],
       price: ['', [Validators.required, Validators.maxLength(20)]]
