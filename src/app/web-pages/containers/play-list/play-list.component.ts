@@ -246,10 +246,10 @@ export class PlayListComponent implements OnInit, OnDestroy {
   }
 
   onPlayBackEnd(): void {
-    if (this.player.loop === false) {
-      this.playNext();
-    } else if (this.isRandom) {
+     if (this.isRandom) {
       this.playNext(_.random(this.itemInList.length - 1));
+    } else if (this.player.loop === false) {
+      this.playNext();
     }
   }
 
