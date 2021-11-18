@@ -193,11 +193,6 @@ a {
   animation: rolling-disk 7.5s 0.25s linear infinite;
 }
 
-/*      keyframes   */
-@keyframes timer {
-  0%      {width: 0%;}
-  100%    {width: 100%;}
-}
 
 @keyframes rolling-disk {
   0%      {transform: rotate(0);}
