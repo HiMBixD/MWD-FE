@@ -24,6 +24,7 @@ export interface WebPagesState {
   recommendSongs: any | null;
   productInfo: any | null;
   listComments: any | null;
+  listOwnProduct: any | null;
   playListByUsername: any | null;
   playListItem: any | null;
   topSellingOfUser: any | null;
@@ -49,6 +50,7 @@ export const initialState: WebPagesState = {
   listImages: null,
   listMusics: null,
   listProduct: null,
+  listOwnProduct: null,
   recommendSongs: null,
   productInfo: null,
   listComments: null,
@@ -710,6 +712,28 @@ export const reducers = createReducer(
     errors
   })),
   /***************** End: getIsOwnProduct ****************/
+
+  /***************** getListOwnProduct ****************/
+  on(webPagesActions.getListOwnProduct, state => ({
+    ...state,
+    isLoading: true,
+    listOwnProduct: false,
+    errors: null
+  })),
+
+  on(webPagesActions.getListOwnProductSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    listOwnProduct: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.getListOwnProductFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: getListOwnProduct ****************/
 
   /***************** buyProduct ****************/
   on(webPagesActions.buyProduct, state => ({

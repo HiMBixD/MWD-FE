@@ -4,6 +4,10 @@
   <div class="col-3">
     <label for="listPlayList" class="mb-4 bg-antiquewhite w-75 rounded-pill h5 p-2"><Strong>Play List</Strong></label>
     <div class="list-group mb-2" id="listPlayList">
+      <button type="button" (click)="pickOwnList()" [class]="pickedOwnList ? 'bg-primary' : 'bg-info'"
+              class="list-group-item list-group-item-action text-light">
+        Your Songs Bought
+      </button>
       <button *ngFor="let itemList of (playLists$ | async); let i = index" type="button"
               (click)="pickPlayList(itemList)" class="list-group-item list-group-item-action text-light"
               [class]="pickedPlayList?.listId === itemList.listId ? 'bg-primary' : i%2 == 0 ? 'bg-secondary' : 'bg-dark'">
@@ -15,7 +19,7 @@
   <div class="col-4">
     <label for="listSongs" class="mb-4 bg-antiquewhite w-75 rounded-pill h5 p-2"><Strong>List Songs</Strong></label>
     <div class="list-group mb-2" id="listSongs">
-      <button *ngFor="let item of (itemInList$ | async); let i = index" type="button"
+      <button *ngFor="let item of (itemInList); let i = index" type="button"
               (click)="pickPlaySong(item.product, i)" class="list-group-item list-group-item-action text-light"
               [class]="pickedPlayLSong?.productId === item.product.productId ? 'bg-primary' : i%2 == 1 ? 'bg-secondary' : 'bg-dark'">
         {{item.product.productName}}

@@ -484,6 +484,14 @@ export const getIsOwnProductSuccess = createAction('[Home API] getIsOwnProduct S
 export const getIsOwnProductFailed = createAction('[Home API] getIsOwnProduct Failed', props<{ errors: any }>());
 /**************  End: getIsOwnProduct ***************/
 
+/************** getListOwnProduct ***************/
+export const getListOwnProduct = createAction('[Home Page] getListOwnProduct', props<{ body: any; }>());
+
+export const getListOwnProductSuccess = createAction('[Home API] getListOwnProduct Success', props<{ response: any }>());
+
+export const getListOwnProductFailed = createAction('[Home API] getListOwnProduct Failed', props<{ errors: any }>());
+/**************  End: getListOwnProduct ***************/
+
 /************** loadAllComments ***************/
 export const loadAllComments = createAction('[Home Page] loadAllComments', props<{ body: any; }>());
 

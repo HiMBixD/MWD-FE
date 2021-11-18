@@ -40,6 +40,11 @@ export const selectTopSellingOfUser = createSelector(
   state => state.topSellingOfUser
 );
 
+export const selectListOwnProduct = createSelector(
+  getWebPagesState,
+  state => state.listOwnProduct
+);
+
 export const selectActiveResult = createSelector(
   getWebPagesState,
   state => state.activeAccount

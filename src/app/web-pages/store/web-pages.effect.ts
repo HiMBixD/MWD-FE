@@ -764,6 +764,24 @@ export class WebPagesEffect {
     )
   );
 
+  getListOwnProductEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.getListOwnProduct),
+      exhaustMap((action: any) =>
+        this.commonService.getListOwnProduct(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              return webPagesActions.getListOwnProductSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.getListOwnProductFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
   loadAllCommentsEffect = createEffect(() =>
     this.actions$.pipe(
       ofType(webPagesActions.loadAllComments),

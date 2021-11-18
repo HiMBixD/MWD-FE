@@ -13,10 +13,10 @@ import {
 import {select, Store} from '@ngrx/store';
 import {WebPagesManagementState} from '../../web-pages.reducer';
 import {
-  createPlayList,
+  createPlayList, getListOwnProduct,
   getPlayListByUsername,
   getPlayListItem,
-  removeFromPlayList,
+  removeFromPlayList, selectListOwnProduct,
   selectMyInfo,
   selectPlayListByUsername,
   selectPlayListItem
@@ -47,6 +47,7 @@ export class PlayListComponent implements OnInit, OnDestroy {
   isVisibleCreateList = false;
   createListForm: FormGroup;
   // picked item
+  pickedOwnList = true;
   pickedPlayList: {
     listId: number,
     username: string,
@@ -73,9 +74,18 @@ export class PlayListComponent implements OnInit, OnDestroy {
       description: ['', [Validators.required]],
       title: ['', [Validators.required]],
     });
+    this.store.dispatch(getListOwnProduct({body: {}}));
     this.itemInList$ = this.store.pipe(select(selectPlayListItem));
-    this.itemInList$.pipe(take(2)).subscribe(val => {
-      if (val) {
+    this.itemInList$.pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
+      if (val && this.pickedOwnList === false) {
+        this.itemInList = val;
+        this.currentPlayedIndex = 0;
+        this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
+        this.getUrlSong();
+      }
+    });
+    this.store.pipe(select(selectListOwnProduct)).pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
+      if (val && this.pickedOwnList) {
         this.itemInList = val;
         this.currentPlayedIndex = 0;
         this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
@@ -91,7 +101,7 @@ export class PlayListComponent implements OnInit, OnDestroy {
         this.playLists$.pipe(take(2)).subscribe(value => {
           if (value) {
             this.playList = value;
-            this.pickPlayList(this.playList.find(x => x.title === 'Recommends'));
+            // this.pickPlayList(this.playList.find(x => x.title === 'Recommends'));
           }
         });
       }
@@ -127,8 +137,14 @@ export class PlayListComponent implements OnInit, OnDestroy {
   handleCancel(): void {
     this.isVisibleCreateList = false;
   }
+  pickOwnList(): void {
+    this.pickedOwnList = true;
+    this.pickedPlayList = null;
+    this.store.dispatch(getListOwnProduct({body: {}}));
+  }
 
   pickPlayList(itemList): void {
+    this.pickedOwnList = false;
     this.pickedPlayList = itemList;
     this.store.dispatch(getPlayListItem({body: {string: itemList.listId}}));
   }

@@ -243,6 +243,14 @@ export class CommonService {
       }));
   }
 
+  getListOwnProduct(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/getListOwnProduct`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
   getProductInfo(data): Observable<any> {
     return this.http
       .post(`${environment.unauUrl}/getProductInfo`, data)
