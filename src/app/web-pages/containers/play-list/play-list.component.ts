@@ -1,21 +1,34 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  Inject,
+  LOCALE_ID,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef, ViewRef
+} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {WebPagesManagementState} from '../../web-pages.reducer';
 import {
   createPlayList,
   getPlayListByUsername,
   getPlayListItem,
+  removeFromPlayList,
   selectMyInfo,
   selectPlayListByUsername,
   selectPlayListItem
 } from '../../store';
 import {take, takeUntil} from 'rxjs/operators';
-import {Observable, Subject, timer} from 'rxjs';
+import {from, Observable, Subject, timer} from 'rxjs';
 import {UserDetailsModel} from '../../models/user-details.model';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Player} from '@vime/angular';
 import {AppConstants} from '../../../app.constant';
-
+import {DatePipe} from '@angular/common';
+import _ from 'lodash';
 @Component({
   selector: 'app-play-list',
   templateUrl: './play-list.component.html',
@@ -23,6 +36,7 @@ import {AppConstants} from '../../../app.constant';
 })
 export class PlayListComponent implements OnInit, OnDestroy {
   constructor(
+    @Inject(LOCALE_ID) public locale: string,
     private store: Store<WebPagesManagementState>,
     private fb: FormBuilder
   ) { }
@@ -39,15 +53,8 @@ export class PlayListComponent implements OnInit, OnDestroy {
     description: string,
     title: string,
   };
-
   pickedPlayLSong;
   isAddedViewed = false;
-
-  playerOptions = {
-    isPaused: true,
-    isLoop: false,
-    isRandom: false
-  };
   unsubcribe$ = new Subject();
   @ViewChild('player') player: Player;
   currentTime = 0;
@@ -55,11 +62,12 @@ export class PlayListComponent implements OnInit, OnDestroy {
   currentPlayedIndex;
   itemInList = [];
   playList = [];
-  // onTimeUpdate(event: CustomEvent<number>): void {
-  //   // this.currentTime = event.detail;
-  // }
   voice = 100;
-
+  isLoop = false;
+  isRandom = false;
+  isPlaying = false;
+  currentUrl = '';
+  reRenderValue = true;
   ngOnInit(): void {
     this.createListForm = this.fb.group({
       description: ['', [Validators.required]],
@@ -71,6 +79,7 @@ export class PlayListComponent implements OnInit, OnDestroy {
         this.itemInList = val;
         this.currentPlayedIndex = 0;
         this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
+        this.getUrlSong();
       }
     });
     this.userDetails$ = this.store.pipe(select(selectMyInfo));
@@ -89,6 +98,20 @@ export class PlayListComponent implements OnInit, OnDestroy {
     });
   }
 
+  private rerender(): void {
+    this.reRenderValue = false;
+    timer(1).pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
+      if (val === 0) {
+        this.reRenderValue = true;
+      }
+    });
+  }
+
+  formatterProgress(value: number): string {
+    const pipe = new DatePipe(this.locale);
+    // const val = pipe.transform(new Date(value * 1000), 'mm:ss');
+    return new Date(value * 1000).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' }).toString();
+  }
   showModalCreateList(): void {
     this.isVisibleCreateList = true;
   }
@@ -113,21 +136,16 @@ export class PlayListComponent implements OnInit, OnDestroy {
   pickPlaySong(itemList, index): void {
     this.currentPlayedIndex = index;
     this.pickedPlayLSong = itemList;
+    this.playCurrentPath();
   }
 
   setLooping(): void {
-    this.playerOptions = {
-      isLoop: !this.playerOptions.isLoop,
-      isPaused: this.playerOptions.isPaused,
-      isRandom: false
-    };
+    this.isRandom = false;
+    this.isLoop = !this.isLoop;
   }
   setRandom(): void {
-    this.playerOptions = {
-      isLoop: false,
-      isPaused: this.playerOptions.isPaused,
-      isRandom: !this.playerOptions.isRandom
-    };
+    this.isLoop = false;
+    this.isRandom = !this.isRandom;
   }
 
   playPrevious(): void {
@@ -137,29 +155,36 @@ export class PlayListComponent implements OnInit, OnDestroy {
       this.currentPlayedIndex--;
     }
     this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
-    // this.player.play().then();
+    this.playCurrentPath();
   }
 
-  playNext(): void {
-    if (this.itemInList.length <= this.currentPlayedIndex + 1) {
+  playNext(index?): void {
+    if (index?.toString()) {
+      if (index === this.currentPlayedIndex) {
+        let val = _.random(this.itemInList.length - 1);
+        while (val === index) {
+          val = _.random(this.itemInList.length - 1);
+        }
+        this.currentPlayedIndex = val;
+      } else {
+        this.currentPlayedIndex = index;
+      }
+    } else if (this.itemInList.length <= this.currentPlayedIndex + 1) {
       this.currentPlayedIndex = 0;
     } else {
       this.currentPlayedIndex++;
     }
     this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
-    // this.player.play().then();
+    this.playCurrentPath();
   }
 
   setPausePlay(): void {
     if (this.player?.playbackReady) {
-      this.playerOptions = {
-        isLoop: this.playerOptions.isLoop,
-        isPaused: !this.playerOptions.isPaused,
-        isRandom: this.playerOptions.isRandom
-      };
-      if (this.playerOptions.isPaused) {
+      if (this.player.playing) {
+        this.isPlaying = false;
         this.player.pause().then();
       } else {
+        this.isPlaying = true;
         this.player.play().then();
       }
     }
@@ -176,14 +201,24 @@ export class PlayListComponent implements OnInit, OnDestroy {
       });
     }
   }
+  playCurrentPath(): void {
+    this.getUrlSong();
+    this.player.currentTime = 0;
+    this.rerender();
+  }
+  loadStart(): void {
+    if (this.isPlaying) {
+      this.currentTime = 0.001;
+      this.player.play().then();
+    }
+  }
 
-  getPercentage(): any {
-    return this.player?.duration ? (this.player.currentTime / this.player.duration) * 100 : 0;
+  getUrlSong(): void {
+    this.currentUrl = this.urlMusic + this.pickedPlayLSong.fileId;
   }
 
   updateSlider(event): void {
-    const percentage = (event.layerX - 20) / event.target.offsetWidth;
-    this.currentTime = percentage * this.player.duration;
+    this.currentTime = event;
   }
 
   ngOnDestroy(): void {
@@ -193,8 +228,23 @@ export class PlayListComponent implements OnInit, OnDestroy {
 
   onPlayBackEnd(): void {
     this.isAddedViewed = !this.isAddedViewed;
-    if (this.playerOptions.isLoop) {
-      this.player.play().then();
+    if (this.player.loop === false) {
+      this.playNext();
+    } else if (this.isRandom) {
+      this.playNext(_.random(this.itemInList.length - 1));
     }
+  }
+
+  callBackRemoveSong(): void {
+    this.store.dispatch(getPlayListItem({body: {string: this.pickedPlayList.listId}}));
+  }
+
+  removeFromList(): void {
+    this.store.dispatch(removeFromPlayList({
+      body: {
+        string: this.itemInList[this.currentPlayedIndex].id
+      },
+      callback: () => this.callBackRemoveSong()
+    }));
   }
 }

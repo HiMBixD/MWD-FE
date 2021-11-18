@@ -21,27 +21,29 @@
         {{item.product.productName}}
       </button>
     </div>
-    <button type="button" class="btn btn-danger btn-lg" [disabled]="!pickedPlayLSong" ><i class="far fa-minus-square"></i> Delete Current Song</button>
+    <button type="button" class="btn btn-danger btn-lg" [disabled]="!pickedPlayLSong"
+            nz-popconfirm nzPopconfirmTitle="Are you sure to remove this Song from this Play list?"
+            nzPopconfirmPlacement="bottom" (nzOnConfirm)="removeFromList()"
+    ><i class="far fa-minus-square"></i> Delete Current Song</button>
   </div>
+
   <div class="col-5">
     <main class="player">
       <div class="header">
         <p></p>
         <p><Strong>{{player?.playing ? 'Now Playing...' : 'Paused...'}}</Strong></p>
-        <p>
-<!--           (vmCurrentTimeChange)="onTimeUpdate($event)"-->
+        <p *ngIf="pickedPlayLSong && reRenderValue">
           <vm-player
-            style="display: none" *ngIf="pickedPlayLSong" autoplay #player
+            style="display: none" #player
             (vmPlaybackStarted)="onPlayBackStart()"
             (vmPlaybackEnded)="onPlayBackEnd()"
+            (vmCurrentSrcChange)="loadStart()"
+            [loop]="isLoop"
             [volume]="voice"
             [currentTime]="currentTime">
-            <vm-video crossOrigin="false"  id="audio">
-              <source data-src="{{urlMusic+pickedPlayLSong?.fileId}}" type="audio/mp3"/>
-            </vm-video>
-<!--            <vm-default-ui>-->
-<!--              &lt;!&ndash; Custom UI component. &ndash;&gt;-->
-<!--            </vm-default-ui>-->
+            <vm-audio id="audio">
+              <source id="audioSource" data-src="{{currentUrl}}" type="audio/mp3"/>
+            </vm-audio>
           </vm-player>
         </p>
       </div><!--  header  -->
@@ -52,7 +54,9 @@
       </div><!--  info  -->
       <div class="prog">
         <div class="prog-time d-flex justify-content-between buttons mb-0">
-          <p class="left">{{(player?.currentTime * 1000 | date:'mm:ss') || '0:0'}}</p>
+          <span class="left">
+            <span *ngIf="player">{{(player.currentTime * 1000 | date:'mm:ss') || '0:0'}}</span>
+          </span>
           <button class="button button-sm mb-2" nz-dropdown [nzDropdownMenu]="menu" nzPlacement="topCenter">
             <i class="fas fa-volume-up"></i>
             <span class="sr-only">Volume</span>
@@ -62,16 +66,22 @@
               <nz-slider [(ngModel)]="voice"></nz-slider>
             </div>
           </nz-dropdown-menu>
-          <p class="right">{{(player?.duration * 1000 | date:'mm:ss') || '0:0'}}</p>
-
+          <span class="right">
+            <span *ngIf="player">{{(player.duration * 1000 | date:'mm:ss') || '0:0'}}</span>
+          </span>
         </div>
-
-        <div class="prog-bar" (mousedown)="updateSlider($event)">
-          <div class="prog-bar-inner bg-primary"  [style.width]="getPercentage()+'%'"></div>
+        <div class="prog-bar">
+          <nz-slider [ngModel]="this.player.currentTime" (ngModelChange)="updateSlider($event)" *ngIf="this.player"
+                     [nzTipFormatter]="formatterProgress" [nzMin]="0" [nzMax]="player.duration"></nz-slider>
+<!--          <div class="prog-bar-inner bg-primary"  [style.width]="getPercentage()+'%'"></div>-->
         </div>
+<!--        <div class="prog-bar" (mousedown)="updateSlider($event)">-->
+<!--          <nz-slider [(ngModel)]="voice"></nz-slider>-->
+<!--          <div class="prog-bar-inner bg-primary"  [style.width]="getPercentage()+'%'"></div>-->
+<!--        </div>-->
       </div><!--  progress  -->
       <ul class="buttons">
-        <button class="button button-sm" [class.bg-warning]="playerOptions.isRandom" (click)="setRandom()">
+        <button class="button button-sm" [class.bg-warning]="isRandom" (click)="setRandom()">
           <i class="fas fa-random fa-sm" aria-hidden="true"></i>
           <span class="sr-only">Shuffle</span>
         </button>
@@ -87,7 +97,7 @@
           <i class="fas fa-step-forward"></i>
           <span class="sr-only">Next Music</span>
         </button>
-        <button class="button button-sm" [class.bg-warning]="playerOptions.isLoop" (click)="setLooping()">
+        <button class="button button-sm" [class.bg-warning]="isLoop" (click)="setLooping()">
           <i class="fas fa-circle-notch fa-sm" aria-hidden="true"></i>
           <span class="sr-only">Repeat Song</span>
         </button>

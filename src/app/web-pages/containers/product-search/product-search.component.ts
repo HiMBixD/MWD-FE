@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {getRecommendSongs, searchProduct, selectProductList, selectRecommendSongs} from '../../store';
+import {getRecommendSongs, getTopSelling, searchProduct, selectProductList, selectRecommendSongs, selectTopSelling} from '../../store';
 import {WebPagesManagementState} from '../../web-pages.reducer';
 import {ActivatedRoute} from '@angular/router';
 import {Pagination} from '../../models/pagination.model';
@@ -14,6 +14,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class ProductSearchComponent implements OnInit {
   listSong$: Observable<any>;
+  topSelling$: Observable<any>;
   listRecommend$: Observable<any>;
   pagination: Pagination;
   visibleDrawer = false;
@@ -63,6 +64,8 @@ export class ProductSearchComponent implements OnInit {
       }
       this.onSearchProduct();
     });
+    this.store.dispatch(getTopSelling({body: {}}));
+    this.topSelling$ = this.store.pipe(select(selectTopSelling));
     this.store.dispatch(getRecommendSongs());
     this.listSong$ = this.store.pipe(select(selectProductList));
     this.listRecommend$ = this.store.pipe(select(selectRecommendSongs));

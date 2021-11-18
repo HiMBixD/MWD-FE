@@ -26,6 +26,8 @@ export interface WebPagesState {
   listComments: any | null;
   playListByUsername: any | null;
   playListItem: any | null;
+  topSellingOfUser: any | null;
+  topSelling: any | null;
   handleRequestPublishSongResult: any | null;
   handleRequestRegisterSingerResult: any | null;
   handleRequestAddMoneyResult: any | null;
@@ -52,6 +54,8 @@ export const initialState: WebPagesState = {
   listComments: null,
   playListByUsername: null,
   playListItem: null,
+  topSellingOfUser: null,
+  topSelling: null,
   handleRequestPublishSongResult: null,
   handleRequestRegisterSingerResult: null,
   handleRequestAddMoneyResult: null,
@@ -619,6 +623,50 @@ export const reducers = createReducer(
   })),
   /***************** End: getRecommendSongs ****************/
 
+  /***************** getTopSelling ****************/
+  on(webPagesActions.getTopSelling, state => ({
+    ...state,
+    isLoading: true,
+    topSelling: null,
+    errors: null
+  })),
+
+  on(webPagesActions.getTopSellingSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    topSelling: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.getTopSellingFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: getTopSelling ****************/
+
+  /***************** getTopSellingFromUser ****************/
+  on(webPagesActions.getTopSellingFromUser, state => ({
+    ...state,
+    isLoading: true,
+    topSellingOfUser: null,
+    errors: null
+  })),
+
+  on(webPagesActions.getTopSellingFromUserSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    topSellingOfUser: response.data,
+    isLoading: false
+  })),
+
+  on(webPagesActions.getTopSellingFromUserFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: getTopSellingFromUser ****************/
+
   /***************** getProductInfo ****************/
   on(webPagesActions.getProductInfo, state => ({
     ...state,
@@ -682,6 +730,26 @@ export const reducers = createReducer(
     errors
   })),
   /***************** End: buyProduct ****************/
+
+  /***************** markProduct ****************/
+  on(webPagesActions.markProduct, state => ({
+    ...state,
+    isLoading: true,
+    errors: null
+  })),
+
+  on(webPagesActions.markProductSuccess, (state, {response}) => ({
+    ...state,
+    errors: null,
+    isLoading: false
+  })),
+
+  on(webPagesActions.markProductFailed, (state, {errors}) => ({
+    ...state,
+    isLoading: false,
+    errors
+  })),
+  /***************** End: markProduct ****************/
 
   /***************** addToPlayList ****************/
   on(webPagesActions.addToPlayList, state => ({

@@ -2,6 +2,7 @@
   <div class="col-9">
     <app-stream-song
       [poster]="poster"
+      [topSellingOfUser]="topSellingOfUser$ | async"
       [productId]="fileId"
       [productInfo]="productInfo$ | async"
       [comments]="comments$ | async"
@@ -19,25 +20,15 @@
       <br>
     </nav>
     <div class="card bg-light mb-3" style="max-width: 18rem;">
-      <div class="card-header"><Strong>From same Author</Strong></div>
+      <div class="card-header"><Strong>Top selling From {{(productInfo$ | async)?.username}}</Strong></div>
       <div class="card-body">
         <nz-list class="bg-white px-2 rounded-lg">
-          <nz-list-item class="hover-able">
+          <nz-list-item class="hover-able" *ngFor="let item of (topSellingOfUser$ | async); let i=index">
             <ng-container>
-              <span class="mx-2">1</span>
-              <nz-list-item-meta nzDescription="Author">
+              <span class="mx-2" [class]="'top-'+(i+1).toString()">{{i + 1 }}</span>
+              <nz-list-item-meta nzDescription="{{item.username}}">
                 <nz-list-item-meta-title>
-                   1 song name
-                </nz-list-item-meta-title>
-              </nz-list-item-meta>
-            </ng-container>
-          </nz-list-item>
-          <nz-list-item>
-            <ng-container>
-              <span class="mx-2">4</span>
-              <nz-list-item-meta nzDescription="Author">
-                <nz-list-item-meta-title>
-                   2 song name
+                  {{item.productName}}
                 </nz-list-item-meta-title>
               </nz-list-item-meta>
             </ng-container>

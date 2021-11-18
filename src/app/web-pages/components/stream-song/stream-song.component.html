@@ -42,7 +42,11 @@
 <div class="row mx-0 my-2" *ngIf="productInfo">
   <div class="d-flex justify-content-between">
     <div>
-      <nz-rate [ngModel]="productInfo.mark" nzAllowHalf></nz-rate>
+      <nz-rate [(ngModel)]="mark" nzAllowHalf
+               nz-popconfirm nzPopconfirmTitle="Rating this Song?" [nzAllowClear]="false"
+               nzPopconfirmPlacement="bottom" (nzOnConfirm)="onRateSong()"
+      ></nz-rate>
+
       <span>{{' ' + productInfo.totalMark}}</span>
     </div>
     <div class="bigger-icon">
@@ -71,7 +75,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="comments?.totalElements > 0" class="my-3">
+<div *ngIf="comments" class="my-3">
   <div class="card text-start">
     <div class="card-header d-flex justify-content-between">
       <span>Comments for this Song:</span>
@@ -80,7 +84,7 @@
         {{productInfo?.totalComment}}
       </span>
     </div>
-    <nz-list *ngIf="comments.content.length" [nzDataSource]="comments.content" [nzRenderItem]="itemTem"
+    <nz-list *ngIf="comments.content" [nzDataSource]="comments.content" [nzRenderItem]="itemTem" [nzNoResult]="' '"
              [nzItemLayout]="'horizontal'" class="px-5">
       <ng-template #itemTem let-item>
         <ng-container [ngTemplateOutlet]="commentTemplateRef"
@@ -112,6 +116,7 @@
           </ng-template>
         </ng-container>
       </ng-template>
+      <nz-empty *ngIf="comments?.totalElements < 1"></nz-empty>
       <nz-comment *ngIf="isLogin">
         <div *ngIf="replyMessage && replyToId"><span>Replying To </span>{{replyMessage + ' - '}}<i
           class="fas fa-trash hover-able" (click)="replyMessage = ''; replyToId = null"></i></div>
@@ -129,8 +134,6 @@
       </nz-comment>
     </nz-list>
   </div>
-
-  <nz-empty *ngIf="comments?.totalElements < 1"></nz-empty>
   <nz-pagination [nzPageIndex]="comments.pageable.pageNumber + 1"
                  [nzSize]="comments.totalPages"
                  [nzPageSize]="comments.pageable.pageSize"

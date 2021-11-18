@@ -16,7 +16,16 @@ import {Player} from '@vime/angular';
 import {interval, of, Subject, timer} from 'rxjs';
 import {concatMapTo, takeUntil} from 'rxjs/operators';
 import {Pagination} from '../../models/pagination.model';
-import {addComment, addToPlayList, buyProduct, deleteComment, getIsOwnProduct, getPlayListByUsername, loadAllComments} from '../../store';
+import {
+  addComment,
+  addToPlayList,
+  buyProduct,
+  deleteComment,
+  getIsOwnProduct,
+  getPlayListByUsername, getProductInfo, getTopSellingFromUser,
+  loadAllComments,
+  loadMyInfo, markProduct
+} from '../../store';
 import {Store} from '@ngrx/store';
 import {WebPagesManagementState} from '../../web-pages.reducer';
 import {DatePipe} from '@angular/common';
@@ -29,6 +38,7 @@ import {UserDetailsModel} from '../../models/user-details.model';
 })
 export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
   @Input() productInfo;
+  @Input() topSellingOfUser;
   @Input() playList;
   @Input() userDetails: UserDetailsModel;
   @Input() productId: any;
@@ -51,6 +61,7 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
   replyMessage = '';
   replyToId;
   commentToAdd = '';
+  mark = 0;
   constructor(
     @Inject(LOCALE_ID) public locale: string,
     private store: Store<WebPagesManagementState>,
@@ -110,11 +121,14 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
         this.store.dispatch(getIsOwnProduct({body: {string: this.productInfo.productId}}));
       }
     }
-    if (this.comments) {
+    if (this.productInfo?.mark) {
+      this.mark = Math.round(this.productInfo.mark) / 2;
+    }
+    if (this.productInfo?.username && !this.topSellingOfUser) {
+      this.store.dispatch(getTopSellingFromUser({body: {string: this.productInfo?.username}}));
     }
     if (this.userDetails?.userName && !this.playList) {
       this.store.dispatch(getPlayListByUsername({body: {string: this.userDetails.userName}}));
-
     }
   }
 
@@ -158,10 +172,26 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
 
   }
   callBackBuyProduct(): void {
+    this.store.dispatch(loadMyInfo());
     this.store.dispatch(getIsOwnProduct({body: {string: this.productInfo.productId}}));
+    this.store.dispatch(getProductInfo({body: {string: this.productInfo.fileId}}));
+  }
+
+  callBackMarkProduct(): void {
+    this.store.dispatch(getProductInfo({body: {string: this.productInfo.fileId}}));
   }
 
   addToList(listId: any): void {
     this.store.dispatch(addToPlayList({body: {listId, productId: this.productInfo.productId}}));
+  }
+
+  onRateSong(): void {
+    this.store.dispatch(markProduct({
+      body: {
+        mark: this.mark * 2,
+        productId: this.productInfo.productId,
+      },
+      callback: () => this.callBackMarkProduct()
+    }));
   }
 }

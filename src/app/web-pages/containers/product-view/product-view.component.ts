@@ -8,7 +8,7 @@ import {
   loadAllComments,
   selectIsLoggedInState, selectIsOwnProduct,
   selectListCommentsProduct, selectMyInfo, selectMyInfoLoadingState, selectPlayListByUsername,
-  selectProductInfo
+  selectProductInfo, selectTopSellingOfUser
 } from '../../store';
 import {Observable} from 'rxjs';
 import {Pagination} from '../../models/pagination.model';
@@ -26,6 +26,7 @@ export class ProductViewComponent implements OnInit {
   userDetails$: Observable<UserDetailsModel>;
   productInfo$: Observable<any>;
   comments$: Observable<any>;
+  topSellingOfUser$: Observable<any>;
   isLogin$: Observable<boolean>;
   isLoading$: Observable<boolean>;
   isOwnSong$: Observable<boolean>;
@@ -50,6 +51,7 @@ export class ProductViewComponent implements OnInit {
     this.userDetails$ = this.store.pipe(select(selectMyInfo));
     this.playLists$ = this.store.pipe(select(selectPlayListByUsername));
     this.isOwnSong$ = this.store.pipe(select(selectIsOwnProduct));
+    this.topSellingOfUser$ = this.store.pipe(select(selectTopSellingOfUser));
   }
   searchComment($event): void {
     this.store.dispatch(loadAllComments({body: $event}));

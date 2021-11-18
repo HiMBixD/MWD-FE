@@ -421,7 +421,7 @@ export const addToPlayListFailed = createAction('[Home API] addToPlayList Failed
 /**************  End: addToPlayList ***************/
 
 /************** removeFromPlayList ***************/
-export const removeFromPlayList = createAction('[Home Page] removeFromPlayList', props<{ body: any; }>());
+export const removeFromPlayList = createAction('[Home Page] removeFromPlayList', props<{ body: any; callback }>());
 
 export const removeFromPlayListSuccess = createAction('[Home API] removeFromPlayList Success', props<{ response: any }>());
 
@@ -444,6 +444,22 @@ export const getProductInfoSuccess = createAction('[Home API] getProductInfo Suc
 export const getProductInfoFailed = createAction('[Home API] getProductInfo Failed', props<{ errors: any }>());
 /**************  End: getProductInfo ***************/
 
+/************** getTopSelling ***************/
+export const getTopSelling = createAction('[Home Page] getTopSelling', props<{ body: any; }>());
+
+export const getTopSellingSuccess = createAction('[Home API] getTopSelling Success', props<{ response: any }>());
+
+export const getTopSellingFailed = createAction('[Home API] getTopSelling Failed', props<{ errors: any }>());
+/**************  End: getTopSelling ***************/
+
+/************** getTopSellingFromUser ***************/
+export const getTopSellingFromUser = createAction('[Home Page] getTopSellingFromUser', props<{ body: any; }>());
+
+export const getTopSellingFromUserSuccess = createAction('[Home API] getTopSellingFromUser Success', props<{ response: any }>());
+
+export const getTopSellingFromUserFailed = createAction('[Home API] getTopSellingFromUser Failed', props<{ errors: any }>());
+/**************  End: getTopSellingFromUser ***************/
+
 /************** buyProduct ***************/
 export const buyProduct = createAction('[Home Page] buyProduct', props<{ body: any; callback }>());
 
@@ -451,6 +467,14 @@ export const buyProductSuccess = createAction('[Home API] buyProduct Success', p
 
 export const buyProductFailed = createAction('[Home API] buyProduct Failed', props<{ errors: any }>());
 /**************  End: buyProduct ***************/
+
+/************** markProduct ***************/
+export const markProduct = createAction('[Home Page] markProduct', props<{ body: any; callback }>());
+
+export const markProductSuccess = createAction('[Home API] markProduct Success', props<{ response: any }>());
+
+export const markProductFailed = createAction('[Home API] markProduct Failed', props<{ errors: any }>());
+/**************  End: markProduct ***************/
 
 /************** getIsOwnProduct ***************/
 export const getIsOwnProduct = createAction('[Home Page] getIsOwnProduct', props<{ body: any; }>());

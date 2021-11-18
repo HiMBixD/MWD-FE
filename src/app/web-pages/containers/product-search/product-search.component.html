@@ -1,5 +1,6 @@
 <div class="">
   <app-product-list
+    [topSelling]="topSelling$ | async"
     [listProduct]="listSong$ | async"
     [listRecommend]="listRecommend$ | async"
     (search)="onSearchProduct($event)"

@@ -47,7 +47,7 @@
                     {{item.totalBuy}}
                   </nz-list-item-action>
                   <nz-list-item-action>
-                    <nz-rate [ngModel]="item.mark" nzAllowHalf nzDisabled></nz-rate>
+                    <nz-rate [ngModel]="item.mark / 2" nzAllowHalf nzDisabled></nz-rate>
                     {{item.totalMark}}
                   </nz-list-item-action>
                 </ul>
@@ -75,44 +75,12 @@
       <div class="card-header rainbow-text"><Strong>Recently Buy Ranking</Strong></div>
       <div class="card-body">
         <nz-list class="bg-white px-2 rounded-lg">
-          <nz-list-item class="hover-able">
+          <nz-list-item class="hover-able" *ngFor="let item of topSelling; let i=index">
             <ng-container>
-              <span class="mx-2 top-1">1</span>
-              <nz-list-item-meta nzDescription="Author">
+              <span class="mx-2" [class]="'top-'+(i+1).toString()">{{i + 1 }}</span>
+              <nz-list-item-meta nzDescription="{{item.username}}">
                 <nz-list-item-meta-title>
-                  Top 1 song name
-                </nz-list-item-meta-title>
-              </nz-list-item-meta>
-            </ng-container>
-          </nz-list-item>
-          <nz-list-item>
-            <ng-container>
-              <span class="mx-2 top-2">2</span>
-              <nz-list-item-meta nzDescription="Author">
-                <nz-list-item-meta-title>
-                  Top 2 song name
-                </nz-list-item-meta-title>
-              </nz-list-item-meta>
-            </ng-container>
-          </nz-list-item>
-
-          <nz-list-item>
-            <ng-container>
-              <span class="mx-2 top-3">3</span>
-              <nz-list-item-meta nzDescription="Author">
-                <nz-list-item-meta-title>
-                  Top 3 song name
-                </nz-list-item-meta-title>
-              </nz-list-item-meta>
-            </ng-container>
-          </nz-list-item>
-
-          <nz-list-item>
-            <ng-container>
-              <span class="mx-2 top-other">4</span>
-              <nz-list-item-meta nzDescription="Author">
-                <nz-list-item-meta-title>
-                  Top 4 song name
+                  {{item.productName}}
                 </nz-list-item-meta-title>
               </nz-list-item-meta>
             </ng-container>

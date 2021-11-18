@@ -251,6 +251,22 @@ export class CommonService {
       }));
   }
 
+  getTopSellingFromUser(data): Observable<any> {
+    return this.http
+      .post(`${environment.unauUrl}/getTopSellingFromUser`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  getTopSelling(data): Observable<any> {
+    return this.http
+      .post(`${environment.unauUrl}/getTopSelling`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
   addViewed(data): Observable<any> {
     return this.http
       .post(`${environment.unauUrl}/addViewed`, data)
@@ -310,6 +326,14 @@ export class CommonService {
   buyProduct(data): Observable<any> {
     return this.http
       .post(`${environment.apiUrl}/user/buyProduct`, data)
+      .pipe(catchError((httpError: any) => {
+        return throwError(httpError);
+      }));
+  }
+
+  markProduct(data): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/user/markProduct`, data)
       .pipe(catchError((httpError: any) => {
         return throwError(httpError);
       }));

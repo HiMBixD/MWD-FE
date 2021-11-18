@@ -618,6 +618,48 @@ export class WebPagesEffect {
     )
   );
 
+  getTopSellingEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.getTopSelling),
+      exhaustMap((action: any) =>
+        this.commonService.getTopSelling(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              // this.toastrService.success('Add Music Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              return webPagesActions.getTopSellingSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.getTopSellingFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  getTopSellingFromUserEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.getTopSellingFromUser),
+      exhaustMap((action: any) =>
+        this.commonService.getTopSellingFromUser(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              // this.toastrService.success('Add Music Success');
+              // this.reloadUser();
+              // this.store.dispatch(searchUserMusic({body: action.searchBody}));
+              return webPagesActions.getTopSellingFromUserSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.getTopSellingFromUserFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
   buyProductEffect = createEffect(() =>
     this.actions$.pipe(
       ofType(webPagesActions.buyProduct),
@@ -633,6 +675,26 @@ export class WebPagesEffect {
             } else {
               this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
               return webPagesActions.buyProductFailed({ errors: response });
+            }
+          })
+        )
+      )
+    )
+  );
+
+  markProductEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webPagesActions.markProduct),
+      exhaustMap((action: any) =>
+        this.commonService.markProduct(action.body).pipe(
+          map(response => {
+            if (response?.success) {
+              this.toastrService.success('Mark Music Success');
+              action.callback();
+              return webPagesActions.markProductSuccess({ response });
+            } else {
+              this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);
+              return webPagesActions.markProductFailed({ errors: response });
             }
           })
         )
@@ -672,7 +734,7 @@ export class WebPagesEffect {
               this.toastrService.success('Remove Music from list Success');
               // this.reloadUser();
               // this.store.dispatch(searchUserMusic({body: action.searchBody}));
-              // action.callback();
+              action.callback();
               return webPagesActions.removeFromPlayListSuccess({ response });
             } else {
               this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);

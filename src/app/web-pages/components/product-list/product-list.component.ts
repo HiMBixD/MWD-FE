@@ -11,6 +11,7 @@ export class ProductListComponent implements OnInit {
   pagination: Pagination;
   @Output() search = new EventEmitter();
   @Input() listProduct;
+  @Input() topSelling;
   @Input() listRecommend;
   constructor() { }
 
