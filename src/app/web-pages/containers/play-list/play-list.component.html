@@ -10,7 +10,7 @@
       </button>
       <button *ngFor="let itemList of (playLists$ | async); let i = index" type="button"
               (click)="pickPlayList(itemList)" class="list-group-item list-group-item-action text-light"
-              [class]="pickedPlayList?.listId === itemList.listId ? 'bg-primary' : i%2 == 0 ? 'bg-secondary' : 'bg-dark'">
+              [class]="pickedPlayList?.listId === itemList.listId ? 'bg-primary' : i%2 == 1 ? 'bg-secondary' : 'bg-dark'">
         {{itemList.title}}
       </button>
     </div>
