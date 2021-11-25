@@ -42,7 +42,7 @@
 <div class="row mx-0 my-2" *ngIf="productInfo">
   <div class="d-flex justify-content-between">
     <div>
-      <nz-rate [(ngModel)]="mark" nzAllowHalf
+      <nz-rate [(ngModel)]="mark" nzAllowHalf [disabled]="!isLogin" [nzPopconfirmTrigger]="isLogin ? 'click' : null"
                nz-popconfirm nzPopconfirmTitle="Rating this Song?" [nzAllowClear]="false"
                nzPopconfirmPlacement="bottom" (nzOnConfirm)="onRateSong()"
       ></nz-rate>
@@ -102,7 +102,8 @@
                 </div>
               </nz-comment-content>
               <nz-comment-action>
-                <div (click)="replyMessage = comment.username; replyToId = comment.commentId">Reply to</div>
+                <div *ngIf="comment.commentData"
+                  (click)="replyMessage = comment.username; replyToId = comment.commentId; replyToData = comment.commentData">Reply to</div>
               </nz-comment-action>
               <ng-container *ngIf="comment.children && comment.children.length">
                 <ng-template ngFor let-child [ngForOf]="comment.children">
@@ -118,8 +119,8 @@
       </ng-template>
       <nz-empty *ngIf="comments?.totalElements < 1"></nz-empty>
       <nz-comment *ngIf="isLogin">
-        <div *ngIf="replyMessage && replyToId"><span>Replying To </span>{{replyMessage + ' - '}}<i
-          class="fas fa-trash hover-able" (click)="replyMessage = ''; replyToId = null"></i></div>
+        <div *ngIf="replyMessage && replyToId"><span nz-tooltip="{{'Comment: ' + replyToData}}">Replying To {{replyMessage + ' - '}}<i
+          class="fas fa-trash hover-able" (click)="replyMessage = ''; replyToId = null; replyToData = ''"></i></span></div>
         <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]=""></nz-avatar>
         <nz-comment-content>
           <nz-form-item>

@@ -18,7 +18,7 @@ import {
   getPlayListByUsername,
   getPlayListItem,
   removeFromPlayList, selectListOwnProduct,
-  selectMyInfo,
+  selectMyInfo, selectMyInfoLoadingState,
   selectPlayListByUsername,
   selectPlayListItem
 } from '../../store';
@@ -43,6 +43,7 @@ export class PlayListComponent implements OnInit, OnDestroy {
   ) { }
   playLists$: Observable<any>;
   itemInList$: Observable<any>;
+  isLoading$: Observable<boolean>;
   userDetails$: Observable<UserDetailsModel>;
   userDetails: UserDetailsModel;
   isVisibleCreateList = false;
@@ -76,6 +77,7 @@ export class PlayListComponent implements OnInit, OnDestroy {
       title: ['', [Validators.required]],
     });
     this.store.dispatch(getListOwnProduct({body: {}}));
+    this.isLoading$ = this.store.pipe(select(selectMyInfoLoadingState));
     this.itemInList$ = this.store.pipe(select(selectPlayListItem));
     this.itemInList$.pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
       if (val && this.pickedOwnList === false) {
@@ -83,6 +85,8 @@ export class PlayListComponent implements OnInit, OnDestroy {
         this.currentPlayedIndex = 0;
         this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
         this.getUrlSong();
+        // this.player.currentTime = 0;
+        this.rerender();
       }
     });
     this.store.pipe(select(selectListOwnProduct)).pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
@@ -91,6 +95,8 @@ export class PlayListComponent implements OnInit, OnDestroy {
         this.currentPlayedIndex = 0;
         this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
         this.getUrlSong();
+        // this.player.currentTime = 0;
+        this.rerender();
       }
     });
     this.userDetails$ = this.store.pipe(select(selectMyInfo));

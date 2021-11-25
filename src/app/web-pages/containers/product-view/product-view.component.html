@@ -23,7 +23,8 @@
       <div class="card-header"><Strong>Top selling From {{(productInfo$ | async)?.username}}</Strong></div>
       <div class="card-body">
         <nz-list class="bg-white px-2 rounded-lg">
-          <nz-list-item class="hover-able" *ngFor="let item of (topSellingOfUser$ | async); let i=index">
+          <nz-list-item class="hover-able" *ngFor="let item of (topSellingOfUser$ | async); let i=index"
+                        (click)="navigateAndReload(item)">
             <ng-container>
               <span class="mx-2" [class]="'top-'+(i+1).toString()">{{i + 1 }}</span>
               <nz-list-item-meta nzDescription="{{item.username}}">

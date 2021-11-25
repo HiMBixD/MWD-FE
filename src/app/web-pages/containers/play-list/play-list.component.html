@@ -14,7 +14,8 @@
         {{itemList.title}}
       </button>
     </div>
-    <button type="button" class="btn btn-success btn-lg" (click)="showModalCreateList()"><i class="far fa-plus-square"></i> Add New PlayList</button>
+    <button type="button" class="btn btn-success btn-lg" [disabled]="(isLoading$ | async)"
+            (click)="showModalCreateList()"><i class="far fa-plus-square"></i> Add New PlayList</button>
   </div>
   <div class="col-4">
     <label for="listSongs" class="mb-4 bg-antiquewhite w-75 rounded-pill h5 p-2"><Strong>List Songs</Strong></label>
@@ -25,7 +26,7 @@
         {{item.product.productName}}
       </button>
     </div>
-    <button type="button" class="btn btn-danger btn-lg" [disabled]="!pickedPlayLSong"
+    <button type="button" class="btn btn-danger btn-lg" [disabled]="!pickedPlayLSong || pickedOwnList || (isLoading$ | async)"
             nz-popconfirm nzPopconfirmTitle="Are you sure to remove this Song from this Play list?"
             nzPopconfirmPlacement="bottom" (nzOnConfirm)="removeFromList()"
     ><i class="far fa-minus-square"></i> Delete Current Song</button>

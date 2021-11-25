@@ -62,6 +62,7 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
   replyToId;
   commentToAdd = '';
   mark = 0;
+  replyToData = '';
   constructor(
     @Inject(LOCALE_ID) public locale: string,
     private store: Store<WebPagesManagementState>,

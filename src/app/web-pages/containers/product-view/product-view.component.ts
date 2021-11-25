@@ -60,4 +60,10 @@ export class ProductViewComponent implements OnInit {
   onAddView($event): void {
     this.store.dispatch(addViewed({body: {string: $event}}));
   }
+
+  navigateAndReload(item: any): void {
+    this.router.navigate(['/product/' + item.fileId + '/' + item.productAvatar]).then(() => {
+      window.location.reload();
+    });
+  }
 }

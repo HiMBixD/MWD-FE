@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AppConstants} from '../../../app.constant';
 import {Pagination} from '../../models/pagination.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
