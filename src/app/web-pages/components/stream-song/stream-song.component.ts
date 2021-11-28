@@ -30,6 +30,7 @@ import {Store} from '@ngrx/store';
 import {WebPagesManagementState} from '../../web-pages.reducer';
 import {DatePipe} from '@angular/common';
 import {UserDetailsModel} from '../../models/user-details.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-stream-song',
@@ -63,9 +64,13 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
   commentToAdd = '';
   mark = 0;
   replyToData = '';
+
+  timePlayed = 0;
+  interval;
   constructor(
     @Inject(LOCALE_ID) public locale: string,
     private store: Store<WebPagesManagementState>,
+    private toastrService: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -74,6 +79,29 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
       pageNumber: 0
     };
   }
+  startTimer(): void {
+    this.interval = setInterval(() => {
+      if (this.player.playing) {
+        this.timePlayed++;
+        if (!this.isOwnSong && this.player.currentTime > this.player.duration * 0.4) {
+          this.toastrService.warning('Please buy the song to continue listening');
+          this.player.pause().then();
+          this.pauseTimer();
+        }
+        if (!this.isAddedViewed && this.player.duration * 0.8 < this.timePlayed) {
+          this.addView.emit(this.productInfo.productId);
+          this.pauseTimer();
+          this.isAddedViewed = !this.isAddedViewed;
+        }
+      } else {
+        this.pauseTimer();
+      }
+    }, 1000);
+  }
+
+  pauseTimer(): void {
+    clearInterval(this.interval);
+  }
 
   onTimeUpdate(event: CustomEvent<number>): void {
     // this.currentTime = event.detail;
@@ -81,14 +109,17 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
 
   onPlayBackStart(): void {
     // this.currentTime = event.detail;
-    if (!this.isAddedViewed) {
-      timer(this.player.duration * 1000 * 0.8).pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
-        if (val === 0) {
-          this.addView.emit(this.productInfo.productId);
-          this.isAddedViewed = !this.isAddedViewed;
-        }
-      });
-    }
+    console.log('start play back');
+    this.timePlayed = 0;
+    this.startTimer();
+    // if (!this.isAddedViewed) {
+    //   timer(this.player.duration * 1000 * 0.8).pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
+    //     if (val === 0) {
+    //       this.addView.emit(this.productInfo.productId);
+    //       this.isAddedViewed = !this.isAddedViewed;
+    //     }
+    //   });
+    // }
   }
 
   formatDate(val): any {

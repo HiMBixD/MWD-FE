@@ -58,7 +58,6 @@ export class PlayListComponent implements OnInit, OnDestroy {
   };
   pickedPlayLSong;
   unsubcribe$ = new Subject();
-  unsubcribeAddView$ = new Subject();
   @ViewChild('player') player: Player;
   currentTime = 0;
   urlMusic = AppConstants.urlMusic;
@@ -71,6 +70,9 @@ export class PlayListComponent implements OnInit, OnDestroy {
   isPlaying = true;
   currentUrl = '';
   reRenderValue = true;
+
+  timePlayed = 0;
+  interval;
   ngOnInit(): void {
     this.createListForm = this.fb.group({
       description: ['', [Validators.required]],
@@ -206,29 +208,53 @@ export class PlayListComponent implements OnInit, OnDestroy {
       if (this.player.playing) {
         this.isPlaying = false;
         this.player.pause().then();
+        this.pauseTimer();
       } else {
         this.isPlaying = true;
         this.player.play().then();
+        this.startTimer();
       }
     }
   }
 
   onPlayBackStart(): void {
     // this.currentTime = event.detail;
-    const productId = _.cloneDeep(this.pickedPlayLSong.productId);
-    timer(this.player.duration * 1000 * 0.8).pipe(takeUntil(this.unsubcribeAddView$)).subscribe(val => {
-      if (val === 0) {
-        this.store.dispatch(addViewed({body: {string: productId}}));
-        this.unsubcribeAddView$.next();
-      }
-    });
+    console.log('start play back');
+    this.timePlayed = 0;
+    this.startTimer();
+    // timer(this.player.duration * 1000 * 0.8).pipe(takeUntil(this.unsubcribeAddView$)).subscribe(val => {
+    //   if (val === 0 && this.player.playing) {
+    //     this.store.dispatch(addViewed({body: {string: productId}}));
+    //     this.unsubcribeAddView$.next();
+    //   }
+    // });
   }
+
+  startTimer(): void {
+    const productId = _.cloneDeep(this.pickedPlayLSong.productId);
+    this.interval = setInterval(() => {
+      if (this.player.playing) {
+        this.timePlayed++;
+        if (this.player.duration * 0.8 < this.timePlayed) {
+          this.store.dispatch(addViewed({body: {string: productId}}));
+          this.pauseTimer();
+        }
+      } else {
+        this.pauseTimer();
+      }
+    }, 1000);
+  }
+
+  pauseTimer(): void {
+    clearInterval(this.interval);
+  }
+
   playCurrentPath(): void {
-    this.unsubcribeAddView$.next();
     this.getUrlSong();
     this.player.currentTime = 0;
     this.rerender();
   }
+
   loadStart(): void {
     if (this.isPlaying) {
       this.currentTime = 0.001;
@@ -247,8 +273,6 @@ export class PlayListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubcribe$.next();
     this.unsubcribe$.complete();
-    this.unsubcribeAddView$.next();
-    this.unsubcribeAddView$.complete();
   }
 
   onPlayBackEnd(): void {
