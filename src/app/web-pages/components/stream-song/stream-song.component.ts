@@ -122,6 +122,16 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
     // }
   }
 
+  onPlayingChange(): void {
+    if (this.player.playing) {
+      console.log('start timer');
+      this.startTimer();
+    } else {
+      console.log('pause timer');
+      this.pauseTimer();
+    }
+  }
+
   formatDate(val): any {
     const pipe = new DatePipe(this.locale);
     const time = new Date(val);

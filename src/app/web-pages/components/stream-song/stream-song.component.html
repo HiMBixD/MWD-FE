@@ -28,6 +28,7 @@
   <vm-player
     autoplay #player
     (vmCurrentTimeChange)="onTimeUpdate($event)"
+    (vmPlayingChange)="onPlayingChange()"
     (vmPlaybackStarted)="onPlayBackStart()"
     (vmPlaybackEnded)="isAddedViewed = !isAddedViewed"
     [currentTime]="currentTime">
