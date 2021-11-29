@@ -19,8 +19,8 @@
         <button nz-button (click)="showModal('upload')" [nzSize]="'large'" nzType="primary" class="my-1 mx-2" style="font-size: 10px"><i nz-icon nzType="upload" nzTheme="outline"></i></button>
         <button nz-button (click)="showModal('pick')" [nzSize]="'large'" nzType="primary" class="my-1 mx-2" style="font-size: 10px"><i nz-icon nzType="plus-square" nzTheme="outline"></i></button>
       </div>
-      <nz-card nzHoverable style="width: 30vw; height: 40vh; margin-top: 5px" *ngIf="addSongForm.get('thumbnail').value">
-        <img alt="example" [src]="urlImg + addSongForm.get('thumbnail').value" class="w-100 h-100"/>
+      <nz-card nzHoverable style="width: 30vw;margin-top: 5px" *ngIf="addSongForm.get('thumbnail').value">
+        <img alt="example" [src]="urlImg + addSongForm.get('thumbnail').value" class="w-100"/>
       </nz-card>
     </nz-form-control>
   </nz-form-item>

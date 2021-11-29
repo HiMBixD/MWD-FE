@@ -67,6 +67,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   currentUserDetail: UserDetailsModel;
   urlImg = AppConstants.urlImg;
   imgChecked;
+  imgUrlChecked;
   ngOnInit(): void {
     this.pagination = {
       pageNumber: 0,
@@ -129,9 +130,12 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         }
       });
     } else if (val === 'pickAvatar') {
+      const finalUrl = this.imgUrlChecked ? this.imgUrlChecked : (this.urlImg + this.imgChecked);
       this.store.dispatch(setUserAvatar({body: {
-          string: this.urlImg + this.imgChecked
-        }}));
+          string: finalUrl
+        },
+        callback: () => this.isVisibleChangeAvatar = false
+      }));
     } else if (val === 'upload'){
       this.fileProgress = 0;
       this.commonService.uploadFile({
@@ -154,10 +158,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                   const avatarUrl = this.urlImg + event.body.data;
                   this.store.dispatch(setUserAvatar({body: {
                       string: avatarUrl
-                    }}));
+                    },
+                  callback: this.isVisible = false
+                  }));
                 }
                 this.fileProgress = -1;
-                this.isVisible = false;
                 this.fileList.pop();
               }
             }

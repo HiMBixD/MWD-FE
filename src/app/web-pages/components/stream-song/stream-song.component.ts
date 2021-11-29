@@ -80,6 +80,7 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
     };
   }
   startTimer(): void {
+    console.log('start timer');
     this.interval = setInterval(() => {
       if (this.player.playing) {
         this.timePlayed++;
@@ -100,6 +101,7 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   pauseTimer(): void {
+    console.log('pause timer');
     clearInterval(this.interval);
   }
 
@@ -111,7 +113,7 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
     // this.currentTime = event.detail;
     console.log('start play back');
     this.timePlayed = 0;
-    this.startTimer();
+    // this.startTimer();
     // if (!this.isAddedViewed) {
     //   timer(this.player.duration * 1000 * 0.8).pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
     //     if (val === 0) {
@@ -124,10 +126,8 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
 
   onPlayingChange(): void {
     if (this.player.playing) {
-      console.log('start timer');
       this.startTimer();
     } else {
-      console.log('pause timer');
       this.pauseTimer();
     }
   }

@@ -382,6 +382,7 @@ export class WebPagesEffect {
             if (response?.success) {
               this.toastrService.success('Set Avatar Success');
               this.reloadUser();
+              action.callback();
               return webPagesActions.setUserAvatarSuccess({ response });
             } else {
               this.toastrService.error(response.responseMessage.message, response.responseMessage.errorCode);

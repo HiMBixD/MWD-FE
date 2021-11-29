@@ -42,6 +42,7 @@
             style="display: none" #player
             (vmPlaybackStarted)="onPlayBackStart()"
             (vmPlaybackEnded)="onPlayBackEnd()"
+            (vmPlayingChange)="onPlayingChange()"
             (vmCurrentSrcChange)="loadStart()"
             [loop]="isLoop"
             [volume]="voice"

@@ -316,7 +316,7 @@ export const handleRequestPublishSongFailed = createAction(
 /************** setUserAvatar ***************/
 export const setUserAvatar = createAction(
   '[Home Page] setUserAvatar',
-  props<{ body: any; }>()
+  props<{ body: any; callback: any}>()
 );
 
 export const setUserAvatarSuccess = createAction(

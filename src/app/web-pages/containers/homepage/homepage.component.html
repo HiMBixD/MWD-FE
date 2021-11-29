@@ -28,7 +28,7 @@
       <li nz-submenu nzTitle="Singer" nzIcon="audio" *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 1">
         <ul>
           <li nz-menu-item [routerLink]="'./requestPublish'">Request publish</li>
-<!--          <li nz-menu-item>Request get money back (not designed)</li>-->
+<!--          <li nz-menu-item>Request get money back</li>-->
         </ul>
       </li>
 
@@ -41,7 +41,7 @@
         <i nz-icon nzType="unlock" nzTheme="outline"></i>
         <span class="text-danger">Verify Email at Profile</span>
       </li>
-      <li nz-menu-item *ngIf="(userDetails$ | async)?.isActive" [routerLink]="'./uploadMusic'">
+      <li nz-menu-item *ngIf="(userDetails$ | async)?.isActive && (userDetails$ | async)?.roleId === 1" [routerLink]="'./uploadMusic'">
         <i nz-icon nzType="upload" nzTheme="outline"></i>
         <span>Upload Music</span>
       </li>
@@ -72,7 +72,10 @@
                [nzPopoverTitle]="isLogin ? contentTitleTemplate : '' ">
             <nz-avatar class="my-auto" [nzSize]="64" nzIcon="user" [nzSrc]="isLogin ? (userDetails$ | async)?.avatar : ''"></nz-avatar>
             <div class="text-danger mx-1">
-              <i nz-icon nzType="caret-down" nzTheme="fill">{{isLogin ? (userDetails$ | async)?.fullName : '' }}</i>
+              <nz-tag [nzColor]="'#f50'" style="vertical-align: sub" *ngIf="isLogin">
+                {{(userDetails$ | async)?.fullName }}
+              </nz-tag>
+              <i nz-icon nzType="caret-down" nzTheme="fill"></i>
             </div>
           </div>
           <ng-template #contentTitleTemplate>

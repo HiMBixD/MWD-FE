@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'https://mwd-be.herokuapp.com/api',
-  // unauUrl: 'https://mwd-be.herokuapp.com/unau',
-  // url: 'https://mwd-be.herokuapp.com',
-  apiUrl: 'http://localhost:8080/api',
-  unauUrl: 'http://localhost:8080/unau',
-  url: 'http://localhost:8080'
+  apiUrl: 'https://mwd-be.herokuapp.com/api',
+  unauUrl: 'https://mwd-be.herokuapp.com/unau',
+  url: 'https://mwd-be.herokuapp.com',
+  // apiUrl: 'http://localhost:8080/api',
+  // unauUrl: 'http://localhost:8080/unau',
+  // url: 'http://localhost:8080'
 };
 
 /*

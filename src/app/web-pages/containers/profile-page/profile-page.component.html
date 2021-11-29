@@ -199,7 +199,7 @@
               <nz-card nzHoverable [nzCover]="coverTemplate" nz-tooltip nzTooltipTitle="{{item.fileName}}" (click)="checkedItem(item.id)">
                 <nz-card-meta class="d-flex justify-content-center" nzDescription="{{item.fileName}}"></nz-card-meta>
                 <div class="w-100 d-flex justify-content-center">
-                  <div nz-checkbox [nzChecked]="imgChecked === item.id" class="mt-1" (nzCheckedChange)="checkedItem(item.id)"></div>
+                  <div nz-checkbox [nzChecked]="imgChecked === item.id" class="mt-1" (nzCheckedChange)="checkedItem(item.id); imgUrlChecked = null"></div>
                 </div>
               </nz-card>
               <div class="w-100 d-flex justify-content-center mt-1">
@@ -228,10 +228,16 @@
                      (nzPageIndexChange)="onSearch($event)"
       ></nz-pagination>
     </div>
+    <div class="row mx-0 mt-2 d-flex justify-content-center">
+      <div class="col-9">
+        <h4>Other source Url:</h4>
+        <input type="text" class="form-control w-100" [(ngModel)]="imgUrlChecked" (blur)="imgUrlChecked ? imgChecked = null : null">
+      </div>
+    </div>
   </div>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="handleCancel(3)">Cancel</button>
-    <button nz-button nzType="primary" [disabled]="(isLoading$ | async)" (click)="handleOk('pickAvatar')">Submit</button>
+    <button nz-button nzType="primary" [disabled]="(isLoading$ | async) || (!imgUrlChecked && !imgChecked)" (click)="handleOk('pickAvatar')">Submit</button>
   </div>
 
 </nz-modal>
