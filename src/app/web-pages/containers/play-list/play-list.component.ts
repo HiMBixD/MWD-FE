@@ -85,18 +85,28 @@ export class PlayListComponent implements OnInit, OnDestroy {
       if (val && this.pickedOwnList === false) {
         this.itemInList = val;
         this.currentPlayedIndex = 0;
-        this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
-        this.getUrlSong();
+        if (this.itemInList.length > 0) {
+          this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
+          this.getUrlSong();
+        } else {
+          this.pickedPlayLSong = null;
+        }
         // this.player.currentTime = 0;
         this.rerender();
+        console.log(val);
+        console.log(this.pickedPlayLSong);
       }
     });
     this.store.pipe(select(selectListOwnProduct)).pipe(takeUntil(this.unsubcribe$)).subscribe(val => {
-      if (val && this.pickedOwnList) {
+      if (val && this.pickedOwnList === true) {
         this.itemInList = val;
         this.currentPlayedIndex = 0;
-        this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
-        this.getUrlSong();
+        if (this.itemInList.length > 0) {
+          this.pickedPlayLSong = this.itemInList[this.currentPlayedIndex].product;
+          this.getUrlSong();
+        } else {
+          this.pickedPlayLSong = null;
+        }
         // this.player.currentTime = 0;
         this.rerender();
       }
@@ -239,7 +249,7 @@ export class PlayListComponent implements OnInit, OnDestroy {
     console.log('start timer');
     const productId = _.cloneDeep(this.pickedPlayLSong.productId);
     this.interval = setInterval(() => {
-      if (this.player.playing) {
+      if (this.player?.playing) {
         this.timePlayed++;
         if (this.player.duration * 0.8 < this.timePlayed) {
           this.store.dispatch(addViewed({body: {string: productId}}));
