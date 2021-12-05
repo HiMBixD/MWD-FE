@@ -79,6 +79,14 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
       pageNumber: 0
     };
   }
+  onPlayingChange(): void {
+    if (this.player.playing) {
+      this.startTimer();
+    } else {
+      this.pauseTimer();
+    }
+  }
+
   startTimer(): void {
     console.log('start timer');
     this.interval = setInterval(() => {
@@ -122,14 +130,6 @@ export class StreamSongComponent implements OnInit, OnDestroy, OnChanges {
     //     }
     //   });
     // }
-  }
-
-  onPlayingChange(): void {
-    if (this.player.playing) {
-      this.startTimer();
-    } else {
-      this.pauseTimer();
-    }
   }
 
   formatDate(val): any {

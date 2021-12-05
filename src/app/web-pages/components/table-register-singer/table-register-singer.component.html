@@ -71,4 +71,7 @@
   <ng-container *nzModalContent>
     <quill-view-html [sanitize]="htmlString" [content]="htmlString" theme="snow" *ngIf="htmlString"></quill-view-html>
   </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isVisible = false">Cancel</button>
+  </div>
 </nz-modal>
