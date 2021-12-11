@@ -72,6 +72,16 @@ export class ProductSearchComponent implements OnInit {
   }
 
   onSearchProduct(pagination?): void {
+    if (pagination) {
+      this.searchBody = {
+        productName: this.searchBody.productName,
+        productType: this.searchBody.productType,
+        username: this.searchBody.username,
+        isPublish: this.searchBody.isPublish,
+        pagination: pagination.pagination
+      };
+      console.log(this.searchBody);
+    }
     this.store.dispatch(searchProduct({body: this.searchBody}));
   }
 
